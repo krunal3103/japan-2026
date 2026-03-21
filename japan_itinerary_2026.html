@@ -2354,6 +2354,26 @@ window.addEventListener('scroll', () => {
 
 <!-- ══ POWER-UP: Checklist · Navigate · Today · Sync ══ -->
 <style>
+/* ── Mobile layout fixes ── */
+@media (max-width: 480px) {
+  .outer         { padding: 20px 12px 100px; }
+  .timeline-wrap { padding: 16px 14px 8px; }
+  .t-item        { grid-template-columns: 48px 10px 1fr; gap: 0 8px; }
+  .t-item::after { left: 61px; } /* 48 + 8 + half-dot(5) */
+  .t-time        { font-size: 10px; letter-spacing: -0.01em; }
+  .t-activity    { font-size: 13px; }
+  .day-num-block { width: 64px; }
+  .day-head-body { padding: 12px 14px; }
+  .day-title     { font-size: 15px; }
+  .day-sub       { gap: 5px; font-size: 11px; }
+  .hotel-tag     { display: none; }
+  .chip          { font-size: 12px; padding: 4px 9px; }
+  .hero          { min-height: 300px; padding: 60px 24px 40px; }
+  .panels        { padding: 0 14px 16px; }
+}
+</style>
+
+<style>
 /* Safe area for iPhone notch / Dynamic Island */
 body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
 .nav-wrap { padding-left: max(env(safe-area-inset-left,0px),0px); padding-right: max(env(safe-area-inset-right,0px),0px); }
