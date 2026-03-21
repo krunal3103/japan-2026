@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Japan 2026 — Shopping List 🛍</title>
+<style>
+  :root {
+    --bg: #0e0810;
+    --card: #1a0f1e;
+    --border: #2e1a3a;
+    --pink: #d4607a;
+    --pink2: #f08090;
+    --gold: #c8902a;
+    --gold2: #e8b84a;
+    --green: #3a8060;
+    --green2: #5aaa80;
+    --blue: #2a5ca8;
+    --blue2: #4a7cd8;
+    --text: #f0e8f4;
+    --muted: #9080a0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
+  .hero {
+    background: linear-gradient(160deg, #1a0820 0%, #0e0810 60%);
+    padding: 48px 24px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 { font-size: 24px; font-weight: 700; color: var(--pink2); letter-spacing: -0.02em; }
+  .hero p { color: var(--muted); margin-top: 6px; font-size: 13px; }
+
+  .outer { max-width: 680px; margin: 0 auto; padding: 24px 16px 80px; }
+
+  .section-head {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 28px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .shop-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .shop-card:active { background: #221530; }
+  .shop-card.checked { opacity: 0.45; }
+  .shop-card.checked .shop-name { text-decoration: line-through; }
+
+  .shop-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .shop-card.checked .shop-check {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .shop-body { flex: 1; min-width: 0; }
+  .shop-name { font-weight: 600; font-size: 14px; color: var(--text); }
+  .shop-detail { color: var(--muted); font-size: 12px; margin-top: 3px; line-height: 1.4; }
+  .shop-where { font-size: 11px; color: var(--pink); margin-top: 4px; font-weight: 500; }
+
+  .cat-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-bottom: 4px;
+  }
+  .cat-food { background: #3a2010; color: var(--gold2); border: 1px solid #5a3820; }
+  .cat-beauty { background: #2a0a30; color: #e080f0; border: 1px solid #4a1a50; }
+  .cat-fashion { background: #0a1a30; color: var(--blue2); border: 1px solid #1a3050; }
+  .cat-gifts { background: #0a2a1a; color: var(--green2); border: 1px solid #1a4a2a; }
+  .cat-pharma { background: #302010; color: #e8c060; border: 1px solid #503010; }
+
+  .progress-bar-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+  .progress-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--pink), var(--gold)); border-radius: 3px; transition: width 0.3s; }
+  .progress-count { font-size: 12px; color: var(--muted); text-align: right; margin-top: 6px; }
+
+  .footer { text-align: center; color: var(--muted); font-size: 11px; padding: 32px 16px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🛍 Japan 2026 — Shopping List</h1>
+  <p>Things to buy and bring back home · March 27 – April 12</p>
+</div>
+
+<div class="outer">
+
+  <div class="progress-bar-wrap">
+    <div class="progress-label">Items collected</div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="progress-count" id="prog-count">0 / 0 items</div>
+  </div>
+
+  <!-- FOOD & SNACKS TO BRING HOME -->
+  <div class="section-head">🍬 Food & Snacks</div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check" id="chk">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-food">SNACK</div>
+      <div class="shop-name">Japanese KitKat — Matcha, Sake, Strawberry</div>
+      <div class="shop-detail">Limited Japan-only flavours. Matcha and hojicha are the standouts. Gift box sets available.</div>
+      <div class="shop-where">📍 Don Quijote · Convenience stores · Airport</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-food">SNACK</div>
+      <div class="shop-name">Royce' Chocolate — Nama Choco + Potato Chips</div>
+      <div class="shop-detail">The original nama chocolate (raw ganache squares) melt in your mouth. Potato chips covered in chocolate. Keep refrigerated. Buy at airport duty free to stay cold.</div>
+      <div class="shop-where">📍 Airport duty free · Isetan B2 · Don Quijote</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-food">SNACK</div>
+      <div class="shop-name">Pocky — Limited Japan Flavours</div>
+      <div class="shop-detail">Almond crush, matcha, strawberry cheesecake. The giant packs are the move. Also look for Men's Pocky (dark bitter chocolate).</div>
+      <div class="shop-where">📍 Don Quijote · Konbini · Supermarkets</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-food">SNACK</div>
+      <div class="shop-name">Shiroi Koibito (White Chocolate Cookie Sandwich)</div>
+      <div class="shop-detail">Hokkaido's most famous souvenir — white chocolate cream sandwiched between langue de chat biscuits. One of Japan's best gifts.</div>
+      <div class="shop-where">📍 Airport · Isetan · Department store food floors</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-food">SNACK</div>
+      <div class="shop-name">Hi-Chew — Japanese Fruit Chews</div>
+      <div class="shop-detail">Japan-only flavours: yogurt, muscat grape, lychee, Japanese peach. The original Japanese versions are noticeably better than export versions.</div>
+      <div class="shop-where">📍 Konbini · Don Quijote</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-food">CONDIMENT</div>
+      <div class="shop-name">Japanese Curry Paste / S&B Golden Curry</div>
+      <div class="shop-detail">The brick-style curry roux blocks are significantly better in Japan. Also look for Vermont Curry (apple & honey). Perfect for recreating Japanese curry at home.</div>
+      <div class="shop-where">📍 Supermarkets · Don Quijote</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-food">TEA</div>
+      <div class="shop-name">Ippodo Matcha / Hojicha</div>
+      <div class="shop-detail">Japan's finest matcha tea house. Buy ceremonial grade matcha and hojicha. The Kyoto flagship is in Kyoto; they also have a Tokyo outpost. Comes in beautiful gift tins.</div>
+      <div class="shop-where">📍 Ippodo Kyoto (Teramachi) · Ippodo Tokyo (Marunouchi)</div>
+    </div>
+  </div>
+
+  <!-- BEAUTY & SKINCARE -->
+  <div class="section-head">💄 Beauty & Skincare</div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-beauty">SKINCARE</div>
+      <div class="shop-name">Hada Labo Gokujyun Hyaluronic Lotion</div>
+      <div class="shop-detail">Japan's #1 skincare product. The original formula is significantly cheaper here. Get the blue cap (Original) or gold cap (Premium). Buy multiple.</div>
+      <div class="shop-where">📍 Matsumoto Kiyoshi · Don Quijote · Sundrug</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-beauty">SUNSCREEN</div>
+      <div class="shop-name">Biore UV Aqua Rich SPF50+</div>
+      <div class="shop-detail">Japan's most popular sunscreen. Weightless watery texture, no white cast, SPF50+. Much cheaper in Japan. Stock up — it's unavailable or expensive elsewhere.</div>
+      <div class="shop-where">📍 Matsumoto Kiyoshi · Konbini · Don Quijote</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-beauty">HAIR</div>
+      <div class="shop-name">Fino Premium Touch Hair Mask</div>
+      <div class="shop-detail">The Reels-famous Japanese hair mask. Deep conditioning, smells amazing. One application noticeably different. Very affordable — buy 2–3 packs.</div>
+      <div class="shop-where">📍 Matsumoto Kiyoshi · Don Quijote</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-beauty">SHEET MASK</div>
+      <div class="shop-name">Lululun Sheet Masks (Face Mask)</div>
+      <div class="shop-detail">Japan's iconic daily sheet mask. Regional flavours only available in Japan — Kyoto (white tea), Hokkaido (rose hip). The pink Lululun is the classic. Buy big box packs.</div>
+      <div class="shop-where">📍 Don Quijote · Matsumoto Kiyoshi · Airports</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-beauty">MAKEUP</div>
+      <div class="shop-name">Canmake / Cezanne / Kate (Japanese Drugstore Makeup)</div>
+      <div class="shop-detail">Japan's drugstore makeup is world-class. Canmake highlighting powder, Cezanne foundation, Kate brow mascara. All heavily featured on Reels — a fraction of the price vs abroad.</div>
+      <div class="shop-where">📍 Matsumoto Kiyoshi · Don Quijote · Sundrug</div>
+    </div>
+  </div>
+
+  <!-- PHARMACY -->
+  <div class="section-head">💊 Pharmacy Essentials</div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-pharma">PHARMACY</div>
+      <div class="shop-name">Roihi Tsuboko Pain Patches</div>
+      <div class="shop-detail">Small circular pain relief patches (camphor-based). Apply directly on sore muscles or joints. Super popular on travel Reels — great for tired feet after walking 20,000 steps/day. Perfectly fine in carry-on.</div>
+      <div class="shop-where">📍 Matsumoto Kiyoshi · Any pharmacy</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-pharma">PHARMACY</div>
+      <div class="shop-name">Salonpas Pain Relief Patches (Large)</div>
+      <div class="shop-detail">Japan-made Salonpas are significantly stronger than the export version. Larger size, better formula. Great for long-haul flights home and sore legs from the trip.</div>
+      <div class="shop-where">📍 Matsumoto Kiyoshi · Don Quijote</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-pharma">PHARMACY</div>
+      <div class="shop-name">Rohto Eye Drops (Platinum / Ice)</div>
+      <div class="shop-detail">Japanese Rohto eye drops are a completely different product from export versions — much stronger cooling effect. Rohto Platinum is the strongest. Will feel intense the first time. Very popular on Reels.</div>
+      <div class="shop-where">📍 Matsumoto Kiyoshi · Any konbini</div>
+    </div>
+  </div>
+
+  <!-- FASHION -->
+  <div class="section-head">👗 Fashion & Accessories</div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-fashion">FASHION</div>
+      <div class="shop-name">Uniqlo Japan-Exclusive Items</div>
+      <div class="shop-detail">Uniqlo Japan has pieces never exported — linen shirts in Japan-specific colours, special collaborations, UTme! custom print T-shirts. The Ginza flagship (12 floors) has the most exclusive range.</div>
+      <div class="shop-where">📍 Uniqlo Ginza · Uniqlo Shinjuku · Uniqlo Harajuku</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-fashion">ACCESSORIES</div>
+      <div class="shop-name">Goshuincho Stamp Book</div>
+      <div class="shop-detail">Your goshuin book for collecting temple/shrine stamps throughout the trip. Buy at Senso-ji (Asakusa) or Kiyomizu-dera on arrival — they sell beautiful ones at the temples themselves. Red with gold Kaminarimon design at Senso-ji is iconic.</div>
+      <div class="shop-where">📍 Senso-ji Temple · Kiyomizu-dera · Stationery shops</div>
+    </div>
+  </div>
+
+  <!-- GIFTS -->
+  <div class="section-head">🎁 Gifts to Bring Back</div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-gifts">GIFT</div>
+      <div class="shop-name">Ippodo Matcha Gift Set</div>
+      <div class="shop-detail">Beautifully boxed ceremonial matcha from Kyoto's most famous tea house. Perfect gift — ships well, unique to Japan, genuinely special quality.</div>
+      <div class="shop-where">📍 Ippodo Kyoto (Teramachi-dori)</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-gifts">GIFT</div>
+      <div class="shop-name">Tenugui (Japanese Hand Towel) — Kyoto Print</div>
+      <div class="shop-detail">Traditional Japanese cotton hand towels with beautiful graphic prints — sakura, koi, ukiyo-e motifs. Lightweight, packable, genuinely beautiful. Buy in Kyoto for the best designs. Can be framed as art.</div>
+      <div class="shop-where">📍 Nishiki Market · Kyoto craft shops · Kyoto Station souvenir floor</div>
+    </div>
+  </div>
+
+  <div class="shop-card" onclick="toggle(this)">
+    <div class="shop-check">✓</div>
+    <div class="shop-body">
+      <div class="cat-tag cat-gifts">GIFT</div>
+      <div class="shop-name">Japanese Whisky — Nikka From The Barrel</div>
+      <div class="shop-detail">Best prices at airport duty free. Nikka From the Barrel is the standout value (blended, incredibly complex). Also Nikka Coffey Grain, Suntory Toki. Buy at departure — duty free prices beat city prices significantly.</div>
+      <div class="shop-where">📍 Haneda / Narita Airport Duty Free</div>
+    </div>
+  </div>
+
+</div><!-- end outer -->
+
+<div class="footer">
+  Japan 2026 · Shopping List · March 27 – April 12
+</div>
+
+<script>
+function toggle(card) {
+  card.classList.toggle('checked');
+  const chk = card.querySelector('.shop-check');
+  chk.textContent = card.classList.contains('checked') ? '✓' : '✓';
+  updateProgress();
+  saveState();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.shop-card');
+  const done = document.querySelectorAll('.shop-card.checked');
+  const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-count').textContent = done.length + ' / ' + all.length + ' items';
+}
+
+function saveState() {
+  const cards = document.querySelectorAll('.shop-card');
+  const state = Array.from(cards).map(c => c.classList.contains('checked'));
+  localStorage.setItem('jp-shopping-2026', JSON.stringify(state));
+}
+
+function loadState() {
+  const raw = localStorage.getItem('jp-shopping-2026');
+  if (!raw) return;
+  const state = JSON.parse(raw);
+  document.querySelectorAll('.shop-card').forEach((c, i) => {
+    if (state[i]) c.classList.add('checked');
+  });
+}
+
+loadState();
+updateProgress();
+</script>
+</body>
+</html>

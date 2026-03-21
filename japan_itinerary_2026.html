@@ -330,6 +330,19 @@ body {
   border-radius: 100px;
   padding: 2px 10px;
 }
+.strain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 10px;
+  border-radius: 100px;
+}
+.strain-good  { background: #e8f7e8; color: #2a7a2a; border: 1px solid #b0d8b0; }
+.strain-full  { background: #fff8e0; color: #8a6010; border: 1px solid #e8d070; }
+.strain-brutal{ background: #fde8e8; color: #a02020; border: 1px solid #f0a0a0; }
 
 /* ── TIMELINE ── */
 .timeline-wrap {
@@ -640,6 +653,7 @@ body {
           <div class="day-title">Arrival Day — Shibuya</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo</span>
+            <span class="strain-badge strain-good">💚 Easy</span>
             <span>Neighborhood: Shibuya</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel Tokyo</span>
           </div>
@@ -657,6 +671,18 @@ body {
                 <div class="detail-section-label label-do">📌 What to do</div>
                 <div class="chip chip-do"><span class="chip-icon">•</span><div>Drop bags, freshen up — jet lag is real. Give yourself a full hour before heading out. The hotel is in the thick of Shibuya so you can walk everywhere tonight.</div></div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">3:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">☕ First Coffee in Japan</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">☕</span><div><strong>Streamer Coffee Company</strong> — Tokyo's most famous specialty latte art café, 5 min walk from Shibuya Station. Their signature Steamer Latte is the must-order. Very photogenic pours, great atmosphere. Perfect first-stop coffee after arrival jet lag hits.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">☕</span><div><strong>Alternative: Fuglen Tokyo</strong> — Iconic Norwegian coffee bar in Yoyogi, 10 min walk. Minimalist design, exceptional beans. One of Tokyo's most photographed café interiors. Opens at 8am — great for early starts on other days too.</div></div>
             </div>
           </div>
         </div>
@@ -713,6 +739,7 @@ body {
               <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Shibuya Loft (Udagawacho)</strong> — 7 floors of lifestyle goods, stationery, gadgets. Great for Japan-exclusive products. 3rd floor has the best stationery.</div></div>
               <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Tokyu Hands (Shibuya Hikarie)</strong> — Creative lifestyle store. Perfect for souvenirs and unique gifts.</div></div>
               <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Shibuya 109</strong> — Fashion floors with Japanese labels. Even just walking around the ground floor is an experience.</div></div>
+              <div class="chip chip-food" style="margin-top:8px"><span class="chip-icon">🧀</span><div><strong>Scramble Square B2F — Eat-in food floor</strong> — The basement of the Scramble Square building (attached to Shibuya Sky) has one of Tokyo's best food floors. Grab a warm BAKE Cheese Tart (crispy pastry shell, creamy molten cheese inside — one of Japan's most Instagrammed snacks) or a Beard Papa cream puff to eat on the spot. Both made fresh every few minutes.</div></div>
             </div>
           </div>
         </div>
@@ -765,6 +792,7 @@ body {
           <div class="day-title">Ghibli Museum, Harajuku & Omotesando</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo</span>
+            <span class="strain-badge strain-brutal">🔴 Brutal</span>
             <span>Harajuku · Omotesando · Mitaka</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
           </div>
@@ -875,8 +903,9 @@ body {
           <div class="t-body">
             <div class="t-activity">Harajuku Takeshita Street + Cafés</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>Takeshita Street is the wild, colorful pedestrian street running from Harajuku Station. It's loud, packed, and fun for 20–30 minutes. Look for the rainbow cotton candy and crêpe shops.</div></div>
-              <div class="chip chip-food" style="margin-top:6px"><span class="chip-icon">☕</span><div><strong>Aoyama Flower Market Tea House</strong> — Walk from Harajuku toward Omotesando. You literally sit inside a flower shop. Order the rose latte or floral herbal tea. Very photogenic interior.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Takeshita Street is the wild, colorful pedestrian street running from Harajuku Station. It's loud, packed, and fun for 20–30 minutes.</div></div>
+              <div class="chip chip-food" style="margin-top:6px"><span class="chip-icon">🥞</span><div><strong>Marion Crêpes — Takeshita Street</strong> — Japan's most famous crêpe chain, and the Harajuku Takeshita original is the best. Eat-on-the-spot street crêpes in every flavour. Get the matcha + red bean or strawberry custard. The cone shape is very photogenic walking down the street. One of the iconic Harajuku food experiences.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">☕</span><div><strong>Aoyama Flower Market Tea House</strong> — Walk from Harajuku toward Omotesando. You literally sit inside a flower shop. Order the rose latte or floral herbal tea. Very photogenic interior — one of Tokyo's most-Reeled café interiors.</div></div>
             </div>
           </div>
         </div>
@@ -921,10 +950,22 @@ body {
           <div class="t-time">7:15 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">Dinner</div>
+            <div class="t-activity">Dinner — Harajuku / Shibuya</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🥞</span><div><strong>A Happy Pancake (Omotesando)</strong> — Famous for thick Japanese soufflé pancakes. Very fluffy, dairy-based. Expect a short wait. Order the matcha version if available.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍵</span><div><strong>Hatoya Matcha</strong> — A calm matcha dessert spot for a lighter evening if the pancakes feel too heavy. Excellent matcha parfaits and soft serves.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Shamaim Harajuku</strong> — Excellent vegan Middle Eastern food (falafel, hummus, shakshuka, pita). Warm, filling, generous portions. Perfect after an exhausting day. Walk from Harajuku Station, 5 min.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍜</span><div><strong>T's Tantan Harajuku</strong> — The original T's Tantan vegan ramen location in Harajuku. Sesame-based broth, thick noodles. Very comforting after a long day. Faster and more casual than a sit-down meal.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">8:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍮 Dessert — A Happy Pancake or Matcha</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🥞</span><div><strong>A Happy Pancake (Omotesando)</strong> — Tokyo's most famous soufflé pancakes — impossibly tall, jiggly, and photogenic. They jiggle on the plate when served. Order matcha if available. Expect a 20–30 min wait but worth it — one of the most Reeled desserts in Tokyo.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍵</span><div><strong>Hatoya Matcha</strong> — Lighter option if you want matcha parfait or soft serve instead. Calm, low-key space. Great to end a chaotic day quietly.</div></div>
             </div>
           </div>
         </div>
@@ -970,6 +1011,7 @@ body {
           <div class="day-title">Shimokitazawa, Kichijoji & Shinjuku</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo</span>
+            <span class="strain-badge strain-full">🟡 Full</span>
             <span>Shimokitazawa · Kichijoji · Shinjuku</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
           </div>
@@ -1047,7 +1089,12 @@ body {
         <div class="t-item">
           <div class="t-time">3:45 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
-          <div class="t-body"><div class="t-activity">Coffee Break — Kichijoji neighborhood cafés near Inokashira Park</div></div>
+          <div class="t-body">
+            <div class="t-activity">☕ Coffee Break — Kichijoji</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">☕</span><div><strong>% Arabica Kichijoji</strong> — One of Tokyo's best % Arabica branches, right next to Inokashira Park. Minimal white interior, extremely photogenic. Order the Spanish Latte — it's their signature and very Reels-popular. Great spot to sit and decompress before the train to Shinjuku.</div></div>
+            </div>
+          </div>
         </div>
         <div class="t-item">
           <div class="t-time">4:15 PM</div>
@@ -1070,11 +1117,23 @@ body {
           <div class="t-time">6:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
           <div class="t-body">
-            <div class="t-activity">📷 Dinner — Omoide Yokocho (Memory Lane)</div>
+            <div class="t-activity">Dinner — Shinjuku</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>This tiny alley of yakitori bars is just outside the west exit of Shinjuku Station. It's narrow, smoky, and atmospheric. Even as a vegetarian you can get edamame, tofu skewers, and mushroom yakitori — just ask for "yasai" (vegetable) options.</div></div>
-              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Lantern Alley</strong> — The paper lanterns and smoke give this alley incredible atmosphere at night. Shoot from inside the alley looking toward the lit-up entrance for depth. Use a wide aperture for the bokeh background of lanterns.</div></div>
-              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Narrow Yakitori Streets</strong> — The cramped counters and chefs at work are great candid subjects. Sit at a counter and photograph the grill and the chefs' hands working — close up, wide aperture, warm tones.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>T's Restaurant Shinjuku</strong> — 100% vegan Japanese restaurant inside Shinjuku Station (Lumine Est B2F). Ramen, gyoza, karaage, don bowls — all plant-based and genuinely excellent. Convenient, no reservations needed, and great value.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🧆</span><div><strong>Falafel Brothers Shinjuku</strong> — Popular Israeli falafel wraps, fully vegetarian. Fast, filling, and different from everything else on the trip. Great if you want something lighter before walking Omoide Yokocho. Decide how you feel on the day.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">7:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Omoide Yokocho — Atmosphere + Photos (Memory Lane)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>This tiny alley of yakitori bars is just outside Shinjuku Station West exit. It's narrow, smoky, and atmospheric — one of Tokyo's most photogenic streets. Go for the atmosphere and photos after dinner, not as your main meal.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Lantern Alley</strong> — Shoot from inside the alley looking toward the lit-up entrance. Paper lanterns, grill smoke, and neon signs create extraordinary depth. Wide aperture, let the background blur warm.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Chef at the Grill</strong> — Candid close-ups of the cooks at work — hands, skewers, smoke, fire. Warm tones. One of the best candid food photography spots in Tokyo.</div></div>
             </div>
           </div>
         </div>
@@ -1089,6 +1148,7 @@ body {
           <div class="day-title">Asakusa, Sumida River & teamLab Planets</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo</span>
+            <span class="strain-badge strain-full">🟡 Full</span>
             <span>Asakusa · Sumida · Toyosu · Odaiba</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
           </div>
@@ -1195,7 +1255,7 @@ body {
         <div class="t-item">
           <div class="t-time">7:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
-          <div class="t-body"><div class="t-activity">Dinner — Odaiba area, then train back to Shibuya</div></div>
+          <div class="t-body"><div class="t-activity">Dinner — roam Odaiba, use Tablelog to find something nearby, or head back to Shibuya if nothing appeals</div><div class="t-chips"><span class="chip tip">📱 Tablelog app → filter by area: Odaiba</span></div></div>
         </div>
       </div>
     </div>
@@ -1210,10 +1270,19 @@ body {
             <span class="day-badge badge-tokyo">Tokyo</span>
             <span>Chidorigafuchi · Imperial Palace · Ginza · Shinjuku</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
+            <span class="strain-badge strain-full">🟡 Full</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">8:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Morning Coffee — near Kudanshita</div>
+            <div class="t-chips"><span class="chip food">☕ Doutor or local kissaten near Kudanshita station — quick grab before the boats fill up</span></div>
+          </div>
+        </div>
         <div class="t-item">
           <div class="t-time">9:00 AM</div>
           <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
@@ -1343,10 +1412,19 @@ body {
             <span class="day-badge badge-fuji">Mt. Fuji</span>
             <span>Lake Kawaguchi · Fujikawaguchiko</span>
             <span class="hotel-tag">🏨 Kasuitei Ooya Ryokan</span>
+            <span class="strain-badge strain-good">💚 Easy</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">9:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Breakfast — Shibuya Station before train</div>
+            <div class="t-chips"><span class="chip food">🥐 Grab a pastry + coffee at Eki Marché or Pronto inside Shibuya Station before boarding the Fuji Excursion train</span></div>
+          </div>
+        </div>
         <div class="t-item">
           <div class="t-time">11:15 AM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
@@ -1358,6 +1436,14 @@ body {
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Fuji Reflection Symmetry</strong> — Find a completely still section of the lake. Shoot Fuji and its reflection as a perfect vertical symmetry — crop so the mountain and its mirror image are equal. Best when the water is glassy calm (early morning or late afternoon).</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Couple Walking with Fuji Background</strong> — Position your partner frame-left walking toward Fuji on the right. Fuji centered in the background, person slightly left of center creating diagonal tension in the frame.</div></div>
             </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">12:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Lunch — Kawaguchiko Station area</div>
+            <div class="t-chips"><span class="chip tip">🍜 Grab soba or udon at any local restaurant near the station — use Tablelog to find something open</span></div>
           </div>
         </div>
         <div class="t-item">
@@ -1423,6 +1509,7 @@ body {
             <span class="day-badge badge-fuji">Fuji → Kyoto</span>
             <span>Kawaguchiko → Mishima → Kyoto</span>
             <span class="hotel-tag">🏨 Kyoto Granbell</span>
+            <span class="strain-badge strain-brutal">🔴 Brutal</span>
           </div>
         </div>
       </div>
@@ -1570,6 +1657,7 @@ body {
             <span class="day-badge badge-kyoto">Kyoto</span>
             <span>Higashiyama · Kiyomizu · Nishiki Market · Gion</span>
             <span class="hotel-tag">🏨 Kyoto Granbell</span>
+            <span class="strain-badge strain-brutal">🔴 Brutal</span>
           </div>
         </div>
       </div>
@@ -1732,6 +1820,7 @@ body {
             <span class="day-badge badge-kyoto">Kyoto</span>
             <span>Arashiyama · Tenryu-ji · Jojakko-ji · Okochi Sanso</span>
             <span class="hotel-tag">🏨 Kyoto Granbell</span>
+            <span class="strain-badge strain-full">🟡 Full</span>
           </div>
         </div>
       </div>
@@ -1850,6 +1939,7 @@ body {
             <span class="day-badge badge-kyoto">Kyoto</span>
             <span>Philosopher's Path · Silver Pavilion · Nanzen-ji · Golden Pavilion</span>
             <span class="hotel-tag">🏨 Sakanoue Ryokan (check-in evening)</span>
+            <span class="strain-badge strain-brutal">🔴 Brutal</span>
           </div>
         </div>
       </div>
@@ -1986,6 +2076,7 @@ body {
             <span class="day-badge badge-nara">Nara</span>
             <span>Nara Park · Todai-ji · Kasuga Taisha · Naramachi</span>
             <span class="hotel-tag">🏨 Sakanoue Ryokan (Kyoto)</span>
+            <span class="strain-badge strain-full">🟡 Full</span>
           </div>
         </div>
       </div>
@@ -2056,6 +2147,17 @@ body {
           </div>
         </div>
         <div class="t-item">
+          <div class="t-time">4:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Coffee — Naramachi</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">☕</span><div><strong>Kissa Tora</strong> — A retro Japanese kissaten (old-school coffee shop) tucked in Naramachi's backstreets. Great atmosphere, proper drip coffee, simple sweets. A nice pause before heading back to Kyoto.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">☕</span><div><strong>VOCO Coffee</strong> — Specialty third-wave coffee in Naramachi. Cleaner, brighter option if you prefer a lighter roast.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
           <div class="t-time">4:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
           <div class="t-body">
@@ -2093,6 +2195,7 @@ body {
             <span class="day-badge badge-osaka">Osaka</span>
             <span>Osaka Castle · Shinsaibashi · Dotonbori · Shinsekai</span>
             <span class="hotel-tag">🏨 Toshiharu Ryokan (Kyoto)</span>
+            <span class="strain-badge strain-brutal">🔴 Brutal</span>
           </div>
         </div>
       </div>
@@ -2265,6 +2368,7 @@ body {
             <span class="day-badge badge-kyoto">Kyoto → Tokyo</span>
             <span>Fushimi Inari · Tofuku-ji · Kyoto Station → Tokyo</span>
             <span class="hotel-tag">🏨 Tokyo (TBD)</span>
+            <span class="strain-badge strain-full">🟡 Full</span>
           </div>
         </div>
       </div>
@@ -2380,6 +2484,7 @@ body {
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo II</span>
             <span>Shinjuku Gyoen · Komehyo · Kitamura Watches · Kuoe · Isetan · Don Quijote</span>
+            <span class="strain-badge strain-good">💚 Easy</span>
           </div>
         </div>
       </div>
@@ -2484,6 +2589,7 @@ body {
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo II</span>
             <span>Onitsuka Tiger · Rodeo Drive · Amore · CDG · Sacai · Issey · Meguro River evening</span>
+            <span class="strain-badge strain-full">🟡 Full</span>
           </div>
         </div>
       </div>
@@ -2540,7 +2646,8 @@ body {
           <div class="t-body">
             <div class="t-activity">Dinner — Nakameguro area</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🌿</span><div>Nakameguro has excellent restaurants along the canal. Walk the river first and find somewhere that looks right — the neighbourhood is full of good options at all price points.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🍷</span><div><strong>Ahiru Store</strong> — Beloved natural wine bar with small plates. Vegetarian-friendly. Very Nakameguro — intimate, low-lit, local crowd. Walk-ins welcome early evening; get there by 6:15pm to avoid a wait.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌿</span><div><strong>Falafel Brothers Nakameguro</strong> — Middle Eastern falafel wraps and bowls, fully vegetarian-friendly. Casual and quick. Good option if Ahiru Store is full.</div></div>
             </div>
           </div>
         </div>
@@ -2569,6 +2676,7 @@ body {
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo II</span>
             <span>Nakano Broadway · Kapital · Pokemon · Mandarake · Akihabara · Allu Ginza</span>
+            <span class="strain-badge strain-brutal">🔴 Brutal</span>
           </div>
         </div>
       </div>
@@ -2660,6 +2768,7 @@ body {
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo II · Last Day 🌸</span>
             <span>Ueno Park · Yanaka Ginza (consider) · Final pharmacy run · Airport · Duty free whisky</span>
+            <span class="strain-badge strain-good">💚 Easy</span>
           </div>
         </div>
       </div>
