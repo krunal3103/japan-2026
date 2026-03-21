@@ -1,0 +1,2861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Japan 2026 🌸">
+<meta name="theme-color" content="#2a0d18">
+<title>Japan 2026 — Sakura Itinerary</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fff8f9;
+  --card: #ffffff;
+  --ink: #2a1a1f;
+  --ink2: #5a3a42;
+  --muted: #9c7a82;
+  --line: #f0dde0;
+
+  --s1: #fce8ec;
+  --s2: #f5c6cf;
+  --s3: #e8909f;
+  --s4: #d4607a;
+  --s5: #a83050;
+
+  --g1: #e8f5ee;
+  --g2: #b8ddc4;
+  --g3: #6aad85;
+
+  --gold1: #fdf3e3;
+  --gold2: #f5d49a;
+  --gold3: #c9943a;
+
+  --blue1: #eaf2fc;
+  --blue2: #b8d4f2;
+  --blue3: #4a7fc1;
+
+  --fuji1: #eef0fa;
+  --fuji2: #c4c8e8;
+  --fuji3: #6878c4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── SAKURA PETALS ANIMATION ── */
+.petal {
+  position: fixed;
+  top: -20px;
+  pointer-events: none;
+  z-index: 0;
+  font-size: 18px;
+  animation: fall linear infinite;
+  opacity: 0.55;
+}
+@keyframes fall {
+  0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0.6; }
+  100% { transform: translateY(110vh) rotate(720deg) translateX(60px); opacity: 0; }
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #2a0d18 0%, #4a1828 40%, #7a2840 70%, #a84060 100%);
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 40px 60px;
+  z-index: 1;
+}
+
+/* Sakura branch decoration */
+.hero-branch {
+  position: absolute;
+  top: -30px;
+  right: -40px;
+  width: 320px;
+  opacity: 0.18;
+  pointer-events: none;
+}
+.hero-branch-left {
+  position: absolute;
+  bottom: -20px;
+  left: -30px;
+  width: 260px;
+  opacity: 0.12;
+  transform: rotate(180deg);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--s2);
+  margin-bottom: 18px;
+  opacity: 0.9;
+}
+.hero h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(48px, 9vw, 82px);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--s2);
+}
+.hero-jp {
+  font-size: 22px;
+  color: var(--s3);
+  letter-spacing: 0.3em;
+  margin-bottom: 28px;
+  opacity: 0.8;
+}
+.hero-route {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+.hero-city {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.85);
+  padding: 5px 14px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 100px;
+}
+.hero-arrow { color: var(--s3); font-size: 14px; }
+.hero-dates {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.12em;
+}
+.hero-bloom {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+.hero-bloom span { color: var(--s2); }
+
+/* ── NAV ── */
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,248,249,0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 12px 16px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-btn:hover { color: var(--s4); }
+.nav-btn.active { color: var(--s4); border-bottom-color: var(--s4); }
+
+/* ── LAYOUT ── */
+.outer {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 48px 20px 100px;
+}
+
+/* ── CITY HEADER ── */
+.city-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 0 28px;
+}
+.city-header-line {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.city-header-center {
+  text-align: center;
+  flex-shrink: 0;
+}
+.city-kanji {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+.city-en {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── DAY CARD ── */
+.day-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  margin-bottom: 28px;
+  overflow: hidden;
+  box-shadow: 0 2px 20px rgba(42,26,31,0.05);
+}
+.day-card-head {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--s1);
+}
+.day-num-block {
+  flex-shrink: 0;
+  width: 80px;
+  background: var(--s4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 0;
+  color: #fff;
+}
+.day-num-block .dd { font-family: 'Libre Baskerville', serif; font-size: 30px; font-weight: 700; line-height: 1; }
+.day-num-block .mm { font-size: 10px; letter-spacing: 0.2em; opacity: 0.75; margin-top: 2px; }
+.day-head-body {
+  flex: 1;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.day-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.day-sub {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.day-badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 2px 10px;
+  border-radius: 100px;
+}
+.badge-tokyo { background: var(--blue1); color: var(--blue3); border: 1px solid var(--blue2); }
+.badge-fuji { background: var(--fuji1); color: var(--fuji3); border: 1px solid var(--fuji2); }
+.badge-kyoto { background: var(--gold1); color: var(--gold3); border: 1px solid var(--gold2); }
+.badge-osaka { background: #fceaea; color: #b03030; border: 1px solid #f0b8b8; }
+.badge-nara { background: var(--g1); color: var(--g3); border: 1px solid var(--g2); }
+.hotel-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 2px 10px;
+}
+
+/* ── TIMELINE ── */
+.timeline-wrap {
+  padding: 24px 24px 8px;
+}
+.t-item {
+  display: grid;
+  grid-template-columns: 64px 12px 1fr;
+  gap: 0 14px;
+  position: relative;
+  margin-bottom: 0;
+}
+.t-item::after {
+  content: '';
+  position: absolute;
+  left: 82px;
+  top: 22px;
+  bottom: -8px;
+  width: 1px;
+  background: var(--line);
+}
+.t-item:last-child::after { display: none; }
+
+.t-time {
+  text-align: right;
+  padding-top: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.t-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8px;
+  z-index: 1;
+}
+.t-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--line);
+  flex-shrink: 0;
+}
+.t-dot.booked { border-color: var(--s3); background: var(--s1); }
+.t-dot.food { border-color: var(--gold3); background: var(--gold1); }
+.t-dot.photo { border-color: var(--fuji3); background: var(--fuji1); }
+.t-dot.important { border-color: var(--s4); background: var(--s2); width: 12px; height: 12px; }
+
+.t-body {
+  padding: 2px 0 22px;
+}
+.t-activity {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.booked-pill {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--s4);
+  background: var(--s1);
+  border: 1px solid var(--s2);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+/* ── DETAIL SECTION INSIDE TIMELINE ── */
+.detail-box {
+  background: #fdf6f7;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.detail-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.detail-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.label-food { color: var(--gold3); }
+.label-photo { color: var(--fuji3); }
+.label-tip { color: var(--g3); }
+.label-do { color: var(--s4); }
+
+.chip {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 12.5px;
+  padding: 5px 11px;
+  border-radius: 8px;
+  line-height: 1.4;
+  width: 100%;
+}
+.chip-food { background: var(--gold1); color: #7a5220; border: 1px solid var(--gold2); }
+.chip-photo { background: var(--fuji1); color: #3550a0; border: 1px solid var(--fuji2); }
+.chip-tip { background: var(--g1); color: #2a6040; border: 1px solid var(--g2); }
+.chip-do { background: var(--s1); color: var(--s5); border: 1px solid var(--s2); }
+.chip-icon { font-size: 13px; flex-shrink: 0; margin-top: 0px; }
+.chip strong { font-weight: 600; display: block; }
+.chip .note { color: inherit; opacity: 0.75; font-size: 12px; }
+
+/* ── INFO PANELS (food + photo full blocks) ── */
+.panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 0 24px 24px;
+}
+@media (max-width: 640px) { .panels { grid-template-columns: 1fr; } }
+
+.panel {
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid;
+}
+.panel-food { background: #fffbf0; border-color: var(--gold2); }
+.panel-photo { background: #f4f6fd; border-color: var(--fuji2); }
+.panel-head {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.panel-food .panel-head { color: var(--gold3); border-color: var(--gold2); }
+.panel-photo .panel-head { color: var(--fuji3); border-color: var(--fuji2); }
+
+.pitem {
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.pitem:last-child { border-bottom: none; padding-bottom: 0; }
+.pitem-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.pitem-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.pitem-shots { font-size: 11.5px; color: var(--fuji3); margin-top: 4px; line-height: 1.5; }
+
+/* ── EMPTY DAYS ── */
+.empty-block {
+  background: var(--card);
+  border: 1.5px dashed var(--line);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 28px;
+}
+.empty-block .e-icon { font-size: 32px; margin-bottom: 10px; }
+.empty-block strong { font-size: 16px; color: var(--ink); display: block; margin-bottom: 6px; }
+.empty-block p { font-size: 13px; color: var(--muted); }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 20px;
+  margin-bottom: 32px;
+  font-size: 12px;
+  color: var(--ink2);
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.ld { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.ld-b { background: var(--s1); border: 2px solid var(--s3); }
+.ld-f { background: var(--gold1); border: 2px solid var(--gold3); }
+.ld-p { background: var(--fuji1); border: 2px solid var(--fuji3); }
+.ld-i { background: var(--s2); border: 2px solid var(--s4); width: 12px; height: 12px; }
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+.footer-sakura { font-size: 20px; letter-spacing: 4px; margin-bottom: 8px; }
+
+/* Sakura petals background in hero */
+.sakura-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.sp {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50% 50% 50% 0;
+  background: rgba(255,200,210,0.4);
+  transform-origin: 50% 50%;
+  animation: spFloat linear infinite;
+}
+@keyframes spFloat {
+  0% { transform: translateY(0) rotate(var(--r0)) scale(1); opacity: 0.5; }
+  100% { transform: translateY(500px) translateX(var(--dx)) rotate(var(--r1)) scale(0.3); opacity: 0; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--s2); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- FLOATING SAKURA PETALS -->
+<div id="petals"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="sakura-bg" id="sakuraBg"></div>
+  <div style="position:relative;z-index:2">
+    <div class="hero-eyebrow">🌸 &nbsp;Sakura Season &nbsp;·&nbsp; Spring 2026 &nbsp;·&nbsp; 旅行</div>
+    <h1>Japan <em>in Bloom</em></h1>
+    <div class="hero-jp">日本旅行 2026</div>
+    <div class="hero-route">
+      <span class="hero-city">✈ Tokyo</span>
+      <span class="hero-arrow">→</span>
+      <span class="hero-city">🗻 Mt. Fuji</span>
+      <span class="hero-arrow">→</span>
+      <span class="hero-city">⛩ Kyoto</span>
+      <span class="hero-arrow">→</span>
+      <span class="hero-city">🦌 Nara</span>
+      <span class="hero-arrow">→</span>
+      <span class="hero-city">🐙 Osaka</span>
+      <span class="hero-arrow">→</span>
+      <span class="hero-city">🗼 Tokyo</span>
+    </div>
+    <div class="hero-dates">MARCH 27 — APRIL 12, 2026 &nbsp;·&nbsp; 17 DAYS</div>
+    <div class="hero-bloom" style="margin-top:16px">
+      <span>🌸</span> Cherry blossom peak window: <span>March 28 – April 8</span> — you're perfectly timed
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="navTo('top',this)">All</button>
+    <button class="nav-btn" onclick="navTo('sec-tokyo1',this)">🗼 Tokyo I</button>
+    <button class="nav-btn" onclick="navTo('sec-fuji',this)">🗻 Mt. Fuji</button>
+    <button class="nav-btn" onclick="navTo('sec-kyoto',this)">⛩ Kyoto</button>
+    <button class="nav-btn" onclick="navTo('sec-nara',this)">🦌 Nara Day</button>
+    <button class="nav-btn" onclick="navTo('sec-osaka',this)">🐙 Osaka Day</button>
+    <button class="nav-btn" onclick="navTo('sec-fushimi',this)">🏮 Fushimi → Tokyo</button>
+    <button class="nav-btn" onclick="navTo('sec-tokyo2',this)">🗼 Tokyo II</button>
+  </div>
+</div>
+
+<div class="outer" id="top">
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="ld ld-i"></div> Must-do / Critical moment</div>
+    <div class="legend-item"><div class="ld ld-b"></div> Booked activity</div>
+    <div class="legend-item"><div class="ld ld-f"></div> Food stop</div>
+    <div class="legend-item"><div class="ld ld-p"></div> Photo opportunity</div>
+  </div>
+
+  <!-- ════════════ TOKYO I ════════════ -->
+  <div id="sec-tokyo1">
+    <div class="city-header">
+      <div class="city-header-line"></div>
+      <div class="city-header-center">
+        <div class="city-kanji">東京 — Tokyo I</div>
+        <div class="city-en">March 27 – 31 · Shibuya Excel Hotel</div>
+      </div>
+      <div class="city-header-line"></div>
+    </div>
+
+    <!-- ── MARCH 27 ── -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block"><span class="dd">27</span><span class="mm">MAR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Arrival Day — Shibuya</div>
+          <div class="day-sub">
+            <span class="day-badge badge-tokyo">Tokyo</span>
+            <span>Neighborhood: Shibuya</span>
+            <span class="hotel-tag">🏨 Shibuya Excel Hotel Tokyo</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+
+        <div class="t-item">
+          <div class="t-time">3:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Hotel Check-in & Refresh</div>
+            <div class="detail-box">
+              <div>
+                <div class="detail-section-label label-do">📌 What to do</div>
+                <div class="chip chip-do"><span class="chip-icon">•</span><div>Drop bags, freshen up — jet lag is real. Give yourself a full hour before heading out. The hotel is in the thick of Shibuya so you can walk everywhere tonight.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">4:15 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Shibuya Crossing + Hachiko Statue</div>
+            <div class="detail-box">
+              <div>
+                <div class="detail-section-label label-do">📌 How to do it</div>
+                <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk out to the crossing from the hotel. The Hachiko exit of Shibuya Station is right there. Start at street level to feel the energy, then go up.</div></div>
+              </div>
+              <div>
+                <div class="detail-section-label label-photo">📷 Photo Guide</div>
+                <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>Hachiko Statue</strong> — Side angle with Shibuya Station behind. Don't shoot straight on — the side profile with the station entrance creates depth. Late afternoon light is golden here.</div></div>
+                <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Shibuya Scramble from Starbucks Window (2F)</strong> — The Starbucks right at the crossing has seats facing the intersection. Arrive early to grab a window seat. Best shot: telephoto-style compression with the crowd below. Order a drink, take your time — aim for a few minutes BEFORE the light changes, then fire when it goes red and everyone floods in.</div></div>
+                <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Street Level Crossing</strong> — Stand still right in the middle of the crossing as people flow past you. Classic shot: you stationary, crowd blurred around you. Step to the middle, stay calm, shoot burst mode.</div></div>
+                <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>For long exposure crowd movement, use a tripod or rest your camera on the railing. The best exposure is around 1–2 seconds at the peak of the crossing flow.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">5:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Shibuya Sky <span class="booked-pill">Booked ✓</span></div>
+            <div class="detail-box">
+              <div>
+                <div class="detail-section-label label-do">📌 What to expect</div>
+                <div class="chip chip-do"><span class="chip-icon">•</span><div>Open-air rooftop on the Scramble Square building. Go through security, take the elevator to the 46F then escalators to the roof. Allow 45–60 mins up top. The roof has transparent floor panels — stand on them.</div></div>
+              </div>
+              <div>
+                <div class="detail-section-label label-photo">📷 Photo Guide</div>
+                <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>The Corner Glass Platform</strong> — This is Shibuya Sky's most iconic spot. Get to the corner where the glass floor meets the open railing. Shoot downward through the glass with the street grid below. Best in the blue hour (right after sunset).</div></div>
+                <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Sunset Skyline</strong> — Face west. Tokyo stretches to the horizon. Shoot with the setting sun creating a warm gradient behind the buildings.</div></div>
+                <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Night City Lights</strong> — Stay until after dark (around 7pm). The Scramble Crossing below becomes a constellation of headlights and neon. Shoot directly down.</div></div>
+                <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Wear a windproof jacket — it's very exposed. Bring your phone for wide shots and zoom lens for compression shots of the distant city.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">6:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Shibuya Shopping</div>
+            <div class="detail-box">
+              <div class="detail-section-label label-do">📌 Stops</div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Shibuya Loft (Udagawacho)</strong> — 7 floors of lifestyle goods, stationery, gadgets. Great for Japan-exclusive products. 3rd floor has the best stationery.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Tokyu Hands (Shibuya Hikarie)</strong> — Creative lifestyle store. Perfect for souvenirs and unique gifts.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Shibuya 109</strong> — Fashion floors with Japanese labels. Even just walking around the ground floor is an experience.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">7:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Dinner</div>
+            <div class="detail-box">
+              <div class="detail-section-label label-food">🍽 Options</div>
+              <div class="chip chip-food"><span class="chip-icon">🍜</span><div><strong>T's Tantan</strong> — Shibuya. Easy, comforting vegan ramen. Multiple spice levels. The sesame-based broth is rich and filling — perfect for an arrival-day meal when you don't want to think too hard.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥗</span><div><strong>Nagi Shokudo</strong> — Cozy Japanese vegetarian plates. Very Shibuya-core vibe. Their daily set meals are the move.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">8:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Iyoshi Cola — Post-Dinner Treat</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🥤</span><div>A Japanese craft cola bar in Shibuya. Try their yuzu or sakura seasonal cola. It's casual, fun, and a very local thing to do on your first Tokyo night.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">9:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Shibuya Night Walk — Neon Streets & Mega Donki</div>
+            <div class="detail-box">
+              <div class="detail-section-label label-do">📌 Route</div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk from Shibuya Crossing up Center-gai (the pedestrian neon street). Then into Don Quijote (Mega Donki) on Dogenzaka — it's 24hrs and completely overwhelming in the best way.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Center-gai at Night</strong> — The narrow pedestrian street is lined with neon shop signs. Shoot from street level looking down the alley — the compression of signs and crowds is very Tokyo.</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── MARCH 28 ── -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block"><span class="dd">28</span><span class="mm">MAR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Ghibli Museum, Harajuku & Omotesando</div>
+          <div class="day-sub">
+            <span class="day-badge badge-tokyo">Tokyo</span>
+            <span>Harajuku · Omotesando · Mitaka</span>
+            <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+
+        <div class="t-item">
+          <div class="t-time">8:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Quick Breakfast — 7-Eleven or FamilyMart</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🏪</span><div>Japan's convenience stores are genuinely excellent. Get an onigiri (rice ball), tamagoyaki, and a canned coffee for a fast, authentic breakfast. The egg salad sandwiches are famous for a reason.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">8:20 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Train: Shibuya → Mitaka (Keio Inokashira Line → JR Chuo)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">🚆</span><div>From Shibuya Station, take the Keio Inokashira Line to Kichijoji (14 min), then the JR Chuo Line one stop to Mitaka (2 min). Total ~20 mins. Ghibli Museum tickets are time-slot — don't be late.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">10:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🏯 Ghibli Museum <span class="booked-pill">Booked ✓</span></div>
+            <div class="detail-box">
+              <div class="detail-section-label label-do">📌 What to know</div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>No photography inside the museum (strictly enforced). You will get a ticket stub with a frame from an actual Miyazaki film — that's your souvenir. Allow 2 hours minimum.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div>Don't miss: the Catbus room (children only but you can peek), the rooftop garden with the giant Laputa robot, and the short film shown in the basement cinema — it's exclusive to the museum.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>The museum shop inside sells Ghibli items you cannot buy anywhere else. Budget time for it at the end. The Straw Hat Café on the grounds is charming for a quick drink.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">12:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Walk Inokashira Park (On the way back to train)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>The path from Ghibli Museum to Kichijoji Station goes through Inokashira Park — walk it instead of taking the bus. A peaceful lake with rowboats, surrounded by cherry trees.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Sakura Picnic Canopy</strong> — The main path alongside the lake has a tunnel of sakura trees. Stand in the middle looking down the path for a classic cherry blossom corridor shot.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Swan Boats + Blossom Reflections</strong> — Shoot from the south bank looking across the lake. The swan paddle boats in the foreground with pink sakura reflecting in the still water.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">12:45 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Train to Harajuku (via Kichijoji → Shibuya → Harajuku)</div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">1:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Lunch near Harajuku</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Brown Rice by Neal's Yard Remedies</strong> — Clean, refined Japanese vegetarian food. Rice bowls, soups, and seasonal plates. Calm interior. Perfect reset after Ghibli. Walk from Omotesando Station (5 min).</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍛</span><div><strong>Milan Nataraj</strong> — Comfort Indian vegetarian if you want something familiar and filling. Also near Omotesando.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">2:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Meiji Shrine</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Enter from the Harajuku entrance on the south side (5 min walk from Harajuku Station). The path through the forest to the shrine takes about 10 minutes. Stop and listen — the silence is remarkable for being in central Tokyo.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Giant Torii Gate (First Gate)</strong> — Stand far back and shoot toward the gate with the forested path leading in. Best when there are a few people walking through for scale — they make the gate look enormous.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Forest Path</strong> — The gravel path lined by 50-year-old trees. Shoot looking down the path in the morning light with dappled shadows. Use a low angle to make the trees loom larger.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Sake Barrel Wall</strong> — Just inside the first gate on the left is a wall of colorful ceremonial sake barrels. Wide shot shows the full wall, or close up on the painted labels.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">3:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Yoyogi Park — Cherry Blossom Walk</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Right next to Meiji Shrine. During sakura season this is one of the most active hanami (flower viewing) spots in Tokyo. Spread picnic mats, bento boxes, and locals everywhere — it's wonderful and chaotic.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Sakura Canopy</strong> — The central area has wide sakura trees. Lie on the grass and shoot straight up through the branches — pure pink and white against the sky.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Hanami Picnic Scene</strong> — Wide environmental shot of picnickers under the trees. Use a 35mm equivalent for a street photography approach — candid, not posed.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">3:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Harajuku Takeshita Street + Cafés</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Takeshita Street is the wild, colorful pedestrian street running from Harajuku Station. It's loud, packed, and fun for 20–30 minutes. Look for the rainbow cotton candy and crêpe shops.</div></div>
+              <div class="chip chip-food" style="margin-top:6px"><span class="chip-icon">☕</span><div><strong>Aoyama Flower Market Tea House</strong> — Walk from Harajuku toward Omotesando. You literally sit inside a flower shop. Order the rose latte or floral herbal tea. Very photogenic interior.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">4:15 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Tokyu Plaza Omotesando — Mirror Escalator Shot</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk up Omotesando toward the Tokyu Plaza Omotesando Harajuku building (on the corner). The entrance is a tunnel of mirrors with a striking escalator going up.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Mirror Tunnel Escalator</strong> — Stand at the base of the escalator looking up. The mirrors on both sides create infinite reflections stretching upward. Shoot from a low angle with someone on the escalator for scale. This is one of Tokyo's best and most underrated photo spots.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Best in the afternoon when the light from outside filters in. Works with phone or camera — a wide-angle lens gets all the reflections.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">4:45 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">☕ Koffee Mameya</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">☕</span><div>One of Tokyo's most respected specialty coffee spots. Hidden on a backstreet near Omotesando — look for the small black exterior with no signage. Order a single origin pour-over and talk to the barista about the beans. This is a must.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">5:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🏎 Street Kart Shibuya Tour <span class="booked-pill">Booked ✓</span></div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Dress up in a character costume and drive go-karts through Shibuya/Harajuku streets. You need an International Driving Permit (IDP) — make sure you have this! The company will brief you. Follow the guide kart and stay in formation.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Bring a GoPro or phone mount if you have one — the footage from the kart is incredible. The experience is ~90 minutes total including briefing and gear-up.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">7:15 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Dinner</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🥞</span><div><strong>A Happy Pancake (Omotesando)</strong> — Famous for thick Japanese soufflé pancakes. Very fluffy, dairy-based. Expect a short wait. Order the matcha version if available.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍵</span><div><strong>Hatoya Matcha</strong> — A calm matcha dessert spot for a lighter evening if the pancakes feel too heavy. Excellent matcha parfaits and soft serves.</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="panels">
+        <div class="panel panel-food">
+          <div class="panel-head">🍽 All Food Options — March 28</div>
+          <div class="pitem"><div class="pitem-name">Brown Rice by Neal's Yard</div><div class="pitem-desc">Refined Japanese vegetarian. Clean, seasonal plates. Near Omotesando Station.</div></div>
+          <div class="pitem"><div class="pitem-name">Koffee Mameya</div><div class="pitem-desc">Specialty pour-over coffee. Hidden backstreet gem near Omotesando.</div></div>
+          <div class="pitem"><div class="pitem-name">Onibus Coffee</div><div class="pitem-desc">Another must-try specialty coffee — multiple Shibuya locations.</div></div>
+          <div class="pitem"><div class="pitem-name">Aoyama Flower Market Tea House</div><div class="pitem-desc">Tea and coffee inside a flower shop. Very photogenic. Great for a mid-afternoon break.</div></div>
+          <div class="pitem"><div class="pitem-name">A Happy Pancake</div><div class="pitem-desc">Fluffy Japanese soufflé pancakes. Near Omotesando. Worth the short wait.</div></div>
+          <div class="pitem"><div class="pitem-name">Hatoya Matcha</div><div class="pitem-desc">Calm matcha dessert café. Parfaits, soft serves, and matcha drinks.</div></div>
+        </div>
+        <div class="panel panel-photo">
+          <div class="panel-head">📸 All Photo Spots — March 28</div>
+          <div class="pitem">
+            <div class="pitem-name">Meiji Shrine — Giant Torii Gate</div>
+            <div class="pitem-shots">Shoot far back, low angle. A few people walking through for scale. Afternoon dappled light on the forest path.</div>
+          </div>
+          <div class="pitem">
+            <div class="pitem-name">Yoyogi Park — Sakura Canopy</div>
+            <div class="pitem-shots">Lie on the grass, shoot straight up through branches. Wide shot of hanami picnic scene with 35mm lens.</div>
+          </div>
+          <div class="pitem">
+            <div class="pitem-name">Tokyu Plaza Mirror Escalator</div>
+            <div class="pitem-shots">Low angle, wide lens. Person on escalator for scale. Afternoon light best. Infinite mirror reflections going up.</div>
+          </div>
+          <div class="pitem">
+            <div class="pitem-name">Inokashira Park — Sakura Lake</div>
+            <div class="pitem-shots">Swan boats in foreground, sakura reflection in still water. Look down the path for the sakura corridor tunnel shot.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MARCH 29 ── -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block"><span class="dd">29</span><span class="mm">MAR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Shimokitazawa, Kichijoji & Shinjuku</div>
+          <div class="day-sub">
+            <span class="day-badge badge-tokyo">Tokyo</span>
+            <span>Shimokitazawa · Kichijoji · Shinjuku</span>
+            <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">8:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Train to Shimokitazawa (Keio Inokashira from Shibuya, 7 min)</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">9:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Breakfast in Shimokitazawa</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🥞</span><div><strong>Flipper's Shimokitazawa</strong> — Famous for "miracle pancakes" — extremely fluffy and light. There may be a short queue; join it. Worth the wait.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">☕</span><div><strong>Swamp Coffee</strong> — A neighborhood favorite. Tiny, atmospheric. Just walk in and get a coffee and toast if Flipper's has a long wait.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Shimokitazawa Exploration + Thrift Shopping</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Exit the station's South entrance and wander freely. Shimokitazawa is Tokyo's bohemian neighborhood — vintage shops, music venues, and tiny coffee bars packed into narrow alleys. There's no agenda; just wander.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">🛍</span><div><strong>New York Joe Exchange Shimokitazawa</strong> — Curated vintage. Very well organized. Great for jackets and Japanese vintage finds.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">🛍</span><div><strong>2nd STREET Shimokitazawa</strong> — Larger vintage chain with rotating stock. Check the jacket and accessory sections.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">🛍</span><div><strong>Flamingo Shimokitazawa</strong> — Bright, colorful vintage with great Western-style pieces. Their accessory section is fun.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Shimokitazawa Street Shots</strong> — The alleyways south of the station are perfect for street photography. Vintage storefronts, narrow lanes with overhanging signs, and locals going about their day. Candid walking shots and café-window shots work great here.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">12:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Dessert Stop — Shiro-Hige's Cream Puff Factory</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🎠</span><div>Famous for Totoro-shaped cream puffs. It's a tiny shop and they sell out — try to go before 1pm. The custard cream version is the classic. Great for photos too.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">1:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Train to Kichijoji (10 min)</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">1:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Lunch — Vegan Soba Tokyo Ayler</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍜</span><div>Excellent vegan soba in Kichijoji. Order the cold soba set — it comes with a small side and dipping broth. Very serene, traditional atmosphere.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">2:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Inokashira Park — Full Walk (Kichijoji side)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>This is one of Tokyo's best sakura parks during peak bloom. Enter from the Kichijoji station side. Walk counterclockwise around the lake — the east bank has the best sakura overhang above the water.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Lake Reflections</strong> — Find a spot where the sakura tree branches lean over the water. Shoot the pink reflections in the still parts of the lake — early afternoon is calmer wind.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Swan Boats + Fuji X100 Style</strong> — The rowboats and swan boats on the lake with sakura behind make a soft, dreamy, film-style photo. Shoot slightly into the sun for a hazy look.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Lake Bridge</strong> — The small bridge crossing the lake narrows provides a leading line with sakura framing both sides. Walk to the middle and shoot both directions.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">3:45 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body"><div class="t-activity">Coffee Break — Kichijoji neighborhood cafés near Inokashira Park</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">4:15 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Train to Shinjuku (JR Chuo Line, ~15 min)</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">5:15 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Shinjuku Walk — Kabukicho, Neon Streets, Arcades</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Exit Shinjuku Station East exit. Walk toward Kabukicho — the entertainment district. Explore the neon-lit alleys. Look for the GODZILLA head on top of the Shinjuku Toho Building.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div>Don't miss: a floor of one of the arcades (Taito Game Station or Sega Arcade). The crane games with Japanese character prizes are a must-try.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Kabukicho Neon Alley</strong> — The main strip at dusk / nightfall. Shoot into the light — overexpose slightly so the neon blooms. Great for a portrait of someone walking away from you into the neon.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">6:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Dinner — Omoide Yokocho (Memory Lane)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>This tiny alley of yakitori bars is just outside the west exit of Shinjuku Station. It's narrow, smoky, and atmospheric. Even as a vegetarian you can get edamame, tofu skewers, and mushroom yakitori — just ask for "yasai" (vegetable) options.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Lantern Alley</strong> — The paper lanterns and smoke give this alley incredible atmosphere at night. Shoot from inside the alley looking toward the lit-up entrance for depth. Use a wide aperture for the bokeh background of lanterns.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Narrow Yakitori Streets</strong> — The cramped counters and chefs at work are great candid subjects. Sit at a counter and photograph the grill and the chefs' hands working — close up, wide aperture, warm tones.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MARCH 30 ── -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block"><span class="dd">30</span><span class="mm">MAR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Asakusa, Sumida River & teamLab Planets</div>
+          <div class="day-sub">
+            <span class="day-badge badge-tokyo">Tokyo</span>
+            <span>Asakusa · Sumida · Toyosu · Odaiba</span>
+            <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">8:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Breakfast — Asakusa Kagetsudo (Giant Melon Pan)</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍞</span><div>Asakusa Kagetsudo is famous for their giant melon pan — a freshly baked sweet bread roll. This is a very normal Japanese breakfast. Get it warm from the bakery (near Senso-ji, opens at 9am) and eat it while walking toward the temple. Add Hat Coffee for a custom latte art drink.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Senso-ji Temple — MORNING GOLDEN HOUR</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Arrive before 9am to beat the crowds. The main gate (Kaminarimon) and the approach to the temple are magical in the morning light with far fewer tourists. By 10am it gets very crowded.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Kaminarimon Gate Lantern</strong> — The giant red lantern at the main gate. Best shot: frame it from dead center of the path looking straight through with the temple visible beyond. Morning light hits it from the east and creates beautiful warm tones.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Five-Story Pagoda from Below</strong> — Walk to the right side of the temple courtyard. The pagoda rises to the left of the main hall. Shoot from below at a low angle looking up — compress the storeys against the sky.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Incense Smoke + Worshippers</strong> — The bronze incense cauldron in the courtyard. People wave the smoke over themselves. Candid shots here are powerful — smoke swirling around hands and faces in morning light.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Soft morning light is genuinely beautiful here — this is not a cliché. Show up early and you'll feel it.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">9:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Nakamise Street — Snack Crawl</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>The shopping street leading to Senso-ji is lined with traditional snack and souvenir stalls. This is where you do a slow snack crawl. Budget 30–45 minutes.</div></div>
+              <div class="chip chip-food" style="margin-top:6px"><span class="chip-icon">🍵</span><div><strong>Chaya Tabenochi</strong> — Matcha crème brûlée. A must. The brulee is thick and the matcha is intense. Usually a short queue — worth it.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍦</span><div><strong>Suzukien Asakusa</strong> — The world's highest matcha concentration ice cream shop. Choose a level 1–7. Level 5+ starts to taste genuinely bitter. Try level 4 or 5 — it's the sweet spot.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍡</span><div><strong>Kibidango Azuma</strong> — Tiny traditional mochi dumplings on skewers. A two-minute stop; buy, eat, move on. Very authentic.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍠</span><div><strong>Imo Pippi</strong> — Sweet potato Mont Blanc / brûlée. Rich and creamy. Grab this as your last snack before heading to the park.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Sumida Park Sakura Walk</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk from Senso-ji north along the Sumida River. Sumida Park is just 5 minutes on foot. The riverside is lined with hundreds of sakura trees with Tokyo Skytree as a backdrop.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Skytree + Sakura — THE SHOT</strong> — Find a spot on the west bank of the river looking northeast. The Skytree rises behind a foreground of full-bloom sakura trees. This is one of Tokyo's most photographed sakura compositions. Shoot in the morning when the tree shadows fall away from you and the sky is clear.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Riverside Sakura Canopy</strong> — Walk under the sakura trees along the riverbank. Shoot looking along the river with a tunnel of pink overhead and the river below.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Morning is best here — by midday the light is flat. If it's overcast, the diffused light on the pink blossoms is still beautiful. Shoot both directions along the river.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">11:45 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Sumida River Cruise (Asakusa → Odaiba / Toyosu)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">⛵</span><div>Board the Tokyo Water Bus at Azumabashi Pier (right by Senso-ji). The futuristic capsule-shaped boat runs to Hinode or Odaiba. About 40–60 mins on the water. Sit on the upper deck for views. You'll see the city from a completely different angle.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>From the Upper Deck</strong> — Shoot the bridges passing overhead, the skyline, and the Skytree receding behind you as you head south. The rainbow bridge appears near the end.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">2:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Lunch — Vegan Ramen UZU Tokyo (Toyosu)</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍜</span><div>Located inside the teamLab complex building at Toyosu. Perfect timing — eat first, then enter teamLab. The ramen is creamy and rich with a soy broth base. Ask for no bonito flakes.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">4:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">✨ teamLab Planets TOKYO <span class="booked-pill">Booked ✓</span></div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>You take your shoes off at the entrance. The experience is deeply immersive — you walk through water, lie in a mirror room, and disappear into digital flowers. Allow 60–90 minutes. Don't rush.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Infinity Mirror Light Room</strong> — The most-photographed room. The floor is a mirror and the room is filled with hanging floating lights. Key technique: use portrait mode or a wide aperture to let the reflections blur into orbs. Stand still, shoot slow exposures (1–2 sec on a timer). The water underfoot creates perfect floor reflections.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Water Reflection Installation</strong> — You walk through shallow water with projections on the floor below you. Silhouette shots work beautifully here — stand still with the projection swirling around your feet.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Wear neutral / dark clothing — whites and brights compete with the light installations. Dark navy or black clothing lets you blend into the projections and makes photos look more ethereal. Wear clothes you don't mind getting slightly wet — the water floor is a few cm deep.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">5:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">DiverCity Tokyo Plaza — Gundam Statue (Odaiba)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">🤖</span><div>A 1:1 scale RX-0 Unicorn Gundam stands outside DiverCity in Odaiba. It's life-size, about 20 meters tall, and has light shows in the evening (around 7pm). Even if you're not a Gundam fan, it's an impressive spectacle.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div>Shoot from the plaza ground level looking up. A tiny person in the foreground for scale makes the scale of the robot clear. Evening light show: wide shot from across the plaza.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">7:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body"><div class="t-activity">Dinner — Odaiba area, then train back to Shibuya</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MARCH 31 — BIRTHDAY ── -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block" style="background: var(--s5);"><span class="dd">31</span><span class="mm">MAR</span></div>
+        <div class="day-head-body" style="background: #fff0f3;">
+          <div class="day-title">🎂 Birthday — Chidorigafuchi Sakura & Ginza</div>
+          <div class="day-sub">
+            <span class="day-badge badge-tokyo">Tokyo</span>
+            <span>Chidorigafuchi · Imperial Palace · Ginza · Shinjuku</span>
+            <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">9:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Chidorigafuchi Moat Rowboating <span class="booked-pill">Booked ✓</span></div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>This is one of the most spectacular sakura experiences in Japan. You rent a rowboat and paddle through the moat while sakura trees arch over you on both sides, dropping petals into the water. Allow 30 min on the boat; the whole stop is about 90 min. Nearest station: Kudanshita (Tozai Line).</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Rowboat Under Sakura Arch</strong> — While rowing, position yourself so the sakura branches arch over the boat and frame your partner in the boat. Shoot from a low angle inside the boat with the branches forming a natural canopy overhead.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Cherry Blossom Tunnel</strong> — The moat path on the east side has a tunnel of sakura that arches over the walkway AND the water. This is where the petal-fall shots happen. Wait for wind — the petals float down and carpet the water surface.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Sakura Petal Water Surface</strong> — Look straight down from the boat at the moat surface covered in floating petals. Shoot straight down for an abstract sakura-carpet pattern.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>It's your birthday — this is the most romantic sakura experience in Tokyo. Go early; the queues for boats get very long by mid-morning. Book in advance if possible.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Imperial Palace Outer Gardens Walk</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>A leisurely stroll through the east gardens of the Imperial Palace. Free to enter the outer area. The wide gravel paths, pine trees, and moats are distinctly Japanese.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Nijubashi Bridge</strong> — The iconic double-arch bridge leading to the main palace gate. Shoot from the plaza looking toward the bridge with the palace walls behind. Best in the morning with even light.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">11:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Birthday Brunch — Ginza</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🥞</span><div><strong>bills Ginza</strong> — The Sydney-born café famous in Japan for its ricotta hotcakes. The Ginza branch is elegant and the perfect birthday brunch. Book ahead or arrive early.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌿</span><div><strong>Komeda Is</strong> — Komeda's vegetarian-friendly chain. Their morning set with thick toast, boiled egg, and coffee is a very satisfying and affordable Japanese breakfast option.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">☕</span><div><strong>Cafe de L'Ambre</strong> — A legendary Tokyo coffee institution opened in 1948, serving coffee aged for decades. A short, atmospheric stop after brunch.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">12:45 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Tokyo Tower + Zojo-ji Temple</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>From Ginza, take the subway to Onarimon or Shibakoen station. Zojo-ji temple sits directly in front of Tokyo Tower — an incredible visual pairing.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Temple Gate Framing Tokyo Tower</strong> — Stand in front of Zojo-ji's main gate (Sangedatsumon) and shoot through the gate toward Tokyo Tower beyond. This is one of Tokyo's most classic compositions — traditional Japan framing modern Japan.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Sakura + Tower</strong> — If the temple grounds have bloom, position cherry blossoms in the lower frame foreground with the tower rising behind — layers of Japan in one frame.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">1:45 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Minato City 7-Eleven — Tokyo Tower Photo Stop</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>A 5-minute walk from Zojo-ji Temple. The 7-Eleven on Iikura-Katamachi (Minato-ku) has Tokyo Tower rising perfectly and prominently directly behind the store sign — the Tokyo equivalent of the famous Fuji Lawson shot. One of the most satisfying convenience store + landmark compositions in the city.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>7-Eleven + Tokyo Tower</strong> — Stand across the street from the store and shoot with the 7-Eleven sign in the lower foreground and Tokyo Tower filling the background. Shoot both wide (showing the full street context) and compressed with a longer lens (70–135mm equivalent) to make the tower loom large behind the store. Works in daylight and even better at dusk when the tower lights up.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Person + Tower Framing</strong> — Have your partner stand just left of the store entrance looking toward the tower. The red 7-Eleven sign, the person, and the lit tower create a very distinctly Tokyo layered composition.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Address: 4-chome area, Minato-ku, near Shibakoen. Google "Minato 7-Eleven Tokyo Tower" and it comes up immediately. While you're there grab a drink — you've earned it after Zojo-ji.</div></div>
+            </div>
+          </div>
+        </div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Ginza Shopping + Afternoon</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">🛍</span><div><strong>UNIQLO Ginza Flagship</strong> — 12 floors on Chuo-dori. The best selection of UNIQLO anywhere. Their limited Ginza editions and collaboration collections are worth checking.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Chuo-dori Street</strong> — The main Ginza street closes to traffic on weekend afternoons. A wide, clean boulevard with luxury boutiques on both sides — great for a wide street shot with the store facades.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>UNIQLO Building Glass Exterior</strong> — The glass facade of UNIQLO at night has a graphic quality — shoot from across the street, using a long lens to compress the floors into a stack of illuminated windows.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">3:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Birthday Dessert — Nakamura Tokichi Ginza</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍵</span><div>A legendary 150-year-old Uji matcha brand with a Ginza location. Order the matcha parfait — it's a tower of matcha soft serve, matcha jelly, sweet beans, and mochi. It looks incredible and tastes even better. Perfect birthday dessert.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">6:45 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🎂 Birthday Dinner — Ain Soph. Journey Shinjuku <span class="booked-pill">Booked ✓</span></div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">✨</span><div>Ain Soph is Tokyo's most beloved vegan fine dining restaurant. The Shinjuku location has an elegant, intimate atmosphere perfect for a birthday dinner. Book well in advance — it fills up. The multi-course set menus are the way to go. Order the full course.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Tell them it's a birthday when you book — they often provide a small dessert with a candle.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Birthday Drinks — Bar Centifolia, Ginza</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍸</span><div>A romantic, intimate, dimly-lit cocktail bar. Excellent mixology. The perfect way to close a birthday in Tokyo. Reservation recommended. Located in Ginza 5-chome.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end tokyo1 -->
+
+  <!-- ════════════ MT. FUJI ════════════ -->
+  <div id="sec-fuji">
+    <div class="city-header">
+      <div class="city-header-line"></div>
+      <div class="city-header-center">
+        <div class="city-kanji">富士山 — Mt. Fuji</div>
+        <div class="city-en">April 1 – 2 · Kasuitei Ooya Ryokan</div>
+      </div>
+      <div class="city-header-line"></div>
+    </div>
+
+    <!-- APRIL 1 -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block" style="background:#6878c4"><span class="dd">1</span><span class="mm">APR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Kawaguchiko Arrival — Lake + Ropeway + Oishi Park</div>
+          <div class="day-sub">
+            <span class="day-badge badge-fuji">Mt. Fuji</span>
+            <span>Lake Kawaguchi · Fujikawaguchiko</span>
+            <span class="hotel-tag">🏨 Kasuitei Ooya Ryokan</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">11:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Walk North Shore of Lake Kawaguchi</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>From the ryokan / Kawaguchiko Station, walk or take the bus to the north shore viewing areas. This side of the lake gives the clearest, most directly-facing views of Fuji. The wind is usually calm in the morning, creating perfect reflections.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Fuji + Boats (Kawaguchiko Lakefront)</strong> — Small wooden fishing boats moored near the shore with Fuji in the background. Classic composition — shoot from low on the bank so the boats fill the foreground. Early-afternoon wind can disrupt reflections; morning is best.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Fuji Reflection Symmetry</strong> — Find a completely still section of the lake. Shoot Fuji and its reflection as a perfect vertical symmetry — crop so the mountain and its mirror image are equal. Best when the water is glassy calm (early morning or late afternoon).</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Couple Walking with Fuji Background</strong> — Position your partner frame-left walking toward Fuji on the right. Fuji centered in the background, person slightly left of center creating diagonal tension in the frame.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">2:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Mt. Fuji Panoramic Ropeway (Kachi Kachi Ropeway)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>The ropeway runs from near Kawaguchiko Station up Mt. Tenjo. At the top there's a viewing platform with 360° views. There's also a famous tanuki (raccoon dog) story associated with the mountain — ask the staff.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Torii Gate Framing Fuji</strong> — At the top of the ropeway there's a small Asama Shrine with a torii gate. Position yourself so the gate frames Fuji in the center background. Use a longer focal length to compress the scene.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>360° Lake Panorama</strong> — Shoot the full panorama from the observation deck. Lake Kawaguchi in the foreground, Fuji to the south. A stitched panorama here is spectacular.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Portrait with Fuji Behind</strong> — Stand on the viewing deck with Fuji centered behind you. Use telephoto compression to make Fuji appear large behind the portrait. The key is distance — step toward the railing, shoot from farther back with a zoom lens.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">3:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Oishi Park — One of Japan's Most Photographed Fuji Spots</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>On the north shore of Lake Kawaguchi. During spring, the park has cherry blossoms and yellow rapeseed flowers (nanohana) in bloom simultaneously with Fuji behind. This is the postcard image of Japan.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Fuji + Cherry Blossoms</strong> — Position yourself with the sakura in the lower foreground (branches overhanging into the frame) and Fuji in the background. Shoot from below the tree branches looking outward.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Fuji + Nanohana (Yellow Rapeseed)</strong> — If the yellow flowers are blooming, stand in the flower field with Fuji above and behind you. The contrast of yellow foreground, pink mid-sakura, and white Fuji is extraordinary.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Afternoon Light on Fuji</strong> — The west-facing position of Oishi Park means afternoon light hits Fuji frontally — it glows. Clouds often part in the afternoon revealing the full cone. Stay until the light turns golden.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>This is genuinely one of the most Instagrammable spots in all of Japan. The photos you've seen in travel magazines are taken here. Arrive with enough time to find the perfect angle — the park is large.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">5:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Sunset Lake Walk / OR Honcho Street + Fuji Lawson (Choose One)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">💡</span><div><strong>Option A — Sunset Lake Walk:</strong> Walk along the shoreline near the ryokan as the light fades. The sunset can turn Fuji pink and then purple — watch from the water's edge. Most peaceful option.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">💡</span><div><strong>Option B — Honcho Street + Lawson (swap to Day 2 morning):</strong> These are the famous "Fuji street shot" and "Fuji Lawson" spots. Better done in the early morning light of Day 2, right after sunrise. If you skip the sunset walk today, do these tomorrow before Chureito.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">6:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Dinner + Onsen — Kasuitei Ooya Ryokan</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍲</span><div><strong>Houtou Fudou Restaurant</strong> — If dining out, this is the definitive Kawaguchiko experience. Houtou is a local noodle stew — wide flat udon noodles in rich miso broth with vegetables and kabocha pumpkin. Order the vegetarian houtou. The restaurant's thatched-roof building is also photogenic.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌿</span><div><strong>Vegetarian Kaiseki at Ryokan</strong> — Confirm vegetarian requirements at check-in. A kaiseki is a multi-course traditional Japanese meal served in your room. This is a deeply special experience.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">♨️</span><div>After dinner, use the onsen. The outdoor bath (rotenburo) may have a view toward Fuji depending on weather. Soak for 20–30 mins before bed. Sleep early — tomorrow's sunrise is at 5:45am.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APRIL 2 -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block" style="background:#5060b0"><span class="dd">2</span><span class="mm">APR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Sunrise Fuji → Chureito → Kyoto Arrival</div>
+          <div class="day-sub">
+            <span class="day-badge badge-fuji">Fuji → Kyoto</span>
+            <span>Kawaguchiko → Mishima → Kyoto</span>
+            <span class="hotel-tag">🏨 Kyoto Granbell</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">5:45 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌅 CRITICAL — Fuji Sunrise Photography</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">⏰</span><div>Wake up at 5:15am. Walk directly from the ryokan to the lakefront — you're only a few minutes from the water's edge. Check the weather the night before; a clear sky with no cloud cap on Fuji is the goal. The backup is Lake Yamanakako for swan reflections if clouds obscure Fuji.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Glassy Lake Reflection at Sunrise</strong> — The most iconic Fuji shot. The lake is completely still at dawn. Set up on the bank with Fuji reflected perfectly in the water. Use a slightly long focal length (50–85mm) to balance Fuji and its reflection without distortion. Exposure: shoot in the blue hour first, then as the sky brightens through pink to gold.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Pastel Sky Fuji</strong> — As the sun rises, it colors the sky in layers: deep blue fading to pink/orange near the horizon, Fuji silhouetted or lit depending on direction. Shoot with the sunrise colors in the upper frame and the lake/reflection below.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Couple Silhouette Against Sunrise Fuji</strong> — Stand on the bank with Fuji behind you and the rising sun to the side. Shoot into the light so you're silhouetted. Reach toward each other or stand side by side — the silhouette forms a clean shape against the glow.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Foreground Reeds Framing Fuji</strong> — Find a section of the bank with tall reeds or grass. Use them as a foreground frame — bokeh the reeds with wide aperture while Fuji is sharp in the background.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Empty quiet frames are the goal here — no tourists in the background. This is why 5:45am matters. By 7am the lakefront begins to fill with photographers and tour groups.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">7:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Breakfast + Checkout — Café Mimi or Fuji Café Cup's</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">☕</span><div>Both are small local cafés near Kawaguchiko Station area. Light breakfast before the shoot schedule. Pack up checkout bags first — you won't be returning to the ryokan.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Taxi to Chureito Pagoda (~20 min) — Ask hotel to book the night before</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">🚕</span><div>Ask the ryokan staff the evening before to arrange a taxi for 8:15am to Chureito Pagoda / Arakura Sengen Shrine (Fujiyoshida). It's ~20 minutes and they know the route. This taxi saves time vs public transport with luggage.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:45 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Chureito Pagoda — The Most Iconic Japan Shot</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>From the taxi drop-off, you climb 398 steps up to the pagoda. It's a 10–15 minute climb. Go at a steady pace — it's worth it. During sakura season, the stairway is lined with cherry trees.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Pagoda + Fuji + Cherry Blossoms — THE SHOT</strong> — This is on every Japan travel list. The red five-story pagoda in the foreground with sakura trees on both sides and Mt. Fuji perfectly centered behind it. Position yourself about 20m in front of the pagoda and use a 35–50mm equivalent. Frame: pagoda center, Fuji above, sakura filling the bottom corners. Shoot before 10am when the light is front-lit.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Stairway Lined with Sakura</strong> — Looking up the stone stairway through a tunnel of cherry blossom trees. Shoot from the base of the stairs looking up — the pink arch with the pagoda visible at the top.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>This will be busy. Get there early. The best time is before 9:30am. The main photo spot area in front of the pagoda gets crowded — find a slightly higher angle by climbing a few steps above the main viewing area for a less-cluttered shot.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:05 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Honcho Street — Fuji Street Shot</div>
+            <div class="detail-box">
+              <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>Vertical Street Symmetry</strong> — Honcho Street in Fujiyoshida is famous because Fuji rises perfectly at the end of the street when you look north. Stand in the center of the road (check for traffic) and shoot the perspective lines of the street converging toward Fuji. Add a person walking away from you toward the mountain for scale and depth.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Power Lines + Road Leading Lines</strong> — The utility poles and power lines running along the street parallel to the road create strong leading lines toward Fuji. Include them deliberately — they're part of the composition, not a distraction.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Famous Fuji 7-Eleven (Lawson)</div>
+            <div class="detail-box">
+              <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>Convenience Store + Fuji</strong> — The Lawson on Kawaguchiko Kosho-dori is famous for the view of Fuji directly behind it. Shoot from across the parking lot. Clean storefront, Fuji above. A great mix of everyday Japan and iconic Japan. Shoot both wide and vertical portrait orientation.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Candid Passerby</strong> — Wait for a local on a bicycle or walking past — a person going about their daily routine with the world's most famous mountain behind them is a quietly powerful image.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>This spot became so famous (from Instagram and travel content) that a black partition was erected in the parking lot to discourage crowds. Shoot from the street side, not from inside the parking lot.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">11:45 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Head to Kawaguchiko Station</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">12:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Train: Kawaguchiko → Mishima → Kyoto (~5.5 hrs)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">🚆</span><div>Kawaguchiko → Otsuki (Fuji Excursion Line, ~1hr) → Mishima (JR) → catch the Shinkansen at Mishima or Shin-Fuji → Kyoto (Shinkansen ~1.5hr). Total ~5.5 hours. Buy a bento at the station for the train.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Shinkansen Window — Mt. Fuji Appears!</strong> — On the Shinkansen from Mishima/Shin-Fuji toward Kyoto, sit on the RIGHT side (seats D or E). About 40–45 minutes into the ride near Shin-Fuji station, Mt. Fuji appears in the window on the right. Have your camera ready — it's only visible for about 30 seconds at full clarity before a hill blocks it.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">6:15 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Check-in — Kyoto Granbell Hotel</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Evening Walk — Hanamikoji Street + Yasaka Shrine</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍽</span><div><strong>Mumokuteki Café & Foods</strong> — Vegetarian restaurant near Nishiki Market and the hotel. Japanese vegetarian comfort food. Great for a low-key first Kyoto dinner after a long travel day.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Hanamikoji Street at Night</strong> — The most famous street in Gion. Old wooden machiya townhouses on both sides, stone lanterns lit up, and occasionally a geisha or maiko passing by. Shoot looking down the street as a long perspective shot.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Yasaka Shrine Lanterns at Night</strong> — Walk up Shijo-dori toward Yasaka Shrine. The shrine's main gate is framed by red lanterns and lit up beautifully at night. Walk through the gates into the inner courtyard.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:15 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Ninenzaka Pagoda Street Shot — One of Kyoto's Most Famous Photos</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk from Yasaka Shrine down through Ninenzaka — the ancient stone-paved street that leads toward the five-story Yasaka Pagoda (Hokan-ji). At 10:15pm the tourists are gone and the streets belong entirely to you. This is a 15-minute walk from the shrine — take it slowly.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Yasaka Pagoda Framed by Lantern Streets</strong> — The defining Kyoto shot. Stand on the stone street of Ninenzaka and look up toward the pagoda rising above the traditional rooflines with lanterns glowing on both sides of the street. Use a wide-angle lens from street level — include the stone pavement below as a leading line toward the pagoda. This is the image on every Japan travel guide.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Empty Stone Street Perspective</strong> — At 10pm the street is deserted. Shoot the full length of Ninenzaka with the empty cobblestone path, traditional wooden shopfronts on both sides, paper lanterns lit, and the pagoda visible at the top. A lone figure (your partner) walking away from you up the stone path toward the pagoda makes the perfect depth element.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Pagoda Base Looking Up</strong> — Walk right to the base of the pagoda. Look straight up at the five stories receding against the night sky — a dramatic low-angle shot that shows the full height of the structure.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>10–10:30pm is genuinely the best time for this shot — the lanterns are still lit but the crowds are gone. Bring a small tripod or use a wall to stabilize for the low-light stone street shots. ISO 1600–3200, f/2.0 or wider, 1/15–1/30s.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end fuji -->
+
+  <!-- ════════════ KYOTO ════════════ -->
+  <div id="sec-kyoto">
+    <div class="city-header">
+      <div class="city-header-line"></div>
+      <div class="city-header-center">
+        <div class="city-kanji">京都 — Kyoto</div>
+        <div class="city-en">April 3 – 8 · Granbell → Sakanoue → Toshiharu Ryokan</div>
+      </div>
+      <div class="city-header-line"></div>
+    </div>
+
+    <!-- APRIL 3 — HIGASHIYAMA -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block" style="background: var(--gold3)"><span class="dd">3</span><span class="mm">APR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Higashiyama Dawn to Dusk — Kiyomizu & Gion</div>
+          <div class="day-sub">
+            <span class="day-badge badge-kyoto">Kyoto</span>
+            <span>Higashiyama · Kiyomizu · Nishiki Market · Gion</span>
+            <span class="hotel-tag">🏨 Kyoto Granbell</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">6:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌅 Dawn Walk — Sannenzaka, Ninenzaka & Yasaka Koshindo Temple</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>This is perhaps the most beautiful dawn walk in Japan. The stone-paved streets of Sannenzaka and Ninenzaka are completely empty before 7am. You have the ancient streets entirely to yourself. Walk from the bottom of Ninenzaka up through Sannenzaka toward Kiyomizu-dera.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Empty Sannenzaka Street at Sunrise</strong> — Stand at the base looking up the stone steps. The traditional wooden houses line both sides, with cherry blossoms overhanging from above. Shoot from below, slightly angled, at about 6:10am when soft pink light fills the alley.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Ninenzaka Lantern Alley Leading Lines</strong> — Find the stretch of Ninenzaka with traditional paper lanterns. Shoot the lanterns receding into the distance as a leading line with the stone path below. Include the cherry trees leaning into the frame from above.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Yasaka Koshindo Temple Balls</strong> — A short walk off Ninenzaka. This small temple is famous for its colorful kukurizaru (small wishing balls) hanging all over it. Completely unique visual — nothing else in Japan looks like this. Shoot both wide context and close-up of the colorful fabric balls.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">7:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Kiyomizu-dera — Morning Golden Hour</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Kiyomizu-dera opens at 6am. Walk up the steps from Sannenzaka directly to the main gate. At 7am the temple is beautiful and uncrowded — by 10am it's packed. Budget 60–90 minutes here.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Wooden Stage (Butai) Overlooking Sakura Valley</strong> — The main hall's famous wooden veranda extends out over the hillside. Below it, the valley fills with blooming cherry trees in April. Shoot from the veranda looking down into the pink valley, or from the adjacent hillside looking back at the stage with the trees below it.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Temple Rooflines Against Mountains</strong> — Walk to the path on the hillside opposite the main hall to get the full roofline composition. The multiple rooflines cascading down the hill against the cedar-covered mountains behind is stunning.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Three-Story Pagoda + Sakura</strong> — There's a beautiful three-story pagoda below the main hall. Find a spot where the pagoda is in the mid-ground with cherry blossoms in the foreground and mountains behind.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Otowa Waterfall Streams</strong> — Inside the main hall is the famous three-stream waterfall. The streams represent different virtues. Shoot the streams with people scooping water — intimate and atmospheric.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Breakfast — Kasagi-ya (Ninenzaka)</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍵</span><div>A 100-year-old traditional teahouse on Ninenzaka. Order matcha and mochi — simple, perfect, and exactly right for a Kyoto morning. Sit at the wooden counter facing the street if possible. They open at 9am — time your descent from Kiyomizu perfectly.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">9:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Yasaka Shrine + Maruyama Park Sakura</div>
+            <div class="detail-box">
+              <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>Yasaka Shrine Vermillion Gates</strong> — The main entrance from Gion side (Nishiromon gate) is a striking vermillion torii gate. Shoot from the street looking through the gate into the shrine complex. Best with sakura trees flanking the gate.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Lantern Courtyard with Cherry Blossoms</strong> — Inside the shrine, stone lanterns line the paths and the courtyard. In April, cherry trees bloom among the lanterns. The combination of red shrine structures, stone lanterns, and pink sakura is distinctly Kyoto.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Maruyama Park Weeping Cherry Tree</strong> — Right next to Yasaka Shrine is Maruyama Park, home to Kyoto's most famous weeping cherry tree (shidarezakura). It's enormous and surrounded by picnickers. Shoot it from below looking up through the cascading branches, or from a distance to capture its full scale.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">11:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Nishiki Market — Grazing Lunch</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Nishiki Market is a 400m covered shopping street with food stalls. Walk slowly end to end. Eat as you go — this is Kyoto's kitchen.</div></div>
+              <div class="chip chip-food" style="margin-top:6px"><span class="chip-icon">🥢</span><div><strong>Nishiki Tofuzen</strong> — Tofu and yuba (tofu skin) dishes. Get the yuba sashimi — silky and delicious.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍡</span><div><strong>Matcha Mochi</strong> — Multiple stalls sell fresh mochi. The matcha variety is the Kyoto standard.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥒</span><div><strong>Tsukemono Pickles</strong> — Kyoto tsukemono (pickled vegetables) are famous. Sample from the stalls — daikon, cucumber, eggplant in various brines.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🐟</span><div><strong>Taiyaki (fish-shaped cake)</strong> — Sweet red bean filling inside a crispy fish-shaped waffle. The perfect street-food dessert to end the market crawl.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Colorful Market Stalls</strong> — The narrow covered market is packed with color — pickles in bins, dried fish, tofu cubes, and more. Close-up food photography here is very rewarding.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">1:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Gion Wandering + Le Labo Machiya</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk through Gion's machiya streets at a relaxed pace. The best blocks are just south of Shijo on Hanamikoji. Peek into the narrow side alleys — you may glimpse a maiko heading to an appointment.</div></div>
+              <div class="chip chip-do" style="margin-top:6px"><span class="chip-icon">•</span><div><strong>Le Labo Machiya Kyoto</strong> — Le Labo's Kyoto location is inside a beautifully restored traditional machiya townhouse — completely unlike any other Le Labo store in the world. They carry Kyoto-exclusive scents only available here. Even if you don't buy, the space itself is worth walking through. A 10-minute detour from Hanamikoji into the Gion backstreets.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Machiya Townhouses</strong> — Wooden latticed facades, noren curtains, small garden gates. Shoot in the afternoon when direct light hits the wood.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">2:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">☕ Kamo River Pause — 20 Minutes</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk from Gion down Shijo-dori to the Kamo River. Sit on the stone steps — this is one of the most Kyoto things you can do. Locals come here with coffee and bento, students hang out, couples sit side by side. No agenda, just be here.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>River Steps at Golden Hour</strong> — Afternoon light hits the steps and water from the west. People sitting in silhouette against the glittering river.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">3:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍵 Tea & Wagashi — Rokujuan</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>One of Kyoto's most beautiful traditional tea and wagashi sweet experiences — a serene machiya tea house in the Gion area. Order the seasonal wagashi set with matcha. This is a refined, quiet moment after a full morning of temples and markets. Budget 30–45 minutes. Reserve ahead if possible.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>The wagashi here are made seasonally — in early April expect sakura and spring motif sweets. Eat slowly. This is one of those Kyoto moments you'll remember.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">5:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Tea Ceremony — Maikoya Nishiki (Group Session)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>A guided tea ceremony in an authentic tea room. You'll learn the full etiquette and make your own bowl of matcha. About 60 minutes. Wear something you feel comfortable kneeling in.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">6:15 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌅 Kamo River Sunset Walk — Pontocho Bridge Area</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk from Maikoya to the Kamo River at the Pontocho bridge area — 5 minutes on foot. Golden hour Kyoto at its most beautiful. Locals sit along the stone steps with coffee and food. The Pontocho lantern alley runs parallel — duck in and out between river views and the lantern-lit alley.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>River Reflection at Golden Hour</strong> — Setting sun turns the water surface gold. Shoot from the bridge looking upstream or downstream.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Silhouettes of Couples on the Steps</strong> — Pairs sitting in silhouette against the glowing river. Intimate and very Kyoto.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Cherry Blossoms Over the Water</strong> — Sakura hanging into the top of the frame with golden river below. One of Kyoto's best sakura shots.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">7:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Maruyama Park — Night Sakura Illumination</div>
+            <div class="detail-box">
+              <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>Illuminated Weeping Cherry Tree</strong> — The park's famous weeping cherry tree lit from below — a glowing pink sculpture against the dark sky. Shoot from multiple distances. One of Kyoto's most dramatic night photography subjects.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Pink Sakura Glow Against Dark Sky</strong> — Underexpose slightly for drama. Let the sky go dark and the tree glow against it.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🥟 Dinner — Chao Chao Gyoza</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🥟</span><div><strong>Chao Chao Gyoza</strong> — A beloved Kyoto gyoza institution near Gion. They have yasai gyoza (vegetarian vegetable dumplings) — confirm when ordering. Casual, fun, and very Kyoto-local. A great way to end a long day. Usually a short queue — join it, it moves fast.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>After a 6am start, this is your last stop. After dinner, go straight back to the hotel. You have another 6am start tomorrow for Arashiyama. Sleep is non-negotiable.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APRIL 4 — ARASHIYAMA -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block" style="background: #8a6020"><span class="dd">4</span><span class="mm">APR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Arashiyama — Bamboo, Temples & Sagano Train</div>
+          <div class="day-sub">
+            <span class="day-badge badge-kyoto">Kyoto</span>
+            <span>Arashiyama · Tenryu-ji · Jojakko-ji · Okochi Sanso</span>
+            <span class="hotel-tag">🏨 Kyoto Granbell</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">6:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Train to Arashiyama (Hankyu Line, ~30 min from Kyoto)</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">7:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🎋 Arashiyama Bamboo Grove — EARLY MORNING</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>This is one of the most-visited spots in Japan — but at 7am it is genuinely peaceful. The bamboo grove is a 200m path. Walk through once quickly to get a feel for it, then come back and shoot methodically.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Upward Bamboo Canopy Shot</strong> — Tilt your camera straight up and shoot the bamboo stalks converging to a point far above. The green light filtering through is extraordinary. Use a wide angle and stand in the middle of the path for symmetry.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Leading Path Through Bamboo Tunnel</strong> — The classic shot: stand at the path entrance and shoot toward the far end with the path as a leading line. A lone figure walking away from you down the path creates perfect scale and depth.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Soft Morning Light Filtering Through</strong> — The bamboo grove faces east, so early morning light comes through the gaps between stalks in warm shafts. Find a spot where a shaft of light falls across the path and wait for someone to walk through it.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div><strong>INSIDER TIP:</strong> The best shot is actually the SMALLER SIDE PATH just before the main grove entrance, between Nonomiya Shrine and the grove entrance. The bamboo here leans inward over the path, crowds are dramatically lighter, and the intimacy of the bamboo is stronger than the main tourist path. Take 3 minutes to find it — it's just left of the main path entrance.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Tenryu-ji Temple & Garden</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>One of Kyoto's most beautiful Zen garden temples. The garden is designed to frame the Arashiyama mountains behind as part of the composition (shakkei — borrowed scenery). Walk slowly around the garden.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Garden Reflection in Sogenchi Pond</strong> — The koi pond reflects the garden and mountains behind. Shoot from the southern veranda looking across the pond — cherry blossoms, koi, and the mountains layered behind each other.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Temple Roofline Framed by Mountains</strong> — From the garden, the temple's wooden roofline sits against the green mountain backdrop. A slow shutter speed can blur the koi movement in the foreground while keeping the architecture sharp.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Jojakko-ji Temple — Moss & Stone Lanterns</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>A lesser-known but deeply beautiful temple up a forested hillside. A short but steep climb. Almost no tourists in the morning. The moss, stone lanterns, and old maple trees are extraordinary.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Stone Lanterns Along Forest Steps</strong> — The stone steps leading up through the temple are lined with moss-covered stone lanterns. Shoot from below looking up the steps through the lanterns with the filtered light between old maples overhead.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Pagoda View Through Maple Trees</strong> — At the top, a three-story pagoda rises above a grove of maple trees. In spring the trees have fresh bright green leaves. Shoot looking through the branches at the pagoda above.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">11:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🗿 Otagi Nenbutsuji Temple — Hidden Guardian Figures</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>A 15-minute walk north from Jojakko-ji through the quiet Sagano forest path — or a short taxi. This is one of Arashiyama's most extraordinary hidden spots: a moss-covered hillside temple covered in 1,200 stone guardian figures (rakan), each carved with a completely unique expression — some laughing, some meditating, some with wild faces. Almost no tourists come here. You'll likely have the entire temple to yourselves.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>1,200 Moss Rakan Figures</strong> — Shoot wide to capture the density of figures covering the hillside, then close up on individual faces. The moss-covered stone and the forest light filtering through create a deeply atmospheric scene. Every figure is different — take time to walk among them slowly.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Forest + Figure Composition</strong> — Position yourself lower on the hillside looking up through rows of figures with the forest canopy above. The layering of stone faces receding into the trees is extraordinary.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>This is genuinely off the tourist radar — even during sakura season it stays quiet. Allow 30 minutes. Entry fee is about ¥500. One of Arashiyama's best kept secrets.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">11:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Okochi Sanso Villa — Garden + Matcha</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>The former villa of a famous silent-film actor with a magnificent garden. Entry includes matcha and wagashi sweets served in the teahouse with a garden view. Allow 60–90 minutes to walk the full garden circuit.</div></div>
+              <div class="chip chip-food" style="margin-top:6px"><span class="chip-icon">🍵</span><div>Matcha and wagashi (sweet) included with entry. Take your time in the teahouse — this is one of Arashiyama's most serene moments.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Kyoto Valley Panorama</strong> — From the upper garden, you can see the entire Kyoto valley spread out below. Arashiyama's mountains on one side, the city in the distance. A rare elevated view of Kyoto rarely seen by tourists.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">12:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Lunch — Shigetsu (Tenryu-ji Temple)</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div>Buddhist shojin ryori (精進料理) — the original 100% vegetarian cuisine of Japanese Buddhism. Served inside the Tenryu-ji complex with a garden view. A multi-course meal of tofu, seasonal vegetables, and temple-made pickles. A once-in-a-trip experience.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">2:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🚂 Sagano Romantic Train <span class="booked-pill">Pending</span></div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>An open-sided scenic train running through the Hozu River gorge with cherry blossoms in spring. Runs from Arashiyama (Torokko Arashiyama) through the gorge to Kameoka (30 min). Book tickets in advance — they sell out during sakura season.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>River Gorge Views from Train Window</strong> — Shoot through the open windows as the train moves through the narrow gorge. The river curves and turns, and sakura trees overhang from the cliff edges. Motion blur on the foreground plants with the river sharp behind.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">7:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Dinner — Towzen Ramen</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍜</span><div>Soy milk vegan ramen — a rich, creamy broth that's completely plant-based. One of the best ramen bowls in Kyoto. The thick soy milk base is warming and comforting after a full day of walking.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APRIL 5 — PHILOSOPHER'S PATH -->
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block" style="background: var(--gold3)"><span class="dd">5</span><span class="mm">APR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Philosopher's Path, Ginkaku-ji, Kinkaku-ji & Ryoan-ji</div>
+          <div class="day-sub">
+            <span class="day-badge badge-kyoto">Kyoto</span>
+            <span>Philosopher's Path · Silver Pavilion · Nanzen-ji · Golden Pavilion</span>
+            <span class="hotel-tag">🏨 Sakanoue Ryokan (check-in evening)</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">8:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Breakfast</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Komeda Is</strong> — Vegetarian breakfast sets with thick toast, boiled egg, coffee. Good value and relaxed. Alternatively, Kurasu Kyoto for a specialty coffee start.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">9:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Philosopher's Path — Cherry Blossom Canal Walk</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>A 2km stone path alongside a canal lined with hundreds of cherry trees. Walk from south (near Nanzen-ji) to north (near Ginkaku-ji). One of Kyoto's top sakura spots. Best in morning when it's less crowded.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Sakura Tunnel Over Canal</strong> — The cherry tree branches meet overhead forming a canopy above the canal path. Stand in the path looking down the canal — the tree tunnel with the stone path below and canal beside you is one of Kyoto's best sakura images.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Couple Walking Under Falling Petals</strong> — Walk a few steps ahead and photograph your partner under the falling petals. In a light breeze, petals drift constantly. A wide aperture captures the petals sharp in the foreground and your partner in focus behind.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Canal Reflections</strong> — The canal surface reflects the sakura overhead. Shoot the reflections looking straight down into the water — a layer of floating petals on the surface adds texture to the reflection.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Ginkaku-ji — Silver Pavilion & Sand Garden</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Despite the name (Silver Pavilion), the pavilion is actually left unpainted natural wood — it was never coated with silver. The famous feature is the immaculate sand garden with the "Ginsadan" (Sea of Silver Sand) and a cone-shaped sand mound called Kogetsudai.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Sand Cone Garden Composition</strong> — The raked sand garden with the perfect cone (Kogetsudai) is extraordinarily geometric. Shoot from the veranda at eye level — a low angle makes the cone loom large with the pavilion and moss garden behind.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Moss Garden + Temple Rooftops</strong> — Behind the sand garden, a mossy hillside path winds up with stone lanterns and old pine trees. The temple rooftops visible below through the vegetation.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">11:45 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Nanzen-ji Temple + Tenjuan Garden + Keage Incline</div>
+            <div class="detail-box">
+              <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>Nanzen-ji Aqueduct (Suirokaku)</strong> — A red brick Roman-style aqueduct running through the temple grounds. Shoot looking straight down the aqueduct from the front with receding arches.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Sanmon Gate Framed by Cherry Blossoms</strong> — The massive wooden gate with sakura on both sides. Wide shot from the gravel path.</div></div>
+              <div class="chip chip-do" style="margin-top:6px"><span class="chip-icon">🌿</span><div><strong>Tenjuan Sub-Temple (inside Nanzen-ji)</strong> — Walk 2 minutes inside the Nanzen-ji complex to the Tenjuan sub-temple. A stunning moss and stone garden with a koi pond, stone lanterns, and cherry trees in bloom. Deeply serene and significantly less visited than the main Nanzen-ji. Entry ¥500. Give it 20–25 minutes. This is one of the best hidden gardens in Kyoto.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Tenjuan Koi Pond + Cherry Blossoms</strong> — The pond reflects the blossoms overhead. Shoot from the garden veranda looking across the water toward the stone lanterns and cherry trees beyond.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Keage Incline Sakura Tracks</strong> — 5-min walk from Nanzen-ji. Disused railway tracks lined with a tunnel of sakura. Shoot both looking up and down the incline.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">1:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍵 Saryo Tesshin — Matcha Garden Tea House</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍵</span><div><strong>Saryo Tesshin</strong> — One of Kyoto's most beautiful matcha garden tea houses, near the Philosopher's Path area. A traditional garden setting where you drink matcha while looking out over a curated moss and stone garden. More intimate and personal than the Maikoya group ceremony. Order the matcha and seasonal wagashi set. Budget 30–45 minutes. Reserve ahead.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>This replaces the vague free-time slot between Keage Incline and lunch. It flows naturally — you've been walking all morning and a quiet matcha moment before lunch is exactly what this day needs at this point.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">1:45 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Lunch — Izusen (Daitoku-ji Temple)</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div>Shojin ryori in the sub-temples of Daitoku-ji — one of Kyoto's most atmospheric lunch experiences. Served in a traditional tatami room with garden views. A full set of Buddhist vegetarian dishes. Book in advance if possible.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">3:20 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🏯 Kinkaku-ji — The Golden Pavilion</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>The most visited temple in Japan. It's genuinely spectacular — two floors covered entirely in gold leaf, reflected in the Kyoko-chi pond. Visit in the afternoon (3–4pm) when the tour bus crowds thin out.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Gold Temple Reflection in Kyoko-chi Pond</strong> — The main composition. Stand at the designated photo area and compose with the pavilion and its reflection symmetric in the water. Use a polarizing filter if you have one to reduce glare and deepen the reflection.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Pine Branches Framing the Pavilion</strong> — Move slightly right of the main viewing area. Pine tree branches overhang the path and can be used to frame the golden pavilion in a natural frame. A longer focal length compresses the pavilion and its reflection together.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>An overcast sky actually helps here — direct sunlight creates harsh reflections on the gold. Soft diffused light makes the gold glow evenly. Don't skip this even in flat light.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">4:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Ryoan-ji — The Rock Garden</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>The world's most famous Zen rock garden: 15 stones arranged in a sea of white raked gravel. The design is deliberately enigmatic — you cannot see all 15 stones from any single position. Sit on the veranda and let the space work on you.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Minimalist Raked Gravel Wide Shot</strong> — Shoot from the veranda looking straight across the garden. A very wide angle from the corner of the veranda shows the full garden with the raked patterns converging into the distance. No filters, no drama — the garden itself is the composition.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Stone Close-Up with Moss</strong> — Zoom in on one of the moss-covered stones emerging from the raked white gravel. The texture contrast between the rough stone, green moss, and smooth raked pattern is beautiful close up.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">7:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Check-in Sakanoue Ryokan</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">🏯</span><div>A traditional ryokan (Japanese inn). You'll be given a yukata (light kimono) to wear in the ryokan. Your room is tatami, and dinner will be served in your room. Take a bath before dinner. This is an immersive traditional Japan experience.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end kyoto -->
+
+  <!-- ════════════ NARA ════════════ -->
+  <div id="sec-nara">
+    <div class="city-header">
+      <div class="city-header-line"></div>
+      <div class="city-header-center">
+        <div class="city-kanji">奈良 — Nara Day Trip</div>
+        <div class="city-en">April 6 · Day trip from Kyoto · Stay at Sakanoue Ryokan</div>
+      </div>
+      <div class="city-header-line"></div>
+    </div>
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block" style="background: var(--g3)"><span class="dd">6</span><span class="mm">APR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Deer Park, Todai-ji & Ancient Nara</div>
+          <div class="day-sub">
+            <span class="day-badge badge-nara">Nara</span>
+            <span>Nara Park · Todai-ji · Kasuga Taisha · Naramachi</span>
+            <span class="hotel-tag">🏨 Sakanoue Ryokan (Kyoto)</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">8:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Train: Kyoto → Nara (Kintetsu Limited Express, ~35 min)</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">9:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🦌 Nara Park — Deer Walk</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Over 1,200 sika deer roam freely through Nara Park. They are considered sacred and approach people readily, especially if you have deer crackers (shika-senbei, sold by vendors throughout the park for about ¥200). Buy a pack and prepare to be surrounded.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Deer Bowing for Crackers</strong> — The iconic Nara shot. Hold crackers at waist height and wait — the deer have learned to bow their heads up toward the crackers. When they bow and then look up at you, their eyes are expressive and their antlers frame perfectly against the sakura/temple behind. Shoot in burst mode when they bow.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Deer Under Cherry Blossoms</strong> — Walk toward the Kasuga Taisha area of the park where deer congregate under the sakura trees. Find a composition with deer grazing in the foreground and cherry trees forming a canopy above.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Wide Shot with Todai-ji Behind</strong> — From the main park area, position yourself with deer in the immediate foreground and the massive wooden entrance gate of Todai-ji rising in the background.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>The deer are wild but gentle. Hold crackers slightly above waist height to get the bowing behavior. Don't tease them or they'll headbutt you — be calm and generous. A doe with young fawns in spring is one of the most beautiful wildlife photos you can get in Japan.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Todai-ji Temple — Great Buddha Hall</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>The Great Buddha Hall (Daibutsuden) is the largest wooden structure in the world. Inside sits an 18-meter bronze Buddha — one of the most impressive sights in Japan. Even if you've seen photos, the scale is shocking in person.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Massive Wooden Entrance — Nandaimon Gate</strong> — The huge gate you pass through first has two enormous guardian figures (Nio) in each alcove. Shoot looking up through the gate — the scale is extraordinary. The guardians' expressions are detailed and intense.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Bronze Buddha Interior Wide Shot</strong> — Once inside, shoot from the back corner of the hall to get the full Buddha statue with the hall's wooden pillars framing it. The Buddha's face is detailed and serene — a close-up portrait shot works beautifully too.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">12:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Lunch near Kasuga Taisha</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🥢</span><div><strong>Yanagichaya</strong> — Traditional tofu restaurant and vegetarian set meals near Kasuga Taisha. The tofu here is made in-house and exceptional. Order the tofu set lunch.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">2:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Kasuga Taisha Shrine — Lantern Path</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>One of Japan's most important Shinto shrines, accessible through a long forested path lined with thousands of stone lanterns. The approach through the Kasuga Primeval Forest is deeply atmospheric.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Stone Lantern Corridor Through Forest</strong> — The long approach path has over 2,000 stone lanterns lining both sides. Shoot looking down the path — the lanterns receding into the forest form a dramatic corridor. Best in soft morning light, but good any time.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Moss-Covered Lanterns Close-Up</strong> — The older stone lanterns are covered in deep green moss. Shoot close up on the moss-covered stone and bronze lantern texture — the detail and color is extraordinary.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">3:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Naramachi Historic District Walk</div>
+            <div class="detail-box">
+              <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>Wooden Machiya Houses</strong> — Old merchant townhouses, many converted to cafés and shops. The alleyways with latticed wooden windows are very photogenic. Quieter and less visited than Gion's equivalent streets.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">4:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Isui-en Garden — Garden Framing Todai-ji</div>
+            <div class="detail-box">
+              <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>Garden Framing Todai-ji</strong> — This garden is designed using shakkei (borrowed scenery) — the Todai-ji temple hall appears as a backdrop through the garden. Shoot from inside the garden with the pond in the foreground and the temple framed between the garden trees beyond. The layering effect of near/mid/far creates depth.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">5:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Train back to Kyoto · Return to Sakanoue Ryokan · Vegetarian Kaiseki Dinner</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ OSAKA ════════════ -->
+  <div id="sec-osaka">
+    <div class="city-header">
+      <div class="city-header-line"></div>
+      <div class="city-header-center">
+        <div class="city-kanji">大阪 — Osaka Day Trip</div>
+        <div class="city-en">April 7 · Day trip from Kyoto → Toshiharu Ryokan</div>
+      </div>
+      <div class="city-header-line"></div>
+    </div>
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block" style="background:#b03030"><span class="dd">7</span><span class="mm">APR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Osaka Castle, Dotonbori & Toshiharu Ryokan</div>
+          <div class="day-sub">
+            <span class="day-badge badge-osaka">Osaka</span>
+            <span>Osaka Castle · Shinsaibashi · Dotonbori · Shinsekai</span>
+            <span class="hotel-tag">🏨 Toshiharu Ryokan (Kyoto)</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">8:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Checkout Sakanoue Ryokan — Travel to Osaka (Hankyu Line from Kyoto, ~35 min)</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Osaka Castle & Park</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Osaka Castle is surrounded by a wide moat and a park full of cherry trees in April. The park has approximately 3,000 cherry trees and is one of Osaka's most popular hanami spots. Walk the moat perimeter before entering the park.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Castle Moat Reflection with Sakura</strong> — Stand on the castle moat's outer bank and shoot the castle reflected in the still water, with sakura trees arching over the reflection. Morning light is ideal — the castle faces east.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Castle Framed by Cherry Blossoms</strong> — Walk into the inner bailey (second moat). The sakura trees around this inner area are the most dense. Position yourself with sakura in the foreground and the castle's white towers rising above the pink clouds of blossoms.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Wide Shot from Otemon Approach</strong> — The main approach path (Otemon) leads straight to the castle gate. A wide shot from the stone bridge shows the full castle gate with cherry trees flanking the path.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">12:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Lunch near Namba — Paprika Shokudo Vegan</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌱</span><div>Fully vegan restaurant near Namba with generous portions. A casual, comfortable space. Their daily specials are usually excellent. Great reset before the afternoon street walking.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">1:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Shinsaibashi Shopping Arcade</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>A covered shopping street stretching 600m through the heart of Osaka. Mix of luxury brands, affordable fashion, and Osaka-specific shops. Good for souvenirs and people-watching.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Covered Shopping Street</strong> — Shoot looking down the length of the arcade. The arched glass roof and the colorful shopfronts receding into the distance. Best with crowds for a vibrant street scene.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">3:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Shinsekai Retro Street (Optional)</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍢</span><div><strong>Vegetarian Kushikatsu</strong> — Breaded and deep-fried skewers of pumpkin, lotus root, eggplant, mushroom, asparagus, and cheese. Osaka's most famous street food. Dip only once — the Shinsekai rule is never double-dip into the communal sauce.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Tsutenkaku Tower + Retro Neon</strong> — The neighborhood's retro tower surrounded by vintage neon signs and old-school food stalls. Feels like 1960s Japan. Shoot the street with the tower in the background.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">5:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">📷 Dotonbori Canal — Sunset & Blue Hour</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Arriving at 5:30pm is the move — this is exactly when Dotonbori transforms. The neon signs flicker on as the sky fades from orange to deep blue, and their reflections start appearing in the canal water. Walk the full canal length both directions over the next 60–90 minutes.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>The sweet spot is 6:00–6:30pm — enough sky color left for the blue hour backdrop but the neon is fully lit. After 7pm it's full dark and the reflections are still great but you lose the sky gradient.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Glico Running Man at Blue Hour</strong> — Stand on Ebisubashi Bridge at 6pm. The Glico man is fully lit, the sky behind is deep blue, and the canal reflects everything below. This is the shot. Use a slightly longer shutter (1/15–1/30s) for smooth water reflections.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Neon Reflections in Canal Water</strong> — Walk to the canal bank and shoot along the water surface. The neon signs — reds, yellows, greens — all reflect and ripple in the canal. The blue hour sky adds a layer of color above the neon that disappears once it's fully dark.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Boat Tour Perspective</strong> — Consider a 20-min canal boat tour for a unique low angle looking up at the neon signs. Even better at blue hour — you're on the water as the lights come on.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">7:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Train back to Kyoto → Check-in Toshiharu Ryokan</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">🚆</span><div>Train back from Namba/Umeda to Kyoto (~35 min Hankyu Line). You'll arrive around 8:15–8:30pm. The ryokan is 3–5 minutes walk from Fushimi Inari — perfect for tomorrow's 5:45am sunrise walk. Wind down with a bath and sleep early.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Tell the ryokan staff your plan to photograph Fushimi Inari at dawn. They can tell you the exact walking time from the ryokan to the first torii gate. Set multiple alarms.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ FUSHIMI → TOKYO ════════════ -->
+  <div id="sec-fushimi">
+    <div class="city-header">
+      <div class="city-header-line"></div>
+      <div class="city-header-center">
+        <div class="city-kanji">伏見稲荷 → 東京</div>
+        <div class="city-en">April 8 · Fushimi Inari Sunrise → Shinkansen → Tokyo</div>
+      </div>
+      <div class="city-header-line"></div>
+    </div>
+    <div class="day-card">
+      <div class="day-card-head">
+        <div class="day-num-block" style="background: var(--s5)"><span class="dd">8</span><span class="mm">APR</span></div>
+        <div class="day-head-body">
+          <div class="day-title">Fushimi Inari Sunrise + Shinkansen to Tokyo</div>
+          <div class="day-sub">
+            <span class="day-badge badge-kyoto">Kyoto → Tokyo</span>
+            <span>Fushimi Inari · Tofuku-ji · Kyoto Station → Tokyo</span>
+            <span class="hotel-tag">🏨 Tokyo (TBD)</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="t-item">
+          <div class="t-time">5:45 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🏮 CRITICAL — Fushimi Inari Taisha Sunrise</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk from Toshiharu Ryokan to the first torii gate (3–5 min). Walk briskly through the first long torii tunnel without stopping — your goal is the deeper sections where crowds are nonexistent. The shrine is open 24 hours. At 6am you will share the mountain path with only a handful of other early risers.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div>Strategy: Walk 10–15 minutes in before starting to photograph. The tourist crowds never reach more than 200m into the gate path — beyond that, you have the mountain largely to yourself. The deeper paths toward Yotsutsuji viewpoint (about 30 min up) are the best for empty shots.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div><strong>Best shot location:</strong> Walk 15–20 minutes uphill past the main Fushimi Inari shrine building. This is where the torii tunnel becomes completely empty and the gates narrow into a tight symmetrical corridor — no souvenir stalls, no crowds, just an endless tunnel of vermillion receding into the mountain forest. This specific section is what every iconic Fushimi Inari photo is taken from. Don't stop at the first section — keep walking.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Endless Vermillion Gates — Deep Torii Tunnel</strong> — Walk deep into the gate path (past the first busy section). The gates narrow and the path curves — find a straight section and shoot looking straight down the tunnel. Perfect centered symmetry with the orange gates receding to a point.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Torii Gate Tunnel Curve</strong> — Find a section where the gate path bends — the gates bending along the mountainside curve create a beautiful curving composition. Shoot from inside the bend.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Soft Morning Forest Light Through Gates</strong> — The gaps between the gates let in shafts of morning light from the east. Find a spot where a shaft of golden light crosses the path between two gates — walk through it and shoot the light from the shadowed section of the path.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Yotsutsuji Viewpoint (Optional Extra Climb ~30 min)</strong> — If you have the energy, continue to the Yotsutsuji crossroads viewpoint. From here you can see Kyoto spread below with torii gates in the foreground. A wide-angle shot with gates framing the sleeping city below is one of the best viewpoints in Japan.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>The torii path is always red — but at dawn, with soft directional light, the vermillion turns warm amber. After 9am direct sunlight flattens the color. The difference between a 6am photo and a 10am photo here is enormous.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">7:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Return to Toshiharu Ryokan</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Traditional Ryokan Breakfast</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍚</span><div>The ryokan breakfast is a full traditional set: tofu, steamed rice, miso soup, tsukemono pickles, grilled vegetables, and tamagoyaki. Eat slowly and savor it — this is your last ryokan morning of the trip.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">9:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Checkout Toshiharu Ryokan</div></div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Optional — Tofuku-ji Zen Temple</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>5 minutes from Toshiharu Ryokan by taxi. Famous for its autumn foliage but the spring garden is also beautiful. The Hojo garden is a masterwork of Zen design.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Tofuku-ji Zen Garden</strong> — Raked gravel garden with checkerboard moss and stone pattern. The Hojo garden's geometric pattern contrasts with the natural mountain behind.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Bridge Through Maple Valley</strong> — The Tsutenkyo wooden bridge crossing a valley of maples is one of Tofuku-ji's signature views. In spring the fresh green maples are beautiful — in autumn they're famously red.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">12:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Kyoto Station Area — Souvenir Shopping + Lunch</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍱</span><div><strong>Isetan Depachika (Kyoto Station)</strong> — The basement food hall of the Isetan department store inside Kyoto Station. Buy your train bento here — the ekiben (station bento boxes) are excellent. Vegetarian options available. Also great for last-minute Kyoto souvenir shopping.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">3:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">☕ Farewell Kyoto Coffee — Kurasu Kyoto</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">☕</span><div><strong>Kurasu Kyoto</strong> — One of Japan's most respected specialty coffee roasters, with a beautiful café near Kyoto Station. Order a single origin filter or their seasonal espresso. The space is calm, minimal, and very Kyoto. This is your last coffee in the city — take your time with it. A perfect way to decompress before the Shinkansen.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Kurasu also sells bags of their roasted beans — a great souvenir to bring home. They ship internationally but buying in person is better.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">6:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🚅 Shinkansen: Kyoto → Tokyo (Nozomi, 2h15m)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">🚅</span><div>Board the Nozomi Shinkansen at Kyoto Station for Tokyo. Grab a window seat on the right side (Seats D or E). Eat your ekiben bento on the train.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Final Fuji Sighting from Shinkansen</strong> — About 40–45 minutes into the ride, near Shin-Fuji Station, Mt. Fuji appears on the right side of the train. Have your camera ready — it's only clearly visible for about 30 seconds. Shoot through the window: clean glass in the center of the pane is sharpest. A fast shutter speed (1/1000+) freezes the motion.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">8:45 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body"><div class="t-activity">Arrive Tokyo Station — Welcome back to Tokyo 🗼</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ TOKYO II ════════════ -->
+  <div id="sec-tokyo2">
+    <div class="city-header">
+      <div class="city-header-line"></div>
+      <div class="city-header-center">
+        <div class="city-kanji">東京 — Tokyo II</div>
+        <div class="city-en">April 9 – 12 · To be planned</div>
+      </div>
+      <div class="city-header-line"></div>
+    </div>
+    <div class="empty-block">
+      <div class="e-icon">✏️🌸</div>
+      <strong>April 9 – 12 — Final Tokyo Days</strong>
+      <p>Your last 4 days in Tokyo are being planned. Update your spreadsheet and share it — I'll add these days with the same level of detail!</p>
+      <p style="margin-top:8px; font-size:12px; color:var(--s3)">🌸 Late sakura / petal fall likely still visible in Tokyo parks during this period — especially Shinjuku Gyoen and Ueno Park</p>
+    </div>
+  </div>
+
+</div><!-- end outer -->
+
+<div class="footer">
+  <div class="footer-sakura">🌸 🌸 🌸</div>
+  Japan 2026 &nbsp;·&nbsp; March 27 – April 12 &nbsp;·&nbsp; Cherry Blossom Season<br>
+  <span style="font-size:11px; opacity:0.6; margin-top:6px; display:block">Tokyo · Mt. Fuji · Kyoto · Nara · Osaka · Tokyo &nbsp;·&nbsp; 17 beautiful days</span>
+</div>
+
+<script>
+function navTo(id, btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (id === 'top') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  const el = document.getElementById(id);
+  if (el) {
+    const y = el.getBoundingClientRect().top + window.scrollY - 60;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+}
+
+// Create animated sakura petals in hero
+const bg = document.getElementById('sakuraBg');
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'sp';
+  const size = 4 + Math.random() * 10;
+  p.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%;
+    top:${Math.random()*100}%;
+    --r0:${Math.random()*360}deg;
+    --r1:${Math.random()*360+360}deg;
+    --dx:${(Math.random()-0.5)*100}px;
+    animation-duration:${3+Math.random()*6}s;
+    animation-delay:-${Math.random()*8}s;
+    opacity:${0.2+Math.random()*0.4};
+  `;
+  bg.appendChild(p);
+}
+
+// Floating petals in main page
+const petalsEl = document.getElementById('petals');
+const petalChars = ['🌸','🌸','🌺','🌷'];
+for (let i = 0; i < 12; i++) {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.textContent = petalChars[Math.floor(Math.random()*petalChars.length)];
+  p.style.cssText = `
+    left:${Math.random()*100}%;
+    font-size:${12+Math.random()*12}px;
+    animation-duration:${8+Math.random()*12}s;
+    animation-delay:${Math.random()*15}s;
+    opacity:${0.3+Math.random()*0.3};
+  `;
+  petalsEl.appendChild(p);
+}
+
+// Highlight active nav on scroll
+const sections = ['sec-tokyo1','sec-fuji','sec-kyoto','sec-nara','sec-osaka','sec-fushimi','sec-tokyo2'];
+window.addEventListener('scroll', () => {
+  const scrollPos = window.scrollY + 100;
+  if (scrollPos < 200) { return; }
+  for (let i = sections.length - 1; i >= 0; i--) {
+    const el = document.getElementById(sections[i]);
+    if (el && el.getBoundingClientRect().top + window.scrollY <= scrollPos) {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.nav-btn')[i+1]?.classList.add('active');
+      break;
+    }
+  }
+}, { passive: true });
+</script>
+
+<!-- ══ POWER-UP: Checklist · Navigate · Today · Sync ══ -->
+<style>
+/* Safe area for iPhone notch / Dynamic Island */
+body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
+.nav-wrap { padding-left: max(env(safe-area-inset-left,0px),0px); padding-right: max(env(safe-area-inset-right,0px),0px); }
+
+/* ── Checklist ── */
+.j-check {
+  flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid #f0dde0; background: white; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: transparent;
+  transition: background .2s, border-color .2s, color .2s;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  margin-top: 1px; font-family: inherit;
+}
+.j-checked .j-check { background: #d4607a; border-color: #d4607a; color: white; }
+.j-act-text { flex: 1; min-width: 0; }
+.j-checked .j-act-text { text-decoration: line-through; color: #9c7a82; }
+.j-checked { opacity: 0.62; }
+
+/* ── Navigate button ── */
+.j-nav {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #eaf2fc; color: #4a7fc1; border: 1px solid #b8d4f2;
+  border-radius: 8px; padding: 5px 12px; font-size: 11.5px; font-weight: 600;
+  text-decoration: none; margin: 5px 0 6px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.j-nav:active { background: #d6e9fa; }
+
+/* ── Progress bar per day ── */
+.j-prog {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 20px; border-top: 1px solid #f8eef0;
+}
+.j-prog-track { flex: 1; height: 4px; background: #f0dde0; border-radius: 2px; overflow: hidden; }
+.j-prog-fill { height: 100%; background: #d4607a; border-radius: 2px; transition: width .35s ease; }
+.j-prog-count { font-size: 11px; color: #9c7a82; white-space: nowrap; font-weight: 500; }
+
+/* ── Today highlight ── */
+.j-today .day-card-head { background: linear-gradient(135deg,#fce8ec 0%,#fff 80%); }
+.j-today-badge {
+  display: inline-block; background: #d4607a; color: white;
+  font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+  text-transform: uppercase; letter-spacing: .08em;
+  vertical-align: middle; margin-right: 6px;
+}
+
+/* ── NOW indicator ── */
+.j-now {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 20px 7px 48px; font-size: 11px; font-weight: 700;
+  color: #d4607a; letter-spacing: .06em;
+  border-top: 1px dashed #f5c6cf; border-bottom: 1px dashed #f5c6cf;
+  background: #fff8f9; margin: 2px 0;
+}
+.j-now-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #d4607a;
+  flex-shrink: 0; animation: j-pulse 1.5s infinite;
+}
+@keyframes j-pulse {
+  0%,100% { transform:scale(1); opacity:1; }
+  50% { transform:scale(1.6); opacity:.5; }
+}
+
+/* ── Floating action buttons ── */
+.j-fab {
+  position: fixed; right: 16px; border: none; border-radius: 50px;
+  padding: 11px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+  z-index: 900; display: flex; align-items: center; gap: 6px;
+  transition: transform .15s, opacity .25s;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  font-family: inherit; white-space: nowrap; letter-spacing: .01em;
+}
+.j-fab:active { transform: scale(.94); }
+#j-today-fab {
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  background: #d4607a; color: white; box-shadow: 0 4px 18px rgba(212,96,122,.45);
+}
+#j-share-fab {
+  bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+  background: #6aad85; color: white; box-shadow: 0 4px 18px rgba(106,173,133,.45);
+}
+.j-fab.j-hidden { opacity: 0; pointer-events: none; }
+
+/* ── Install banner ── */
+#j-install {
+  position: fixed; bottom: calc(136px + env(safe-area-inset-bottom,0px));
+  right: 12px; background: white; border: 1px solid #f0dde0;
+  border-radius: 14px; padding: 12px 36px 12px 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.12); z-index: 901; max-width: 250px;
+  animation: j-slidein .3s ease;
+}
+@keyframes j-slidein { from { transform:translateX(120%); opacity:0; } to { transform:translateX(0); opacity:1; } }
+#j-install-close { position:absolute; top:8px; right:12px; background:none; border:none; font-size:18px; color:#9c7a82; cursor:pointer; padding:0; }
+
+/* ── Collapsible day cards ── */
+.day-card-head { cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+.day-head-body { flex: 1; min-width: 0; }
+.j-chevron {
+  font-size: 18px; color: #c0909a; margin-left: 8px; padding-left: 4px;
+  transition: transform 0.2s; display: inline-flex; align-items: center; flex-shrink: 0;
+}
+.j-collapsed .j-chevron { transform: rotate(-90deg); }
+.j-collapsed .timeline-wrap, .j-collapsed .j-prog { display: none; }
+
+/* ── Live distance chip ── */
+.j-dist {
+  display: inline-flex; align-items: center;
+  background: #eef7f1; color: #3a7a58; border: 1px solid #b8ddc4;
+  border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600;
+  margin-left: 7px; white-space: nowrap; vertical-align: middle;
+}
+.j-dist-spin { color: #9c7a82; border-color: #f0dde0; background: #fff8f9; }
+#j-loc-fab {
+  bottom: calc(124px + env(safe-area-inset-bottom, 0px));
+  background: #6878c4; color: white; box-shadow: 0 4px 18px rgba(104,120,196,.45);
+}
+#j-loc-fab.j-active { outline: 3px solid rgba(104,120,196,.4); }
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Location database ── */
+  var LOCS = [
+    { m:['shibuya crossing','hachiko'],         q:'Shibuya Crossing Tokyo',         ll:'35.6595,139.7004' },
+    { m:['shibuya sky'],                        q:'Shibuya Sky Tokyo',              ll:'35.6584,139.7019' },
+    { m:['ghibli museum'],                      q:'Ghibli Museum Mitaka Tokyo',     ll:'35.6962,139.5705' },
+    { m:['inokashira park'],                    q:'Inokashira Park Tokyo',          ll:'35.6998,139.5849' },
+    { m:['meiji shrine'],                       q:'Meiji Shrine Tokyo',             ll:'35.6763,139.6993' },
+    { m:['yoyogi park'],                        q:'Yoyogi Park Tokyo',              ll:'35.6714,139.6943' },
+    { m:['takeshita street','harajuku'],        q:'Takeshita Street Harajuku',      ll:'35.6700,139.7025' },
+    { m:['shimokitazawa'],                      q:'Shimokitazawa Tokyo',            ll:'35.6614,139.6681' },
+    { m:['omoide yokocho','memory lane'],       q:'Omoide Yokocho Shinjuku',        ll:'35.6912,139.6995' },
+    { m:['shinjuku','kabukicho','godzilla'],    q:'Shinjuku Tokyo',                 ll:'35.6897,139.6995' },
+    { m:['senso-ji','sensoji','kagetsudo'],     q:'Senso-ji Temple Asakusa',        ll:'35.7148,139.7967' },
+    { m:['nakamise street'],                    q:'Nakamise Street Asakusa',        ll:'35.7148,139.7967' },
+    { m:['sumida park','sumida river'],         q:'Sumida Park Tokyo',              ll:'35.7147,139.8012' },
+    { m:['teamlab planets'],                    q:'teamLab Planets Tokyo',          ll:'35.6563,139.7954' },
+    { m:['chidorigafuchi'],                     q:'Chidorigafuchi Tokyo',           ll:'35.6930,139.7437' },
+    { m:['tokyo tower','zojo-ji'],              q:'Tokyo Tower',                    ll:'35.6586,139.7454' },
+    { m:['ginza'],                              q:'Ginza Tokyo',                    ll:'35.6718,139.7649' },
+    { m:['odaiba','divercity','gundam'],        q:'Odaiba Tokyo',                   ll:'35.6270,139.7750' },
+    { m:['tokyu plaza','mirror escalator'],     q:'Tokyu Plaza Omotesando',         ll:'35.6656,139.7101' },
+    { m:['omotesando'],                         q:'Omotesando Tokyo',               ll:'35.6656,139.7101' },
+    { m:['lake kawaguchi','north shore lake'],  q:'Lake Kawaguchiko',               ll:'35.5116,138.7546' },
+    { m:['kachi kachi ropeway'],                q:'Kachi Kachi Ropeway Kawaguchiko',ll:'35.5148,138.7580' },
+    { m:['oishi park'],                         q:'Oishi Park Kawaguchiko',         ll:'35.5117,138.8018' },
+    { m:['chureito pagoda'],                    q:'Chureito Pagoda Fujiyoshida',    ll:'35.4964,138.7843' },
+    { m:['honcho street'],                      q:'Honcho Street Fujiyoshida',      ll:'35.4946,138.7994' },
+    { m:['fuji lawson','famous fuji lawson','famous fuji 7'],
+                                                q:'Famous Fuji Lawson Kawaguchiko', ll:'35.5131,138.8040' },
+    { m:['kiyomizu-dera','kiyomizudera'],       q:'Kiyomizu-dera Kyoto',            ll:'34.9949,135.7851' },
+    { m:['yasaka shrine'],                      q:'Yasaka Shrine Kyoto',            ll:'35.0036,135.7785' },
+    { m:['maruyama park'],                      q:'Maruyama Park Kyoto',            ll:'35.0043,135.7807' },
+    { m:['ninenzaka','sannenzaka','yasaka pagoda'],q:'Ninenzaka Kyoto',             ll:'34.9983,135.7819' },
+    { m:['nishiki market'],                     q:'Nishiki Market Kyoto',           ll:'35.0053,135.7673' },
+    { m:['gion','hanamikoji'],                  q:'Gion Kyoto',                     ll:'35.0038,135.7760' },
+    { m:['bamboo grove','arashiyama'],          q:'Arashiyama Bamboo Grove Kyoto',  ll:'35.0174,135.6724' },
+    { m:['tenryu-ji'],                          q:'Tenryu-ji Temple Kyoto',         ll:'35.0165,135.6752' },
+    { m:['sagano romantic train'],              q:'Sagano Scenic Railway Arashiyama',ll:'35.0219,135.6726' },
+    { m:["philosopher's path","philosopher"],   q:"Philosopher's Path Kyoto",       ll:'35.0139,135.7987' },
+    { m:['ginkaku-ji','silver pavilion'],       q:'Ginkaku-ji Silver Pavilion Kyoto',ll:'35.0271,135.7984' },
+    { m:['nanzen-ji','keage incline'],          q:'Nanzen-ji Kyoto',                ll:'35.0114,135.7942' },
+    { m:['kinkaku-ji','golden pavilion'],       q:'Kinkaku-ji Golden Pavilion Kyoto',ll:'35.0394,135.7292' },
+    { m:['ryoan-ji','zen rock'],                q:'Ryoan-ji Kyoto',                 ll:'35.0345,135.7185' },
+    { m:['fushimi inari'],                      q:'Fushimi Inari Taisha Kyoto',     ll:'34.9671,135.7727' },
+    { m:['tofuku-ji'],                          q:'Tofuku-ji Temple Kyoto',         ll:'34.9748,135.7722' },
+    { m:['nara park','sacred deer','deer park'],q:'Nara Deer Park',                 ll:'34.6851,135.8408' },
+    { m:['todai-ji','great buddha'],            q:'Todai-ji Temple Nara',           ll:'34.6888,135.8398' },
+    { m:['kasuga taisha','stone lantern'],      q:'Kasuga Taisha Nara',             ll:'34.6814,135.8479' },
+    { m:['naramachi'],                          q:'Naramachi Historic District Nara',ll:'34.6766,135.8327' },
+    { m:['osaka castle'],                       q:'Osaka Castle',                   ll:'34.6873,135.5262' },
+    { m:['dotonbori','glico'],                  q:'Dotonbori Canal Osaka',          ll:'34.6687,135.5013' },
+    { m:['shinsaibashi'],                       q:'Shinsaibashi Osaka',             ll:'34.6740,135.5012' },
+    { m:['shinsekai','tsutenkaku'],             q:'Shinsekai Osaka',                ll:'34.6526,135.5063' },
+  ];
+
+  function mapsUrl(q, ll) {
+    // Directions from current location → destination (shows distance + travel time)
+    return 'https://www.google.com/maps/dir/?api=1&destination=' + ll + '&destination_place=' + encodeURIComponent(q);
+  }
+
+  /* ── Persistent checklist state ── */
+  var checks = new Set(JSON.parse(localStorage.getItem('jp26') || '[]'));
+  function save() { localStorage.setItem('jp26', JSON.stringify([...checks])); }
+
+  /* ── Enhance each activity item ── */
+  var tItems = document.querySelectorAll('.t-item');
+  tItems.forEach(function(item, idx) {
+    var cid = 'c' + idx;
+    item.dataset.cid = cid;
+    var actEl = item.querySelector('.t-activity');
+    var bodyEl = item.querySelector('.t-body');
+    if (!actEl || !bodyEl) return;
+
+    // Wrap text + add check button
+    actEl.innerHTML = '<span class="j-act-text">' + actEl.innerHTML + '</span>';
+    var checkBtn = document.createElement('button');
+    checkBtn.className = 'j-check';
+    checkBtn.setAttribute('aria-label', 'Mark done');
+    checkBtn.innerHTML = '✓';
+    checkBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggle(item, cid);
+    });
+    actEl.style.cssText += 'display:flex;align-items:flex-start;justify-content:space-between;gap:8px;';
+    actEl.appendChild(checkBtn);
+
+    // Navigate button if location known
+    var text = (actEl.querySelector('.j-act-text') ? actEl.querySelector('.j-act-text').textContent : '').toLowerCase();
+    var loc = null;
+    for (var i = 0; i < LOCS.length; i++) {
+      if (LOCS[i].m.some(function(m) { return text.includes(m); })) { loc = LOCS[i]; break; }
+    }
+    if (loc) {
+      (function(l) {
+        var navLink = document.createElement('a');
+        navLink.className = 'j-nav';
+        navLink.href = mapsUrl(l.q, l.ll);
+        navLink.target = '_blank';
+        navLink.rel = 'noopener noreferrer';
+        navLink.dataset.ll = l.ll;
+        navLink.innerHTML = '🗺 Navigate';
+        navLink.addEventListener('click', function(e) {
+          e.stopPropagation();
+          navLink.href = mapsUrl(l.q, l.ll);
+        });
+        var detailBox = bodyEl.querySelector('.detail-box');
+        if (detailBox) bodyEl.insertBefore(navLink, detailBox);
+        else bodyEl.appendChild(navLink);
+      })(loc);
+    }
+
+    // Restore checked state
+    if (checks.has(cid)) item.classList.add('j-checked');
+  });
+
+  function toggle(item, cid) {
+    item.classList.toggle('j-checked');
+    if (item.classList.contains('j-checked')) checks.add(cid); else checks.delete(cid);
+    save();
+    refreshProgress(item.closest('.day-card'));
+  }
+
+  /* ── Progress bar per day ── */
+  function refreshProgress(card) {
+    if (!card) return;
+    var all = card.querySelectorAll('.t-item').length;
+    var done = card.querySelectorAll('.t-item.j-checked').length;
+    var fill = card.querySelector('.j-prog-fill');
+    var count = card.querySelector('.j-prog-count');
+    if (fill) fill.style.width = (all ? (done / all * 100) : 0) + '%';
+    if (count) count.textContent = done + ' / ' + all;
+  }
+
+  document.querySelectorAll('.day-card').forEach(function(card) {
+    var n = card.querySelectorAll('.t-item').length;
+    if (!n) return;
+    var head = card.querySelector('.day-card-head');
+    if (!head) return;
+    var bar = document.createElement('div');
+    bar.className = 'j-prog';
+    bar.innerHTML = '<div class="j-prog-track"><div class="j-prog-fill" style="width:0%"></div></div><span class="j-prog-count">0 / ' + n + '</span>';
+    head.after(bar);
+    refreshProgress(card);
+  });
+
+  /* ── Today detection + NOW indicator ── */
+  var MON = {JAN:1,FEB:2,MAR:3,APR:4,MAY:5,JUN:6,JUL:7,AUG:8,SEP:9,OCT:10,NOV:11,DEC:12};
+  var now = new Date();
+  var td = now.getDate(), tm = now.getMonth() + 1;
+  var todayCard = null;
+
+  document.querySelectorAll('.day-card').forEach(function(card) {
+    var ddEl = card.querySelector('.dd'), mmEl = card.querySelector('.mm');
+    if (!ddEl || !mmEl) return;
+    var ddTxt = ddEl.textContent.trim();
+    if (ddTxt.indexOf('–') >= 0 || ddTxt.indexOf('-') >= 0) return;
+    var d = parseInt(ddTxt), m = MON[mmEl.textContent.trim()];
+    if (d === td && m === tm) {
+      todayCard = card;
+      card.classList.add('j-today');
+      var titleEl = card.querySelector('.day-title');
+      if (titleEl) {
+        var badge = document.createElement('span');
+        badge.className = 'j-today-badge';
+        badge.textContent = 'Today';
+        titleEl.prepend(badge);
+      }
+      injectNow(card);
+    }
+  });
+
+  function parseTime(str) {
+    var m = str.trim().match(/^(\d+):(\d+)\s*(AM|PM)$/i);
+    if (!m) return null;
+    var h = parseInt(m[1]), mn = parseInt(m[2]);
+    if (/pm/i.test(m[3]) && h !== 12) h += 12;
+    if (/am/i.test(m[3]) && h === 12) h = 0;
+    return h * 60 + mn;
+  }
+
+  function injectNow(card) {
+    var nowMins = now.getHours() * 60 + now.getMinutes();
+    var items = Array.from(card.querySelectorAll('.t-item'));
+    var anchor = null;
+    items.forEach(function(it) {
+      var t = parseTime((it.querySelector('.t-time') || {}).textContent || '');
+      if (t !== null && t <= nowMins) anchor = it;
+    });
+    var h = now.getHours(), mn = now.getMinutes();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var h12 = (h % 12) || 12;
+    var timeStr = h12 + ':' + String(mn).padStart(2,'0') + ' ' + ampm;
+    var marker = document.createElement('div');
+    marker.className = 'j-now';
+    marker.innerHTML = '<span class="j-now-dot"></span> NOW &nbsp;' + timeStr;
+    if (anchor) anchor.after(marker);
+    else { var wrap = card.querySelector('.timeline-wrap'); if (wrap) wrap.prepend(marker); }
+  }
+
+  /* ── Floating buttons ── */
+  var fab1 = document.createElement('button');
+  fab1.id = 'j-today-fab'; fab1.className = 'j-fab';
+  fab1.innerHTML = '📍 Today';
+  fab1.addEventListener('click', function() {
+    var target = todayCard || document.body;
+    var y = todayCard ? todayCard.getBoundingClientRect().top + window.scrollY - 80 : 0;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  });
+  document.body.appendChild(fab1);
+
+  var fab2 = document.createElement('button');
+  fab2.id = 'j-share-fab'; fab2.className = 'j-fab';
+  fab2.innerHTML = '🔗 Sync';
+  fab2.addEventListener('click', function() {
+    var enc = btoa(unescape(encodeURIComponent(JSON.stringify([...checks]))));
+    var url = location.origin + location.pathname + '#sync=' + enc;
+    if (navigator.share) {
+      navigator.share({ title: 'Japan 2026 – My Progress', url: url });
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function() {
+        fab2.innerHTML = '✅ Copied!';
+        setTimeout(function() { fab2.innerHTML = '🔗 Sync'; }, 2500);
+      });
+    } else {
+      prompt('Copy this sync link:', url);
+    }
+  });
+  document.body.appendChild(fab2);
+
+  // Hide today FAB when today card is on screen
+  window.addEventListener('scroll', function() {
+    if (!todayCard) return;
+    var r = todayCard.getBoundingClientRect();
+    fab1.classList.toggle('j-hidden', r.top < window.innerHeight && r.bottom > 0);
+  }, { passive: true });
+
+  /* ── Sync from URL hash ── */
+  var syncM = location.hash.match(/[#&]sync=([A-Za-z0-9+/=]+)/);
+  if (syncM) {
+    try {
+      var ids = JSON.parse(decodeURIComponent(escape(atob(syncM[1]))));
+      var added = 0;
+      ids.forEach(function(id) { if (!checks.has(id)) { checks.add(id); added++; } });
+      save();
+      history.replaceState(null, '', location.pathname + location.search);
+      tItems.forEach(function(it) { if (checks.has(it.dataset.cid)) it.classList.add('j-checked'); });
+      document.querySelectorAll('.day-card').forEach(refreshProgress);
+      if (added > 0) {
+        var toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#d4607a;color:white;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.2);white-space:nowrap';
+        toast.textContent = '✅ Synced ' + added + ' item' + (added > 1 ? 's' : '') + ' from your partner';
+        document.body.appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 3500);
+      }
+    } catch(e) {}
+  }
+
+  /* ── iOS "Add to Home Screen" hint ── */
+  var isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+  var dismissed = localStorage.getItem('jp26-nohint');
+  if (!isStandalone && !dismissed && /iPhone|iPad/.test(navigator.userAgent)) {
+    setTimeout(function() {
+      var b = document.createElement('div');
+      b.id = 'j-install';
+      b.innerHTML = '<div style="font-size:13px;font-weight:700;color:#2a1a1f;margin-bottom:3px">Install as App 🌸</div><div style="font-size:11.5px;color:#9c7a82;line-height:1.5">Tap <strong style="color:#5a3a42">Share ↑</strong> then <strong style="color:#5a3a42">Add to Home Screen</strong> for offline use</div><button id="j-install-close" onclick="localStorage.setItem(\'jp26-nohint\',\'1\');this.parentNode.remove()">×</button>';
+      document.body.appendChild(b);
+      setTimeout(function() { if (b.parentNode) b.remove(); }, 10000);
+    }, 4000);
+  }
+
+  /* ── Collapsible day cards ── */
+  document.querySelectorAll('.day-card').forEach(function(card) {
+    var head = card.querySelector('.day-card-head');
+    if (!head) return;
+
+    // Chevron indicator
+    var chevron = document.createElement('span');
+    chevron.className = 'j-chevron';
+    chevron.innerHTML = '▾';
+    head.appendChild(chevron);
+
+    // Toggle on header tap
+    head.addEventListener('click', function() {
+      card.classList.toggle('j-collapsed');
+    });
+
+    // Auto-collapse days where everything is already checked (skip today)
+    if (!card.classList.contains('j-today')) {
+      var all = card.querySelectorAll('.t-item').length;
+      var done = card.querySelectorAll('.t-item.j-checked').length;
+      if (all > 0 && done === all) card.classList.add('j-collapsed');
+    }
+  });
+
+  /* ── Live distance ── */
+  var userPos = null;
+  var distTimer = null;
+  var distActive = false;
+
+  function haversine(lat1, lon1, lat2, lon2) {
+    var R = 6371000;
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLon = (lon2 - lon1) * Math.PI / 180;
+    var a = Math.sin(dLat/2)*Math.sin(dLat/2) +
+            Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function fmtDist(m) {
+    if (m < 60)   return "You're here!";
+    if (m < 1000) return Math.round(m/10)*10 + 'm · ' + Math.max(1, Math.round(m/80)) + ' min walk';
+    return (m/1000).toFixed(1) + ' km · ' + Math.round(m/80) + ' min walk';
+  }
+
+  function updateDistances() {
+    if (!userPos) return;
+    document.querySelectorAll('.j-nav[data-ll]').forEach(function(navEl) {
+      var parts = navEl.dataset.ll.split(',');
+      var dist = haversine(userPos.lat, userPos.lng, parseFloat(parts[0]), parseFloat(parts[1]));
+      var chip = navEl.querySelector('.j-dist');
+      if (!chip) {
+        chip = document.createElement('span');
+        chip.className = 'j-dist';
+        navEl.appendChild(chip);
+      }
+      chip.classList.remove('j-dist-spin');
+      chip.textContent = '📍 ' + fmtDist(dist);
+    });
+  }
+
+  function fetchPos(cb) {
+    navigator.geolocation.getCurrentPosition(
+      function(pos) { cb({ lat: pos.coords.latitude, lng: pos.coords.longitude }); },
+      function()    { locFab.innerHTML = '📍 Distances'; locFab.classList.remove('j-active'); distActive = false; alert('Location access denied.\nEnable it in Safari Settings → Privacy → Location.'); },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
+
+  var locFab = document.createElement('button');
+  locFab.id = 'j-loc-fab';
+  locFab.className = 'j-fab';
+  locFab.innerHTML = '📍 Distances';
+  locFab.addEventListener('click', function() {
+    if (distActive) {
+      // Turn off
+      distActive = false;
+      clearInterval(distTimer);
+      userPos = null;
+      document.querySelectorAll('.j-dist').forEach(function(el) { el.remove(); });
+      locFab.innerHTML = '📍 Distances';
+      locFab.classList.remove('j-active');
+      return;
+    }
+    if (!navigator.geolocation) { alert('Geolocation not supported.'); return; }
+    locFab.innerHTML = '⏳ Locating…';
+    fetchPos(function(pos) {
+      distActive = true;
+      userPos = pos;
+      updateDistances();
+      locFab.innerHTML = '📍 Live Distances';
+      locFab.classList.add('j-active');
+      // Refresh position every 90 s while active
+      distTimer = setInterval(function() {
+        fetchPos(function(p) { userPos = p; updateDistances(); });
+      }, 90000);
+    });
+  });
+  document.body.appendChild(locFab);
+
+  /* ── Auto-scroll to today on first load ── */
+  if (todayCard && !location.hash && !sessionStorage.getItem('jp26-scrolled')) {
+    sessionStorage.setItem('jp26-scrolled', '1');
+    setTimeout(function() {
+      todayCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 900);
+  }
+
+})();
+</script>
+</body>
+</html>
