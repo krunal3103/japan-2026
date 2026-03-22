@@ -376,8 +376,18 @@ body {
 .t-dot.booked { border-color: var(--s3); background: var(--s1); }
 .t-dot.food { border-color: var(--gold3); background: var(--gold1); }
 .t-dot.photo { border-color: var(--fuji3); background: var(--fuji1); }
-.t-dot.important { border-color: var(--s4); background: var(--s2); width: 12px; height: 12px; }
+.t-dot.important { border-color: var(--s4); background: var(--s4); width: 13px; height: 13px; }
 .t-dot.stamp { border-color: #c47fe0; background: #fdf0ff; }
+
+/* ── Important stop highlight ── */
+.t-item:has(.t-dot.important) .t-time { color: var(--s4); font-weight: 700; font-size: 12px; }
+.t-item:has(.t-dot.important) .t-activity { color: var(--s4); font-size: 15px; }
+.t-item:has(.t-dot.important) .t-body {
+  background: linear-gradient(to right, #fff0f3 0%, transparent 75%);
+  border-left: 2px solid var(--s3);
+  padding-left: 12px;
+  border-radius: 0 8px 8px 0;
+}
 
 /* Filter tabs row */
 .filter-wrap { background: var(--card); border-bottom: 1px solid var(--line); padding: 8px 16px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
@@ -455,11 +465,11 @@ body {
   line-height: 1.4;
   width: 100%;
 }
-.chip-food { background: var(--gold1); color: #7a5220; border: 1px solid var(--gold2); }
-.chip-photo { background: var(--fuji1); color: #3550a0; border: 1px solid var(--fuji2); }
-.chip-tip { background: var(--g1); color: #2a6040; border: 1px solid var(--g2); }
-.chip-do { background: var(--s1); color: var(--s5); border: 1px solid var(--s2); }
-.chip-stamp { background: #fdf0ff; color: #6a2080; border: 1px solid #dda0f0; }
+.chip-food  { background: var(--gold1); color: #7a5220; border: 1px solid var(--gold2); border-left: 3px solid var(--gold3); }
+.chip-photo { background: var(--fuji1); color: #3550a0; border: 1px solid var(--fuji2); border-left: 3px solid var(--fuji3); }
+.chip-tip   { background: var(--g1);    color: #2a6040; border: 1px solid var(--g2);    border-left: 3px solid var(--g3); }
+.chip-do    { background: var(--s1);    color: var(--s5); border: 1px solid var(--s2); border-left: 3px solid var(--s4); }
+.chip-stamp { background: #fdf0ff;      color: #6a2080; border: 1px solid #dda0f0;      border-left: 3px solid #c47fe0; }
 .chip-icon { font-size: 13px; flex-shrink: 0; margin-top: 0px; }
 .chip strong { font-weight: 600; display: block; }
 .chip .note { color: inherit; opacity: 0.75; font-size: 12px; }
