@@ -3573,7 +3573,6 @@ body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
 }
 .j-fab-btn:active { transform: scale(0.94); }
 #j-today-fab { background: #d4607a; color: white; }
-#j-share-fab { background: #6aad85; color: white; }
 #j-loc-fab   { background: #6878c4; color: white; }
 
 /* ── Install banner ── */
@@ -3856,9 +3855,8 @@ body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
     return btn;
   }
 
-  // Order: Distances (top), Sync (mid), Today (bottom — closest to toggle)
+  // Order: Distances (top), Today (bottom — closest to toggle)
   var locFab = mkFab('j-loc-fab', '📍 Distances');
-  var fab2   = mkFab('j-share-fab', '🔗 Sync');
   var fab1   = mkFab('j-today-fab', '📍 Today');
 
   fabGroup.appendChild(fabItems);
@@ -3878,43 +3876,6 @@ body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
     var y = todayCard ? todayCard.getBoundingClientRect().top + window.scrollY - 80 : 0;
     window.scrollTo({ top: y, behavior: 'smooth' });
   });
-
-  fab2.addEventListener('click', function() {
-    fabGroup.classList.remove('j-open');
-    var enc = btoa(unescape(encodeURIComponent(JSON.stringify([...checks]))));
-    var url = location.origin + location.pathname + '#sync=' + enc;
-    if (navigator.share) {
-      navigator.share({ title: 'Japan 2026 – My Progress', url: url });
-    } else if (navigator.clipboard) {
-      navigator.clipboard.writeText(url).then(function() {
-        fab2.innerHTML = '✅ Copied!';
-        setTimeout(function() { fab2.innerHTML = '🔗 Sync'; }, 2500);
-      });
-    } else {
-      prompt('Copy this sync link:', url);
-    }
-  });
-
-  /* ── Sync from URL hash ── */
-  var syncM = location.hash.match(/[#&]sync=([A-Za-z0-9+/=]+)/);
-  if (syncM) {
-    try {
-      var ids = JSON.parse(decodeURIComponent(escape(atob(syncM[1]))));
-      var added = 0;
-      ids.forEach(function(id) { if (!checks.has(id)) { checks.add(id); added++; } });
-      save();
-      history.replaceState(null, '', location.pathname + location.search);
-      tItems.forEach(function(it) { if (checks.has(it.dataset.cid)) it.classList.add('j-checked'); });
-      document.querySelectorAll('.day-card').forEach(refreshProgress);
-      if (added > 0) {
-        var toast = document.createElement('div');
-        toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#d4607a;color:white;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.2);white-space:nowrap';
-        toast.textContent = '✅ Synced ' + added + ' item' + (added > 1 ? 's' : '') + ' from your partner';
-        document.body.appendChild(toast);
-        setTimeout(function() { toast.remove(); }, 3500);
-      }
-    } catch(e) {}
-  }
 
   /* ── iOS "Add to Home Screen" hint ── */
   var isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
