@@ -628,7 +628,6 @@ body {
     <button class="nav-btn" onclick="navTo('sec-osaka',this)">🐙 Osaka Day</button>
     <button class="nav-btn" onclick="navTo('sec-fushimi',this)">🏮 Fushimi → Tokyo</button>
     <button class="nav-btn" onclick="navTo('sec-tokyo2',this)">🗼 Tokyo II</button>
-    <button id="j-shop-nav-btn" class="j-shop-nav-btn" onclick="openShopping()" aria-label="Shopping list">🛍</button>
     <button id="j-search-btn" class="j-search-btn" aria-label="Search">🔍</button>
   </div>
   <div id="j-search-row">
@@ -3602,10 +3601,11 @@ body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
   pointer-events: none;
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
-/* Stagger open: today first (bottom), distances last (top) */
-#j-fab-group.j-open .j-fab-item:nth-child(3) { transition-delay: 0.00s; }
-#j-fab-group.j-open .j-fab-item:nth-child(2) { transition-delay: 0.05s; }
-#j-fab-group.j-open .j-fab-item:nth-child(1) { transition-delay: 0.10s; }
+/* Stagger open: today first (bottom), shopping last (top) */
+#j-fab-group.j-open .j-fab-item:nth-child(4) { transition-delay: 0.00s; }
+#j-fab-group.j-open .j-fab-item:nth-child(3) { transition-delay: 0.05s; }
+#j-fab-group.j-open .j-fab-item:nth-child(2) { transition-delay: 0.10s; }
+#j-fab-group.j-open .j-fab-item:nth-child(1) { transition-delay: 0.15s; }
 #j-fab-group.j-open .j-fab-item { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 .j-fab-btn {
   padding: 10px 16px; border-radius: 50px; border: none;
@@ -3617,6 +3617,7 @@ body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
 .j-fab-btn:active { transform: scale(0.94); }
 #j-today-fab { background: #d4607a; color: white; }
 #j-loc-fab   { background: #6878c4; color: white; }
+#j-shop-fab  { background: #c8902a; color: white; }
 
 /* ── Install banner ── */
 #j-install {
@@ -3898,9 +3899,10 @@ body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
     return btn;
   }
 
-  // Order: Distances (top), Today (bottom — closest to toggle)
-  var locFab = mkFab('j-loc-fab', '📍 Distances');
-  var fab1   = mkFab('j-today-fab', '📍 Today');
+  // Order: Shopping (top), Distances, Today (bottom — closest to toggle)
+  var shopFab = mkFab('j-shop-fab', '🛍 Shopping');
+  var locFab  = mkFab('j-loc-fab', '📍 Distances');
+  var fab1    = mkFab('j-today-fab', '📍 Today');
 
   fabGroup.appendChild(fabItems);
   fabGroup.appendChild(fabToggle);
@@ -3918,6 +3920,11 @@ body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
     fabGroup.classList.remove('j-open');
     var y = todayCard ? todayCard.getBoundingClientRect().top + window.scrollY - 80 : 0;
     window.scrollTo({ top: y, behavior: 'smooth' });
+  });
+
+  shopFab.addEventListener('click', function() {
+    fabGroup.classList.remove('j-open');
+    openShopping();
   });
 
   /* ── iOS "Add to Home Screen" hint ── */
@@ -4373,18 +4380,6 @@ body.j-hero-gone #j-mini-hero { display: flex; }
 
 <!-- ══ SHOPPING LIST VIEW ══ -->
 <style>
-/* Nav shopping button */
-.j-shop-nav-btn {
-  flex-shrink: 0;
-  font-size: 17px;
-  padding: 6px 8px;
-  background: none; border: none; cursor: pointer;
-  border-bottom: 2px solid transparent;
-  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-  font-family: inherit;
-}
-.j-shop-nav-btn:hover { background: #fff0f3; border-radius: 6px; }
-
 /* Full-screen overlay */
 #j-shop-view {
   display: none;
