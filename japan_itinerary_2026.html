@@ -55,16 +55,8 @@ body {
 }
 
 /* ── SAKURA PETALS ANIMATION ── */
-#petals {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
 .petal {
-  position: absolute;
+  position: fixed;
   top: -20px;
   pointer-events: none;
   z-index: 0;
@@ -89,7 +81,6 @@ body {
   justify-content: center;
   text-align: center;
   padding: 80px 40px 60px;
-  padding-top: calc(80px + env(safe-area-inset-top));
   z-index: 1;
 }
 
@@ -185,9 +176,7 @@ body {
   z-index: 100;
   background: rgba(255,248,249,0.95);
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line);
-  padding-top: env(safe-area-inset-top);
 }
 .nav-inner {
   max-width: 1060px;
@@ -330,19 +319,6 @@ body {
   border-radius: 100px;
   padding: 2px 10px;
 }
-.strain-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: 2px 10px;
-  border-radius: 100px;
-}
-.strain-good  { background: #e8f7e8; color: #2a7a2a; border: 1px solid #b0d8b0; }
-.strain-full  { background: #fff8e0; color: #8a6010; border: 1px solid #e8d070; }
-.strain-brutal{ background: #fde8e8; color: #a02020; border: 1px solid #f0a0a0; }
 
 /* ── TIMELINE ── */
 .timeline-wrap {
@@ -394,6 +370,19 @@ body {
 .t-dot.food { border-color: var(--gold3); background: var(--gold1); }
 .t-dot.photo { border-color: var(--fuji3); background: var(--fuji1); }
 .t-dot.important { border-color: var(--s4); background: var(--s2); width: 12px; height: 12px; }
+.t-dot.stamp { border-color: #c47fe0; background: #fdf0ff; }
+
+/* Filter tabs row */
+.filter-wrap { background: var(--card); border-bottom: 1px solid var(--line); padding: 8px 16px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.filter-btn { font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 100px; border: 1px solid var(--line); background: transparent; color: var(--ink2); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.filter-btn:hover { background: var(--bg2); }
+.filter-btn.active { background: var(--s3); color: white; border-color: var(--s3); }
+.filter-btn.fb-food.active { background: var(--gold3); border-color: var(--gold3); }
+.filter-btn.fb-photo.active { background: var(--fuji3); border-color: var(--fuji3); }
+.filter-btn.fb-booked.active { background: var(--s3); border-color: var(--s3); }
+.filter-btn.fb-critical.active { background: var(--s4); border-color: var(--s4); }
+.filter-btn.fb-stamp.active { background: #c47fe0; border-color: #c47fe0; }
+.t-item.hidden { display: none; }
 
 .t-body {
   padding: 2px 0 22px;
@@ -612,6 +601,7 @@ body {
 
 <!-- NAV -->
 <div class="nav-wrap">
+  <div id="j-mini-hero">🌸 Japan in Bloom &nbsp;·&nbsp; Mar 27 – Apr 12 &nbsp;·&nbsp; 17 Days</div>
   <div class="nav-inner">
     <button class="nav-btn active" onclick="navTo('top',this)">All</button>
     <button class="nav-btn" onclick="navTo('sec-tokyo1',this)">🗼 Tokyo I</button>
@@ -621,7 +611,32 @@ body {
     <button class="nav-btn" onclick="navTo('sec-osaka',this)">🐙 Osaka Day</button>
     <button class="nav-btn" onclick="navTo('sec-fushimi',this)">🏮 Fushimi → Tokyo</button>
     <button class="nav-btn" onclick="navTo('sec-tokyo2',this)">🗼 Tokyo II</button>
+    <button id="j-search-btn" class="j-search-btn" aria-label="Search">🔍</button>
   </div>
+  <div id="j-search-row">
+    <div class="j-search-icon-wrap">
+      <span class="j-search-icon-inner">🔍</span>
+      <input id="j-search-input" type="search" placeholder="Search stops, food, places…" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <div id="j-no-results">No stops found. Try a different search.</div>
+  </div>
+</div>
+<div class="filter-wrap">
+  <button class="filter-btn active" onclick="filterItems('all',this)">All stops</button>
+  <button class="filter-btn fb-critical" onclick="filterItems('critical',this)">🌸 Must-do / Critical</button>
+  <button class="filter-btn fb-booked" onclick="filterItems('booked',this)">✅ Booked activities</button>
+  <button class="filter-btn fb-food" onclick="filterItems('food',this)">🍜 Food stops</button>
+  <button class="filter-btn fb-photo" onclick="filterItems('photo',this)">📷 Photo spots</button>
+  <button class="filter-btn fb-stamp" onclick="filterItems('stamp',this)">🔖 Stamp spots</button>
+  <span class="j-filter-sep"></span>
+  <button id="j-collapse-all" class="j-ctrl-btn">Collapse all</button>
+  <button id="j-expand-all" class="j-ctrl-btn">Expand all</button>
+</div>
+<div id="j-day-label">
+  <span id="j-dl-badge"></span>
+  <span id="j-dl-date"></span>
+  <span id="j-dl-sep">·</span>
+  <span id="j-dl-title"></span>
 </div>
 
 <div class="outer" id="top">
@@ -632,6 +647,7 @@ body {
     <div class="legend-item"><div class="ld ld-b"></div> Booked activity</div>
     <div class="legend-item"><div class="ld ld-f"></div> Food stop</div>
     <div class="legend-item"><div class="ld ld-p"></div> Photo opportunity</div>
+    <div class="legend-item"><div class="ld" style="background:#fdf0ff;border:2px solid #c47fe0;width:10px;height:10px;border-radius:50%"></div> Stamp spot</div>
   </div>
 
   <!-- ════════════ TOKYO I ════════════ -->
@@ -653,36 +669,37 @@ body {
           <div class="day-title">Arrival Day — Shibuya</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo</span>
-            <span class="strain-badge strain-good">💚 Easy</span>
             <span>Neighborhood: Shibuya</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel Tokyo</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~8,000–10,000 steps · 🟢 Easy</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">✈️ Arrival from Seoul — no trains today</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
 
-        <div class="t-item">
-          <div class="t-time">3:00 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+                <div class="t-item">
+          <div class="t-time">✈️</div>
+          <div class="t-dot-wrap"><div class="t-dot food" style="background:#9b60c0;border-color:#9b60c0"></div></div>
           <div class="t-body">
-            <div class="t-activity">Hotel Check-in & Refresh</div>
+            <div class="t-activity" style="color:#7a40a0">✈️ Arrival Day — eat on the flight or at airport</div>
             <div class="detail-box">
-              <div>
-                <div class="detail-section-label label-do">📌 What to do</div>
-                <div class="chip chip-do"><span class="chip-icon">•</span><div>Drop bags, freshen up — jet lag is real. Give yourself a full hour before heading out. The hotel is in the thick of Shibuya so you can walk everywhere tonight.</div></div>
-              </div>
+              <div class="chip chip-tip"><span class="chip-icon">💡</span><div>You're arriving from Seoul at 3pm — lunch is on the flight or at Incheon/Gimpo airport before boarding. Don't worry about lunch on arrival day. Streamer Coffee after check-in is your first Tokyo food stop, then shopping snacks at Scramble Square B2F, then dinner.</div></div>
             </div>
           </div>
         </div>
 
-        <div class="t-item">
-          <div class="t-time">3:30 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+<div class="t-item">
+          <div class="t-time">3:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body">
-            <div class="t-activity">☕ First Coffee in Japan</div>
+            <div class="t-activity">Hotel Check-in, Refresh &amp; First Coffee</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">☕</span><div><strong>Streamer Coffee Company</strong> — Tokyo's most famous specialty latte art café, 5 min walk from Shibuya Station. Their signature Steamer Latte is the must-order. Very photogenic pours, great atmosphere. Perfect first-stop coffee after arrival jet lag hits.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">☕</span><div><strong>Alternative: Fuglen Tokyo</strong> — Iconic Norwegian coffee bar in Yoyogi, 10 min walk. Minimalist design, exceptional beans. One of Tokyo's most photographed café interiors. Opens at 8am — great for early starts on other days too.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">☕</span><div><strong>Streamer Coffee Company (Shibuya)</strong> — Tokyo's most Instagram-famous latte art spot, 5-minute walk from the hotel. The baristas are latte art competition champions — watch them work. Order a flat white or seasonal latte. The perfect first Tokyo moment after checking in.</div></div>
+              <div>
+                <div class="detail-section-label label-do">📌 What to do</div>
+                <div class="chip chip-do"><span class="chip-icon">•</span><div>Drop bags, freshen up — jet lag is real. Give yourself a full hour before heading out. The hotel is in the thick of Shibuya so you can walk everywhere tonight.</div></div>
+              </div>
             </div>
           </div>
         </div>
@@ -733,13 +750,13 @@ body {
           <div class="t-time">6:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body">
-            <div class="t-activity">Shibuya Shopping</div>
+            <div class="t-activity">Shibuya Shopping + B2F Snack</div>
             <div class="detail-box">
-              <div class="detail-section-label label-do">📌 Stops</div>
+              <div class="chip chip-food"><span class="chip-icon">🧀</span><div><strong>Scramble Square B2F Food Floor</strong> — Grab a warm cheese tart from <strong>BAKE Cheese Tart</strong> (molten inside, crispy pastry outside) or a cream puff from <strong>Beard Papa</strong> — eat it on the spot. The Scramble Square food basement is directly above the crossing. A great little Japan-only snack moment.</div></div>
+              <div class="detail-section-label label-do" style="margin-top:8px">📌 Shopping Stops</div>
               <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Shibuya Loft (Udagawacho)</strong> — 7 floors of lifestyle goods, stationery, gadgets. Great for Japan-exclusive products. 3rd floor has the best stationery.</div></div>
               <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Tokyu Hands (Shibuya Hikarie)</strong> — Creative lifestyle store. Perfect for souvenirs and unique gifts.</div></div>
               <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Shibuya 109</strong> — Fashion floors with Japanese labels. Even just walking around the ground floor is an experience.</div></div>
-              <div class="chip chip-food" style="margin-top:8px"><span class="chip-icon">🧀</span><div><strong>Scramble Square B2F — Eat-in food floor</strong> — The basement of the Scramble Square building (attached to Shibuya Sky) has one of Tokyo's best food floors. Grab a warm BAKE Cheese Tart (crispy pastry shell, creamy molten cheese inside — one of Japan's most Instagrammed snacks) or a Beard Papa cream puff to eat on the spot. Both made fresh every few minutes.</div></div>
             </div>
           </div>
         </div>
@@ -752,6 +769,7 @@ body {
             <div class="detail-box">
               <div class="detail-section-label label-food">🍽 Options</div>
               <div class="chip chip-food"><span class="chip-icon">🍜</span><div><strong>T's Tantan</strong> — Shibuya. Easy, comforting vegan ramen. Multiple spice levels. The sesame-based broth is rich and filling — perfect for an arrival-day meal when you don't want to think too hard.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍛</span><div><strong>CoCo Ichibanya</strong> — Japan's most beloved curry chain, and surprisingly good for vegetarians — order the vegetable katsu curry with a fried tofu/mushroom cutlet. All locations serve a dedicated vegetarian menu. Affordable, reliable, everywhere. Great for a quick first-night meal if T's Tantan has a queue.</div></div>
               <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥗</span><div><strong>Nagi Shokudo</strong> — Cozy Japanese vegetarian plates. Very Shibuya-core vibe. Their daily set meals are the move.</div></div>
             </div>
           </div>
@@ -792,13 +810,25 @@ body {
           <div class="day-title">Ghibli Museum, Harajuku & Omotesando</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo</span>
-            <span class="strain-badge strain-brutal">🔴 Brutal</span>
             <span>Harajuku · Omotesando · Mitaka</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
+
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~16,000–18,000 steps · 🟡 Moderate</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Keio Inokashira → Kichijoji → JR Chuo → Mitaka (~25min)</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
+
+        <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Shibuya → Mitaka</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Keio Inokashira Line from Shibuya → Kichijoji (14 min) → JR Chuo to Mitaka (2 min). IC card or ¥230. Ghibli Museum is time-slotted — don't be late.</div></div>
+            </div>
+          </div>
+        </div>
 
         <div class="t-item">
           <div class="t-time">8:00 AM</div>
@@ -954,6 +984,7 @@ body {
             <div class="detail-box">
               <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Shamaim Harajuku</strong> — Excellent vegan Middle Eastern food (falafel, hummus, shakshuka, pita). Warm, filling, generous portions. Perfect after an exhausting day. Walk from Harajuku Station, 5 min.</div></div>
               <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍜</span><div><strong>T's Tantan Harajuku</strong> — The original T's Tantan vegan ramen location in Harajuku. Sesame-based broth, thick noodles. Very comforting after a long day. Faster and more casual than a sit-down meal.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌳</span><div><strong>Commune 246</strong> — Outdoor food truck village in Minami-Aoyama. Multiple vendors, casual atmosphere, several vegetarian options. Good for a relaxed post-kart meal where you pick from different stalls.</div></div>
             </div>
           </div>
         </div>
@@ -1011,14 +1042,26 @@ body {
           <div class="day-title">Shimokitazawa, Kichijoji & Shinjuku</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo</span>
-            <span class="strain-badge strain-full">🟡 Full</span>
             <span>Shimokitazawa · Kichijoji · Shinjuku</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~18,000–22,000 steps · 🟡 Moderate–Heavy</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Keio Inokashira → Shimokitazawa (7min) → Kichijoji → JR Chuo → Shinjuku</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Shibuya → Shimokitazawa → Kichijoji → Shinjuku</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Keio Inokashira Line from Shibuya → Shimokitazawa (7 min, ¥180). Then Keio to Kichijoji, JR Chuo to Shinjuku.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
           <div class="t-time">8:30 AM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body"><div class="t-activity">Train to Shimokitazawa (Keio Inokashira from Shibuya, 7 min)</div></div>
@@ -1089,12 +1132,10 @@ body {
         <div class="t-item">
           <div class="t-time">3:45 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
-          <div class="t-body">
-            <div class="t-activity">☕ Coffee Break — Kichijoji</div>
+          <div class="t-body"><div class="t-activity">☕ Coffee Break — % Arabica Kichijoji</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">☕</span><div><strong>% Arabica Kichijoji</strong> — One of Tokyo's best % Arabica branches, right next to Inokashira Park. Minimal white interior, extremely photogenic. Order the Spanish Latte — it's their signature and very Reels-popular. Great spot to sit and decompress before the train to Shinjuku.</div></div>
-            </div>
-          </div>
+              <div class="chip chip-food"><span class="chip-icon">☕</span><div><strong>% Arabica Kichijoji</strong> — Their most photogenic branch, right next to Inokashira Park. The %Arabica style is all-white minimalist interior, outstanding espresso. Order a cortado or their signature % latte. The park view in spring is beautiful from the window.</div></div>
+            </div></div>
         </div>
         <div class="t-item">
           <div class="t-time">4:15 PM</div>
@@ -1105,11 +1146,12 @@ body {
           <div class="t-time">5:15 PM</div>
           <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
           <div class="t-body">
-            <div class="t-activity">Shinjuku Walk — Kabukicho, Neon Streets, Arcades</div>
+            <div class="t-activity">Shinjuku Walk — Kabukicho, 3D Cat Billboard, Neon Streets, Arcades</div>
             <div class="detail-box">
               <div class="chip chip-do"><span class="chip-icon">•</span><div>Exit Shinjuku Station East exit. Walk toward Kabukicho — the entertainment district. Explore the neon-lit alleys. Look for the GODZILLA head on top of the Shinjuku Toho Building.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>3D Cat Billboard — Shinjuku East Exit</strong> — Right at the Shinjuku East Exit, the giant curved LED screen shows a life-size 3D cat that appears to leap out of the screen. It runs on a loop every few minutes. This is one of Tokyo's most viral photo spots — stand directly in front of the screen and shoot when the cat is fully extended toward you. Best at dusk when the screen contrast pops against the darkening sky. Free, 2-minute stop, impossible to miss.</div></div>
               <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div>Don't miss: a floor of one of the arcades (Taito Game Station or Sega Arcade). The crane games with Japanese character prizes are a must-try.</div></div>
-              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Kabukicho Neon Alley</strong> — The main strip at dusk / nightfall. Shoot into the light — overexpose slightly so the neon blooms. Great for a portrait of someone walking away from you into the neon.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Kabukicho Neon Alley</strong> — The main strip at dusk / nightfall. Shoot into the light — overexpose slightly so the neon blooms. Great for a portrait of someone walking away from you into the neon.</div></div>
             </div>
           </div>
         </div>
@@ -1117,23 +1159,14 @@ body {
           <div class="t-time">6:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
           <div class="t-body">
-            <div class="t-activity">Dinner — Shinjuku</div>
+            <div class="t-activity">Dinner — T's Restaurant Shinjuku + Omoide Yokocho Walk</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>T's Restaurant Shinjuku</strong> — 100% vegan Japanese restaurant inside Shinjuku Station (Lumine Est B2F). Ramen, gyoza, karaage, don bowls — all plant-based and genuinely excellent. Convenient, no reservations needed, and great value.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🧆</span><div><strong>Falafel Brothers Shinjuku</strong> — Popular Israeli falafel wraps, fully vegetarian. Fast, filling, and different from everything else on the trip. Great if you want something lighter before walking Omoide Yokocho. Decide how you feel on the day.</div></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="t-item">
-          <div class="t-time">7:30 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
-          <div class="t-body">
-            <div class="t-activity">📷 Omoide Yokocho — Atmosphere + Photos (Memory Lane)</div>
-            <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>This tiny alley of yakitori bars is just outside Shinjuku Station West exit. It's narrow, smoky, and atmospheric — one of Tokyo's most photogenic streets. Go for the atmosphere and photos after dinner, not as your main meal.</div></div>
-              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Lantern Alley</strong> — Shoot from inside the alley looking toward the lit-up entrance. Paper lanterns, grill smoke, and neon signs create extraordinary depth. Wide aperture, let the background blur warm.</div></div>
-              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Chef at the Grill</strong> — Candid close-ups of the cooks at work — hands, skewers, smoke, fire. Warm tones. One of the best candid food photography spots in Tokyo.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>T's Restaurant Shinjuku (main dinner)</strong> — 100% vegan Japanese restaurant inside Shinjuku Station building (JR East, Lumine Est B1F). Ramen, gyoza, karaage, donburi bowls — all plant-based and genuinely delicious. Affordable. Much easier for vegetarians than navigating Omoide menus in Japanese.</div></div>
+              <div class="chip chip-do" style="margin-top:8px"><span class="chip-icon">📷</span><div><strong>After dinner → Omoide Yokocho atmosphere walk</strong> — This tiny alley of yakitori bars is just outside the west exit of Shinjuku Station. It's narrow, smoky, and atmospheric. For photography and atmosphere — unmissable. For food — your husband will need to navigate carefully as most stalls are meat-heavy.</div></div>
+              <div class="chip chip-food" style="margin-top:6px"><span class="chip-icon">🥢</span><div><strong>In Omoide Yokocho:</strong> Ask for yasai (vegetable) skewers — mushroom, corn, green pepper, and tofu skewers are usually available. Edamame and beer/soft drinks are universally available at every stall. The atmosphere is worth sitting down for even if the menu is limited for vegetarians.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌿</span><div><strong>Better dinner option nearby — T's Restaurant Shinjuku</strong> — 100% vegan Japanese restaurant in Shinjuku, 5 min walk from Omoide Yokocho. Full menu of vegan ramen, don bowls, gyoza, and karaage. Go here for a proper dinner first, then walk through Omoide Yokocho for atmosphere and photos afterwards.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Lantern Alley</strong> — Shoot from inside the alley looking toward the lit-up entrance. Wide aperture for bokeh background of lanterns. Candid shots of the grill chefs at work — close up on hands and flames.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Narrow Yakitori Streets</strong> — The cramped counters and chefs at work are great candid subjects. Sit at a counter and photograph the grill and the chefs' hands working — close up, wide aperture, warm tones.</div></div>
             </div>
           </div>
         </div>
@@ -1145,37 +1178,62 @@ body {
       <div class="day-card-head">
         <div class="day-num-block"><span class="dd">30</span><span class="mm">MAR</span></div>
         <div class="day-head-body">
-          <div class="day-title">Asakusa, Sumida River & teamLab Planets</div>
+          <div class="day-title">Kappabashi, Asakusa, Sumida River & teamLab</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo</span>
-            <span class="strain-badge strain-full">🟡 Full</span>
-            <span>Asakusa · Sumida · Toyosu · Odaiba</span>
+            <span>Kappabashi · Asakusa · Sumida · Toyosu · Odaiba</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~20,000–24,000 steps · 🔴 Heavy</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Walk to Asakusa · Water bus → Toyosu · Yurikamome/Rinkai → Odaiba</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
-          <div class="t-time">8:00 AM</div>
-          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
           <div class="t-body">
-            <div class="t-activity">Breakfast — Asakusa Kagetsudo (Giant Melon Pan)</div>
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Walk Asakusa → Toyosu → Odaiba</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🍞</span><div>Asakusa Kagetsudo is famous for their giant melon pan — a freshly baked sweet bread roll. This is a very normal Japanese breakfast. Get it warm from the bakery (near Senso-ji, opens at 9am) and eat it while walking toward the temple. Add Hat Coffee for a custom latte art drink.</div></div>
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Walk Kappabashi (Asakusa area). Then subway to Toyosu for teamLab (Yurakucho/Keiyo lines). Return from Odaiba via Yurikamome or Rinkai Line.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
+          <div class="t-time">7:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍳 Kappabashi Kitchen Street — Morning Browse</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Take the train to Tawaramachi Station (Ginza Line from Asakusa, 1 stop) — the entrance to Kappabashi-dori, Tokyo's professional kitchen supply street. A 400m street of wholesale kitchen and restaurant supply shops open to the public. Go early (most shops open by 9am) before the tourist crowds and the full heat of the day.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Must stops on Kappabashi:</strong> Kama-asa (est. 1908) for knives and the hinoki cypress chopping board — their knife engraving service takes about 30 minutes so drop it off first then browse while you wait. Tsubaya for hand-forged specialist knives. The plastic food sample shops for iconic Japanese souvenir keychains.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div>Also look for: Japanese iron tetsubin kettles, matcha whisks (chasen) and tea sets, beautiful lacquerware, ceramic plates, and chopstick rests. Everything here is professional quality at trade prices.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Drop off the knife for engraving at Kama-asa first thing — they'll have it ready by the time you've finished browsing the rest of the street. Budget ¥10,000–50,000+ for the knife, ¥5,000–20,000 for the chopping board. Give yourself 60–75 minutes here.</div></div>
             </div>
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">8:30 AM</div>
+          <div class="t-time">8:45 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Breakfast — Asakusa Kagetsudo (Giant Melon Pan)</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍞</span><div>Asakusa Kagetsudo is famous for their giant melon pan — a freshly baked sweet bread roll. Get it warm from the bakery (near Senso-ji) and eat it while walking toward the temple. Add Hat Coffee for a custom latte art drink.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">9:30 AM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
-            <div class="t-activity">🌸 Senso-ji Temple — MORNING GOLDEN HOUR</div>
+            <div class="t-activity">🌸 Senso-ji Temple — Morning Visit</div>
             <div class="detail-box">
               <div class="chip chip-do"><span class="chip-icon">•</span><div>Arrive before 9am to beat the crowds. The main gate (Kaminarimon) and the approach to the temple are magical in the morning light with far fewer tourists. By 10am it gets very crowded.</div></div>
               <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Kaminarimon Gate Lantern</strong> — The giant red lantern at the main gate. Best shot: frame it from dead center of the path looking straight through with the temple visible beyond. Morning light hits it from the east and creates beautiful warm tones.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Five-Story Pagoda from Below</strong> — Walk to the right side of the temple courtyard. The pagoda rises to the left of the main hall. Shoot from below at a low angle looking up — compress the storeys against the sky.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Incense Smoke + Worshippers</strong> — The bronze incense cauldron in the courtyard. People wave the smoke over themselves. Candid shots here are powerful — smoke swirling around hands and faces in morning light.</div></div>
-              <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓</strong> — Senso-ji is one of the most famous goshuin stamps in Japan. The stamp office is inside the main hall on the left side. Opens at 8am. Cost ¥300. They also sell their own beautiful goshuincho books here (red with gold Kaminarimon design) — if you haven't bought one yet, buy it here first thing. This is a great stamp to start your book with.</div></div>
+              <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓</strong> — Senso-ji is one of the most famous goshuin stamps in Japan. The stamp office is inside the main hall on the left side. Opens at 8am. Cost ¥300. They also sell their own beautiful goshuincho books here (red with gold Kaminarimon design) — if you haven't bought one in Seoul, buy it here first thing. This is a great stamp to start your book with.</div></div>
               <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Soft morning light is genuinely beautiful here — this is not a cliché. Show up early and you'll feel it.</div></div>
             </div>
           </div>
@@ -1195,7 +1253,19 @@ body {
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">10:30 AM</div>
+          <div class="t-time">10:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🥞 Benitsuru — Asakusa Pancakes (optional)</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Benitsuru (紅鶴)</strong> — One of Asakusa's most beloved pancake spots. Famous for thick, fluffy Japanese hotcakes served with butter and maple syrup. A very different texture from Western pancakes — almost soufflé-like, slightly sweet, impossibly light. The Asakusa location is a short walk from Nakamise Street. <strong>Vegetarian friendly.</strong> Can have a short queue — if it's long, skip and continue to Sumida Park. Budget 30 minutes if you go.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>This is optional — you've already had melon pan for breakfast and done a Nakamise snack crawl. Only stop here if you're still hungry or specifically want the Benitsuru experience. It's worth it if you can fit it in without rushing Sumida Park.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">10:45 AM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
             <div class="t-activity">🌸 Sumida Park Sakura Walk</div>
@@ -1255,7 +1325,14 @@ body {
         <div class="t-item">
           <div class="t-time">7:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
-          <div class="t-body"><div class="t-activity">Dinner — roam Odaiba, use Tablelog to find something nearby, or head back to Shibuya if nothing appeals</div><div class="t-chips"><span class="chip tip">📱 Tablelog app → filter by area: Odaiba</span></div></div>
+          <div class="t-body">
+            <div class="t-activity">Dinner — Odaiba / Toyosu area, then train back</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>T's Tantan (Tokyo Station)</strong> — Since you're heading back toward central Tokyo anyway, consider skipping Odaiba dinner and eating at T's Tantan in Tokyo Station's Ramen Street (B1, Keiyo Street). Vegan ramen, no animal products at all. Convenient since you're passing through Tokyo Station on the way back to Shibuya. Much better food than what Odaiba offers vegetarians.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥗</span><div><strong>If eating in Odaiba:</strong> Decks Tokyo Beach mall on the Odaiba waterfront has multiple restaurants. Look for Trattoria di Mare (Italian, vegetarian pasta available) or the food court on the 4th floor which has varied options including tofu and vegetable dishes.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Odaiba is honestly not a great area for vegetarian dining — if you're happy to eat on the train ride back or wait until Shibuya, T's Tantan at Tokyo Station is a much better option and fits perfectly with the journey home.</div></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1270,20 +1347,24 @@ body {
             <span class="day-badge badge-tokyo">Tokyo</span>
             <span>Chidorigafuchi · Imperial Palace · Ginza · Shinjuku</span>
             <span class="hotel-tag">🏨 Shibuya Excel Hotel</span>
-            <span class="strain-badge strain-full">🟡 Full</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~14,000–16,000 steps · 🟡 Moderate</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Tozai Line → Kudanshita · Subway → Ginza · Evening taxi Shinjuku→Minato</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
-          <div class="t-time">8:30 AM</div>
-          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
           <div class="t-body">
-            <div class="t-activity">Morning Coffee — near Kudanshita</div>
-            <div class="t-chips"><span class="chip food">☕ Doutor or local kissaten near Kudanshita station — quick grab before the boats fill up</span></div>
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Kudanshita → Ginza → taxi to Minato</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Tozai Line to Kudanshita (Chidorigafuchi). Then subway to Ginza. Evening taxi Shinjuku → Minato (¥1,500–2,000).</div></div>
+            </div>
           </div>
         </div>
-        <div class="t-item">
+
+<div class="t-item">
           <div class="t-time">9:00 AM</div>
           <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
           <div class="t-body">
@@ -1312,7 +1393,7 @@ body {
           <div class="t-time">11:30 AM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">Birthday Brunch — Ginza</div>
+            <div class="t-activity">🥞 Birthday Brunch — Ginza (breakfast + lunch combined)</div>
             <div class="detail-box">
               <div class="chip chip-food"><span class="chip-icon">🥞</span><div><strong>bills Ginza</strong> — The Sydney-born café famous in Japan for its ricotta hotcakes. The Ginza branch is elegant and the perfect birthday brunch. Book ahead or arrive early.</div></div>
               <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌿</span><div><strong>Komeda Is</strong> — Komeda's vegetarian-friendly chain. Their morning set with thick toast, boiled egg, and coffee is a very satisfying and affordable Japanese breakfast option.</div></div>
@@ -1334,18 +1415,7 @@ body {
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">1:45 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
-          <div class="t-body">
-            <div class="t-activity">📷 Minato City 7-Eleven — Tokyo Tower Photo Stop</div>
-            <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>A 5-minute walk from Zojo-ji Temple. The 7-Eleven on Iikura-Katamachi (Minato-ku) has Tokyo Tower rising perfectly and prominently directly behind the store sign — the Tokyo equivalent of the famous Fuji Lawson shot. One of the most satisfying convenience store + landmark compositions in the city.</div></div>
-              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>7-Eleven + Tokyo Tower</strong> — Stand across the street from the store and shoot with the 7-Eleven sign in the lower foreground and Tokyo Tower filling the background. Shoot both wide (showing the full street context) and compressed with a longer lens (70–135mm equivalent) to make the tower loom large behind the store. Works in daylight and even better at dusk when the tower lights up.</div></div>
-              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Person + Tower Framing</strong> — Have your partner stand just left of the store entrance looking toward the tower. The red 7-Eleven sign, the person, and the lit tower create a very distinctly Tokyo layered composition.</div></div>
-              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Address: 4-chome area, Minato-ku, near Shibakoen. Google "Minato 7-Eleven Tokyo Tower" and it comes up immediately. While you're there grab a drink — you've earned it after Zojo-ji.</div></div>
-            </div>
-          </div>
-        </div>
+          <div class="t-time">2:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body">
             <div class="t-activity">Ginza Shopping + Afternoon</div>
@@ -1379,11 +1449,26 @@ body {
         </div>
         <div class="t-item">
           <div class="t-time">8:30 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
-            <div class="t-activity">Birthday Drinks — Bar Centifolia, Ginza</div>
+            <div class="t-activity">📷 Minato City 7-Eleven — Tokyo Tower Night Shot 🗼</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🍸</span><div>A romantic, intimate, dimly-lit cocktail bar. Excellent mixology. The perfect way to close a birthday in Tokyo. Reservation recommended. Located in Ginza 5-chome.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>After dinner, take a taxi from Shinjuku to the 7-Eleven near Shibakoen in Minato-ku — about 20 minutes and ¥1,500–2,000. Tokyo Tower is fully illuminated at night and the 7-Eleven sign glowing against the lit tower is a far more dramatic shot than daytime. This is the perfect birthday night photography stop.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>7-Eleven + Illuminated Tokyo Tower</strong> — Stand across the street from the store at 9pm. The red 7-Eleven sign in the lower foreground, Tokyo Tower fully lit in gold behind. Use a longer lens (70–135mm equivalent) to compress the tower behind the sign. The night version of this shot is ten times more dramatic than daytime — the warm gold tower against the dark sky with the convenience store neon is uniquely Tokyo.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Person + Tower at Night</strong> — Stand just left of the store entrance, tower rising behind you. The combination of the red 7-Eleven glow, your silhouette, and the illuminated tower makes a beautiful layered birthday night portrait.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Best time: 8:30–10pm when the tower is fully lit. Bring a small tripod or use a wall/railing for stability in low light. ISO 800–1600, f/2.0, 1/15–1/30s. Google "Minato 7-Eleven Tokyo Tower" — it comes up immediately. Address: 4-chome area, Minato-ku, near Shibakoen Station.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">9:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🎂 Birthday Night Drinks — Tokyo Tower View</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍸</span><div><strong>Sky Lounge Stellar Garden — The Prince Park Tower Tokyo</strong> — Since you're already right next to Tokyo Tower, this is the perfect birthday nightcap. The 33rd floor bar at the Prince Park Tower has panoramic views of Tokyo Tower from directly below — one of the most romantic views in the city. Order champagne or cocktails and look up at the tower from above the tree line. Far more special than any Ginza bar for a birthday.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥂</span><div><strong>Alternative: Tokyo Tower itself</strong> — The main deck (150m) is open until 11pm. Going up the tower after photographing it from the street gives you the reverse perspective — the city spread out below you at night. A beautiful way to end a birthday in Tokyo.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Bar Centifolia in Ginza remains an option if you prefer — it's about 15 mins by taxi from Tokyo Tower. But Sky Lounge Stellar Garden is more romantic and you're already right there. Decide on the night based on energy levels.</div></div>
             </div>
           </div>
         </div>
@@ -1412,20 +1497,35 @@ body {
             <span class="day-badge badge-fuji">Mt. Fuji</span>
             <span>Lake Kawaguchi · Fujikawaguchiko</span>
             <span class="hotel-tag">🏨 Kasuitei Ooya Ryokan</span>
-            <span class="strain-badge strain-good">💚 Easy</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~12,000–15,000 steps · 🟡 Moderate</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 JR Chuo → Otsuki → Fuji Excursion Line → Kawaguchiko (~2hrs)</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
-          <div class="t-time">9:00 AM</div>
+                        <div class="t-item">
+          <div class="t-time">8:00 AM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">Breakfast — Shibuya Station before train</div>
-            <div class="t-chips"><span class="chip food">🥐 Grab a pastry + coffee at Eki Marché or Pronto inside Shibuya Station before boarding the Fuji Excursion train</span></div>
+            <div class="t-activity">☕ Breakfast — Conbini before the train</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🍱</span><div><strong>Ekiben from Shinjuku Station</strong> — Before boarding the train, grab a station bento or conbini breakfast (onigiri, tamagoyaki, canned coffee/matcha). The journey to Kawaguchiko is ~2 hours — eat on the train as the city gives way to countryside and mountains appear.</div></div>
+            </div>
           </div>
         </div>
-        <div class="t-item">
+
+<div class="t-item">
+          <div class="t-time">8:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Shinjuku → Otsuki → Kawaguchiko (~2hrs)</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>JR Chuo Line Shinjuku → Otsuki (~1hr 15min), then Fuji Excursion Line to Kawaguchiko (~50min). Total ~2hrs. Covered by JR Pass to Otsuki.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
           <div class="t-time">11:15 AM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
@@ -1436,14 +1536,6 @@ body {
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Fuji Reflection Symmetry</strong> — Find a completely still section of the lake. Shoot Fuji and its reflection as a perfect vertical symmetry — crop so the mountain and its mirror image are equal. Best when the water is glassy calm (early morning or late afternoon).</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Couple Walking with Fuji Background</strong> — Position your partner frame-left walking toward Fuji on the right. Fuji centered in the background, person slightly left of center creating diagonal tension in the frame.</div></div>
             </div>
-          </div>
-        </div>
-        <div class="t-item">
-          <div class="t-time">12:30 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
-          <div class="t-body">
-            <div class="t-activity">Lunch — Kawaguchiko Station area</div>
-            <div class="t-chips"><span class="chip tip">🍜 Grab soba or udon at any local restaurant near the station — use Tablelog to find something open</span></div>
           </div>
         </div>
         <div class="t-item">
@@ -1460,6 +1552,18 @@ body {
           </div>
         </div>
         <div class="t-item">
+          <div class="t-time">2:45 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍜 Lunch — Kawaguchiko Lakeside</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Fuji Marché or Ubushina</strong> — Small lakeside cafés on the north shore with Fuji framed in the window. Japanese set meals, several vegetarian options. Budget 40 minutes before Oishi Park.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍡</span><div><strong>Alternative: conbini picnic on the lake shore</strong> — Grab onigiri and snacks from the 7-Eleven near Kawaguchiko Station and sit on the bank with Fuji in front of you. Genuinely more memorable than any restaurant on this day.</div></div>
+            </div>
+          </div>
+        </div>
+
+                <div class="t-item">
           <div class="t-time">3:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
@@ -1502,19 +1606,31 @@ body {
     <!-- APRIL 2 -->
     <div class="day-card">
       <div class="day-card-head">
-        <div class="day-num-block" style="background:var(--fuji3)"><span class="dd">2</span><span class="mm">APR</span></div>
+        <div class="day-num-block" style="background:#5060b0"><span class="dd">2</span><span class="mm">APR</span></div>
         <div class="day-head-body">
           <div class="day-title">Sunrise Fuji → Chureito → Kyoto Arrival</div>
           <div class="day-sub">
             <span class="day-badge badge-fuji">Fuji → Kyoto</span>
             <span>Kawaguchiko → Mishima → Kyoto</span>
             <span class="hotel-tag">🏨 Kyoto Granbell</span>
-            <span class="strain-badge strain-brutal">🔴 Brutal</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~14,000–16,000 steps · 🟡 Moderate  (398 steps Chureito!)</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Taxi → Kawaguchiko → Mishima → Shinkansen → Kyoto (5.5hrs · sit D/E right)</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Kawaguchiko → Mishima → Kyoto (~5.5hrs, sit D/E right side)</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Taxi to Chureito. Then Kawaguchiko → Otsuki → Mishima (JR) → Shinkansen to Kyoto (~5.5hrs). Sit right side seats D/E — Fuji appears ~40min in.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
           <div class="t-time">5:45 AM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
@@ -1657,12 +1773,24 @@ body {
             <span class="day-badge badge-kyoto">Kyoto</span>
             <span>Higashiyama · Kiyomizu · Nishiki Market · Gion</span>
             <span class="hotel-tag">🏨 Kyoto Granbell</span>
-            <span class="strain-badge strain-brutal">🔴 Brutal</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~22,000–26,000 steps · 🔴🔴 BRUTAL — 6am–9pm on foot</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Walk from hotel · All Higashiyama/Gion on foot</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Walk or short taxi from hotel</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Walk from Kyoto Granbell Hotel. Higashiyama is 10–15 min walk or taxi (¥800).</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
           <div class="t-time">6:00 AM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
@@ -1691,6 +1819,17 @@ body {
           </div>
         </div>
         <div class="t-item">
+          <div class="t-time">8:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">💍 2/8b Kyoto Kiyomizu Store — Matching Couple Keyrings</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Located at 1-chome 287-4 Kiyomizu — literally on your walk down from the temple toward Sannenzaka. The shop specialises in "two in eight billion" matching pair keyrings — each set is unique, designed as a couple's keepsake. The concept is that out of 8 billion people on earth, you found your person. A deeply meaningful souvenir to buy together on this trip, in this spot.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Go early — the shop is small and popular. Being there at 8am before the tourist crowds arrive means you can take your time choosing. The keyrings are handcrafted and the selection changes — look at what appeals to both of you rather than rushing the decision. Budget ¥2,000–5,000 for a pair.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
           <div class="t-time">8:30 AM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
@@ -1701,7 +1840,18 @@ body {
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">9:30 AM</div>
+          <div class="t-time">10:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🔑 2/8b Kiyomizu Store — Matching Pair Keyrings</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Located at 1-chome 287-4 Kiyomizu, right on the Sannenzaka/Higashiyama route you're already walking — no detour needed. The concept is "two in eight billion" — matching pair keyrings unique to you both. The store opens around 10am. Browse the designs and choose your pair. A beautiful and very personal Kyoto souvenir.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Confirm opening hours on their Instagram @2_8b_official before the trip — they occasionally open later. Allow 20–30 minutes here. The shop is small so arrive when it opens to avoid waiting.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">11:00 AM</div>
           <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
           <div class="t-body">
             <div class="t-activity">🌸 Yasaka Shrine + Maruyama Park Sakura</div>
@@ -1732,10 +1882,11 @@ body {
           <div class="t-time">1:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body">
-            <div class="t-activity">Gion Wandering + Le Labo Machiya</div>
+            <div class="t-activity">Gion Wandering + Le Labo Machiya + Glanta Ring</div>
             <div class="detail-box">
               <div class="chip chip-do"><span class="chip-icon">•</span><div>Walk through Gion's machiya streets at a relaxed pace. The best blocks are just south of Shijo on Hanamikoji. Peek into the narrow side alleys — you may glimpse a maiko heading to an appointment.</div></div>
               <div class="chip chip-do" style="margin-top:6px"><span class="chip-icon">•</span><div><strong>Le Labo Machiya Kyoto</strong> — Le Labo's Kyoto location is inside a beautifully restored traditional machiya townhouse — completely unlike any other Le Labo store in the world. They carry Kyoto-exclusive scents only available here. Even if you don't buy, the space itself is worth walking through. A 10-minute detour from Hanamikoji into the Gion backstreets.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">💍</span><div><strong>Glanta Kyoto Ring</strong> — A small artisan jewellery shop in the Higashiyama/Gion area known for beautiful handcrafted rings. Already on your walking route — no detour needed. Browse and see if anything speaks to you. Their pieces are very Kyoto in aesthetic — delicate, refined, Japanese craft sensibility. If a ring resonates, it's a beautiful Kyoto memory to bring home.</div></div>
               <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Machiya Townhouses</strong> — Wooden latticed facades, noren curtains, small garden gates. Shoot in the afternoon when direct light hits the wood.</div></div>
             </div>
           </div>
@@ -1813,18 +1964,41 @@ body {
     <!-- APRIL 4 — ARASHIYAMA -->
     <div class="day-card">
       <div class="day-card-head">
-        <div class="day-num-block" style="background: var(--gold3)"><span class="dd">4</span><span class="mm">APR</span></div>
+        <div class="day-num-block" style="background: #8a6020"><span class="dd">4</span><span class="mm">APR</span></div>
         <div class="day-head-body">
-          <div class="day-title">Arashiyama — Bamboo, Temples & Sagano Train</div>
+          <div class="day-title">Arashiyama — Bamboo, Temples & Hozugawa River Cruise</div>
           <div class="day-sub">
             <span class="day-badge badge-kyoto">Kyoto</span>
             <span>Arashiyama · Tenryu-ji · Jojakko-ji · Okochi Sanso</span>
             <span class="hotel-tag">🏨 Kyoto Granbell</span>
-            <span class="strain-badge strain-full">🟡 Full</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~18,000–22,000 steps · 🔴 Heavy</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Hankyu Kyoto Line → Arashiyama (30min) · Taxi to Kameoka for Hozugawa cruise</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Hankyu Kyoto Line → Arashiyama (30min) · Taxi to Kameoka for Hozugawa</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Hankyu Kyoto Line from Kawaramachi → Katsura → Arashiyama (30 min, ¥230). For Hozugawa: taxi to Kameoka (~40min, ¥4,000) then 2hr cruise back.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
+          <div class="t-time">6:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍙 Quick Breakfast — Convenience Store</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🏪</span><div>Grab breakfast from the 7-Eleven or FamilyMart near your hotel before the 6:30am train. Onigiri, tamagoyaki, and a warm canned coffee or matcha latte. This is a very early start — a quick conbini breakfast is the right call. Eat on the train or platform.</div></div>
+            </div>
+          </div>
+        </div>
+
         <div class="t-item">
           <div class="t-time">6:30 AM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
@@ -1906,14 +2080,24 @@ body {
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">2:30 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot booked"></div></div>
+          <div class="t-time">2:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
           <div class="t-body">
-            <div class="t-activity">🚂 Sagano Romantic Train <span class="booked-pill">Pending</span></div>
+            <div class="t-activity">⛵ Hozugawa River Cruise — Gorge Boat Ride Back to Arashiyama <span class="booked-pill">Book at Location</span></div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>An open-sided scenic train running through the Hozu River gorge with cherry blossoms in spring. Runs from Arashiyama (Torokko Arashiyama) through the gorge to Kameoka (30 min). Book tickets in advance — they sell out during sakura season.</div></div>
-              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>River Gorge Views from Train Window</strong> — Shoot through the open windows as the train moves through the narrow gorge. The river curves and turns, and sakura trees overhang from the cliff edges. Motion blur on the foreground plants with the river sharp behind.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Take a taxi from Arashiyama/Okochi Sanso area to Kameoka (about 20 min) to board the Hozugawa River Cruise. The boat carries you back downstream through the Hozu River gorge to Arashiyama over about 2 hours — floating through rapids with gorge walls rising on both sides and sakura trees overhanging from the cliffs in April. About ¥4,100 per person.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div>This is the classic way to experience the gorge — train one direction, boat the other, each giving a completely different perspective of the same canyon. From water level the cliffs feel enormous and the sakura hanging above you is extraordinary.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Gorge Walls from the Boat</strong> — Shoot looking up at the towering cliff walls with sakura overhanging from the top. The scale only becomes clear from water level — the same gorge that looked like a narrow valley from the train now feels immense.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Rapids + Sakura</strong> — As the boatmen navigate the shallow rapids, shoot the white water with the pink sakura and green gorge behind. A very dynamic shot unique to this experience.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Book at hozugawakudari.co.jp NOW — April 4 during sakura season is peak demand and afternoon slots fill up fast. The boat arrives back at Arashiyama, so you're perfectly positioned for the return journey to Kyoto for dinner.</div></div>
             </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">5:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Return to Kyoto from Arashiyama · Rest at hotel</div>
           </div>
         </div>
         <div class="t-item">
@@ -1939,18 +2123,31 @@ body {
             <span class="day-badge badge-kyoto">Kyoto</span>
             <span>Philosopher's Path · Silver Pavilion · Nanzen-ji · Golden Pavilion</span>
             <span class="hotel-tag">🏨 Sakanoue Ryokan (check-in evening)</span>
-            <span class="strain-badge strain-brutal">🔴 Brutal</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~16,000–20,000 steps · 🔴 Heavy</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Bus/walk within Kyoto · Kyoto City Bus between temples</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Walk/bus within Kyoto</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Bus or walk from hotel → Philosopher's Path (30 min walk from Ginkaku-ji). Then bus to Kinkaku-ji/Ryoan-ji (Kyoto City Bus).</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
           <div class="t-time">8:00 AM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
             <div class="t-activity">Breakfast</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Komeda Is</strong> — Vegetarian breakfast sets with thick toast, boiled egg, coffee. Good value and relaxed. Alternatively, Kurasu Kyoto for a specialty coffee start.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Komeda Is (Kyoto)</strong> — Komeda's vegetarian-friendly breakfast set: thick toast with butter, boiled egg, and coffee or tea. A very satisfying, affordable Japanese morning set that fuels a full day of walking. The shiro (white bean paste) spread on the toast is a Komeda signature — try it.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">☕</span><div><strong>Kurasu Kyoto (near hotel)</strong> — If you want a specialty coffee start to the day instead, Kurasu is one of Japan's most respected roasters with a beautiful minimal café. Single origin filter coffee, light toast. A calmer, more focused breakfast experience.</div></div>
             </div>
           </div>
         </div>
@@ -1990,8 +2187,8 @@ body {
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Sanmon Gate Framed by Cherry Blossoms</strong> — The massive wooden gate with sakura on both sides. Wide shot from the gravel path.</div></div>
               <div class="chip chip-do" style="margin-top:6px"><span class="chip-icon">🌿</span><div><strong>Tenjuan Sub-Temple (inside Nanzen-ji)</strong> — Walk 2 minutes inside the Nanzen-ji complex to the Tenjuan sub-temple. A stunning moss and stone garden with a koi pond, stone lanterns, and cherry trees in bloom. Deeply serene and significantly less visited than the main Nanzen-ji. Entry ¥500. Give it 20–25 minutes. This is one of the best hidden gardens in Kyoto.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Tenjuan Koi Pond + Cherry Blossoms</strong> — The pond reflects the blossoms overhead. Shoot from the garden veranda looking across the water toward the stone lanterns and cherry trees beyond.</div></div>
+              <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamps ✓ — Two available here</strong> — Nanzen-ji main temple has its own goshuin stamp (stamp office near the main gate, ¥300). Tenjuan sub-temple also has its own separate stamp — ask at the entrance when you pay your ¥500 entry. Getting both gives you two beautifully different stamps from the same visit. Keage Incline nearby is a railway stamp location — check at Keage Station for the station stamp.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Keage Incline Sakura Tracks</strong> — 5-min walk from Nanzen-ji. Disused railway tracks lined with a tunnel of sakura. Shoot both looking up and down the incline.</div></div>
-              <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓ — Nanzen-ji + Tenjuan</strong> — Nanzen-ji offers a goshuin at the main temple office. Cost ¥300. Also get a separate stamp at Tenjuan sub-temple while you're inside — it has its own stamp office at the entrance. Two stamps from one visit. The Tenjuan stamp is particularly special — fewer visitors means more personal attention from the stamp writer.</div></div>
             </div>
           </div>
         </div>
@@ -2025,8 +2222,8 @@ body {
               <div class="chip chip-do"><span class="chip-icon">•</span><div>The most visited temple in Japan. It's genuinely spectacular — two floors covered entirely in gold leaf, reflected in the Kyoko-chi pond. Visit in the afternoon (3–4pm) when the tour bus crowds thin out.</div></div>
               <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Gold Temple Reflection in Kyoko-chi Pond</strong> — The main composition. Stand at the designated photo area and compose with the pavilion and its reflection symmetric in the water. Use a polarizing filter if you have one to reduce glare and deepen the reflection.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Pine Branches Framing the Pavilion</strong> — Move slightly right of the main viewing area. Pine tree branches overhang the path and can be used to frame the golden pavilion in a natural frame. A longer focal length compresses the pavilion and its reflection together.</div></div>
-              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>An overcast sky actually helps here — direct sunlight creates harsh reflections on the gold. Soft diffused light makes the gold glow evenly. Don't skip this even in flat light.</div></div>
               <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓</strong> — Kinkaku-ji offers a goshuin stamp AND a special entry ticket stamp — both worth collecting. The goshuin office is near the exit of the garden. Cost ¥300. The Kinkaku-ji goshuin is one of the most beautiful in Kyoto — the gold ink matches the pavilion perfectly.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>An overcast sky actually helps here — direct sunlight creates harsh reflections on the gold. Soft diffused light makes the gold glow evenly. Don't skip this even in flat light.</div></div>
             </div>
           </div>
         </div>
@@ -2076,12 +2273,35 @@ body {
             <span class="day-badge badge-nara">Nara</span>
             <span>Nara Park · Todai-ji · Kasuga Taisha · Naramachi</span>
             <span class="hotel-tag">🏨 Sakanoue Ryokan (Kyoto)</span>
-            <span class="strain-badge strain-full">🟡 Full</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~14,000–16,000 steps · 🟡 Moderate</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Kintetsu Kyoto Line → Nara (45min, ¥400) · All Nara on foot · Kintetsu back</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
+                        <div class="t-item">
+          <div class="t-time">7:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍚 Ryokan Breakfast — Sakanoue</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Traditional Japanese ryokan breakfast</strong> — Served in your room or the dining room. Steamed rice, miso soup, tofu, pickled vegetables, grilled vegetables, natto (optional). A genuinely beautiful and nourishing way to start a full day in Nara. Confirm vegetarian at check-in the night before.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Kintetsu or JR → Nara (45min) · Walk all day · Kintetsu back</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>JR or Kintetsu from Kyoto to Nara (~45min, ¥730 JR / ¥400 Kintetsu). Walk everything in Nara (compact). Kintetsu back to Kyoto (~45min).</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
           <div class="t-time">8:15 AM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body"><div class="t-activity">Train: Kyoto → Nara (Kintetsu Limited Express, ~35 min)</div></div>
@@ -2143,17 +2363,8 @@ body {
             <div class="t-activity">Naramachi Historic District Walk</div>
             <div class="detail-box">
               <div class="chip chip-photo"><span class="chip-icon">📷</span><div><strong>Wooden Machiya Houses</strong> — Old merchant townhouses, many converted to cafés and shops. The alleyways with latticed wooden windows are very photogenic. Quieter and less visited than Gion's equivalent streets.</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="t-item">
-          <div class="t-time">4:00 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
-          <div class="t-body">
-            <div class="t-activity">Coffee — Naramachi</div>
-            <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">☕</span><div><strong>Kissa Tora</strong> — A retro Japanese kissaten (old-school coffee shop) tucked in Naramachi's backstreets. Great atmosphere, proper drip coffee, simple sweets. A nice pause before heading back to Kyoto.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">☕</span><div><strong>VOCO Coffee</strong> — Specialty third-wave coffee in Naramachi. Cleaner, brighter option if you prefer a lighter roast.</div></div>
+              <div class="chip chip-food" style="margin-top:6px"><span class="chip-icon">☕</span><div><strong>Kōjimachi-dori café or Cafe Lumière</strong> — Naramachi has several quiet old townhouse cafés tucked into converted machiya. A perfect 20–30 minute rest after the deer park and temples. Order a local hojicha or matcha, sit on the wooden bench, and feel the pace slow right down. One of the most authentically local Nara experiences — tourists rarely venture into Naramachi this far.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Naramachi's streets are best explored slowly — look for the small shops selling deer-motif crafts and pottery. The Koshi-no-ie (lattice house) is free to enter and beautiful — worth 10 minutes inside.</div></div>
             </div>
           </div>
         </div>
@@ -2170,7 +2381,22 @@ body {
         <div class="t-item">
           <div class="t-time">5:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
-          <div class="t-body"><div class="t-activity">Train back to Kyoto · Return to Sakanoue Ryokan · Vegetarian Kaiseki Dinner</div></div>
+          <div class="t-body">
+            <div class="t-activity">Train back to Kyoto (Kintetsu, ~45 min)</div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">7:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍲 Dinner — Vegetarian Kaiseki at Sakanoue Ryokan</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Vegetarian Kaiseki (confirm at check-in)</strong> — A traditional multi-course Japanese dinner served in your room or the dining room. Each course is a small, beautifully presented seasonal dish — tofu, pickles, soup, rice, steamed vegetables, mountain vegetables (sansai). This is shojin-inspired ryokan cooking at its finest. <strong>Confirm your vegetarian requirement at check-in and again when you book.</strong> This is one of the most special meals of the whole trip — eat slowly.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍜</span><div><strong>Alternative if dining out: Houtou Fudou</strong> — Kawaguchiko area classic. Wide flat udon noodles in rich miso broth with vegetables and kabocha pumpkin (order the vegetarian houtou). The thatched-roof building is also photogenic. This was on the Fuji day — same dish is available back in the Kyoto/Nara region at similar restaurants if you want a more casual dinner.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">♨️</span><div>After dinner, use the ryokan onsen. Soak for 20–30 minutes — you've done a full Nara day and your legs need it. Ask about private onsen (kashikiri buro) when checking in — Sakanoue may offer it.</div></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2190,78 +2416,146 @@ body {
       <div class="day-card-head">
         <div class="day-num-block" style="background:#b03030"><span class="dd">7</span><span class="mm">APR</span></div>
         <div class="day-head-body">
-          <div class="day-title">Osaka Castle, Dotonbori & Toshiharu Ryokan</div>
+          <div class="day-title">Osaka — Katsuoji (optional) · Castle · Kuromon · Dotonbori</div>
           <div class="day-sub">
             <span class="day-badge badge-osaka">Osaka</span>
-            <span>Osaka Castle · Shinsaibashi · Dotonbori · Shinsekai</span>
+            <span>Katsuoji (optional early start) · Osaka Castle · Namba · Dotonbori</span>
             <span class="hotel-tag">🏨 Toshiharu Ryokan (Kyoto)</span>
-            <span class="strain-badge strain-brutal">🔴 Brutal</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~18,000–22,000 steps · 🔴 Heavy (Katsuoji adds ~4,000 steps)</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Hankyu Kyoto Line → Umeda, Osaka (45min) · Option A: Midosuji → Minoh Kayano + Bus 30</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
-          <div class="t-time">8:30 AM</div>
-          <div class="t-dot-wrap"><div class="t-dot"></div></div>
-          <div class="t-body"><div class="t-activity">Checkout Sakanoue Ryokan — Travel to Osaka (Hankyu Line from Kyoto, ~35 min)</div></div>
-        </div>
-        <div class="t-item">
-          <div class="t-time">10:30 AM</div>
-          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+
+                        <div class="t-item">
+          <div class="t-time">6:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">🌸 Osaka Castle & Park</div>
+            <div class="t-activity">🍚 Ryokan Breakfast — Toshiharu (if Option A) / Quick conbini (if Option A Katsuoji)</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>Osaka Castle is surrounded by a wide moat and a park full of cherry trees in April. The park has approximately 3,000 cherry trees and is one of Osaka's most popular hanami spots. Walk the moat perimeter before entering the park.</div></div>
-              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Castle Moat Reflection with Sakura</strong> — Stand on the castle moat's outer bank and shoot the castle reflected in the still water, with sakura trees arching over the reflection. Morning light is ideal — the castle faces east.</div></div>
-              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Castle Framed by Cherry Blossoms</strong> — Walk into the inner bailey (second moat). The sakura trees around this inner area are the most dense. Position yourself with sakura in the foreground and the castle's white towers rising above the pink clouds of blossoms.</div></div>
-              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Wide Shot from Otemon Approach</strong> — The main approach path (Otemon) leads straight to the castle gate. A wide shot from the stone bridge shows the full castle gate with cherry trees flanking the path.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Option B (normal start):</strong> Traditional ryokan breakfast at Toshiharu before checkout — rice, miso soup, tofu, pickles. Ask the ryokan the evening before what time breakfast is served.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🏪</span><div><strong>Option A (Katsuoji early start):</strong> No time for ryokan breakfast — grab an onigiri and coffee from a convenience store near the ryokan before catching the early train.</div></div>
             </div>
           </div>
         </div>
+
+<div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Hankyu Kyoto Line → Osaka (45min) · Optional: Midosuji → Minoh Kayano for Katsuoji</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Hankyu Line from Kyoto Kawaramachi → Umeda, Osaka (~45min, ¥540). Or JR Shinkaisoku. For Katsuoji (Option A): Midosuji Line → Minoh Kayano → Bus 30.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
+          <div class="t-time">6:45 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Checkout Sakanoue Ryokan → Train toward Osaka</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Two options for this morning — decide the night before based on how you feel:</strong></div></div>
+              <div class="chip chip-tip" style="margin-top:6px; border-left: 3px solid #e8a020; background: #fdf6e8"><span class="chip-icon">🔀</span><div><strong>OPTION A — Katsuoji Temple first (early start):</strong> Leave Sakanoue Ryokan by 6:45am. Take Hankyu Line to Osaka → connect to Midosuji Line to Minoh Kayano Station (~35 min from Kyoto total) → Hankyu Bus 30 from Stop 8 → Katsuoji (~20 min). Arrive at the temple by 8:00am. Leave by 10:00am, back in central Osaka by 11:00am. Then join the main day from Osaka Castle at 11:30am. <strong>Only do this if you wake up feeling energetic</strong> — it's a full Osaka day after.</div></div>
+              <div class="chip chip-tip" style="margin-top:6px; border-left: 3px solid #4a9b6f; background: #edf7f1"><span class="chip-icon">🔀</span><div><strong>OPTION B — Skip Katsuoji (normal start):</strong> Leave Sakanoue at 8:30am. Take the Hankyu Line to Osaka (~35 min). Arrive Osaka ~9:30am. Start Osaka Castle at 10:30am as originally planned. More relaxed, more time at the castle and Dotonbori. Totally fine to skip Katsuoji — it's a bonus, not essential.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">8:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🎎 Katsuoji Temple — Daruma Doll Temple (Option A only)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Nestled in the forested mountains of Minoh, north Osaka. A 1,300-year-old temple famous for thousands of Daruma dolls scattered across every surface — tucked into rocks, lining staircases, hanging from branches, peeking out from moss. Unlike anything else in Japan. Temple entry ¥500. Opens at 8am — arrive right at opening for the quietest visit. Budget 90 minutes here.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>The Daruma ritual:</strong> At the Granting Office, choose a Daruma that feels right to you. Write your goal or life purpose on the back. Paint in the RIGHT eye as a personal vow — "I will work toward this." Bring the one-eyed Daruma home. When you achieve your goal, fill in the LEFT eye yourself. A genuinely moving ritual, not just a tourist activity.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Daruma Staircase</strong> — The temple's most iconic shot: stone steps completely lined with red Daruma dolls on both sides, leading up into the forested hillside. Shoot from below looking up — the repetition of hundreds of round red faces receding into the distance is extraordinary. Early morning with no crowds is the only time to get this clean.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Mist Bridge over the Pond</strong> — The entrance bridge crosses a koi pond often shrouded in morning mist. The red bridge, misty forest, and occasional sakura in early April is a very painterly composition.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Daruma Hidden in Moss and Rocks</strong> — Walk slowly and look for Daruma tucked into unlikely places — inside tree hollows, between rocks, perched on branches. Close-up macro shots of a single Daruma face surrounded by moss are beautiful.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Spring at Katsuoji</strong> — In early April, cherry blossoms bloom throughout the 26,000m² grounds. Daruma dolls + sakura + forest mist = one of the most uniquely Japanese scenes you'll photograph on this whole trip.</div></div>
+              <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓</strong> — Katsuoji's goshuin stamp has become famous — it features the Daruma design and is one of the most viral temple stamps in Japan. The stamp office opens at 8am. Cost ¥500. One of the most distinctive stamps you'll collect on this trip.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>The Daruma staircase photo can have queues later in the day — at 8am you'll have it entirely to yourself. Don't rush the grounds — there are Daruma hidden in spots most visitors walk straight past. Look in every crevice.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">10:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-body">
+            <div class="t-activity">Return to Central Osaka (Option A) — Bus + Train (~1 hr)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Bus 30 from Katsuoji-mae back to Minoh Kayano Station (~20 min, ¥800) → Midosuji Line south to central Osaka (~35 min). Arrive Osaka ~11:00am. Head straight to Osaka Castle.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">11:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Osaka Castle, Nishinomaru Garden & Park</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Enter via the Otemon Gate. Start by walking the outer moat perimeter — this is where the best sakura + castle reflection shots are. Then enter Nishinomaru Garden (¥200 entry) — a dedicated cherry blossom garden within the castle grounds with 600 trees. One of Osaka's best hanami spots and far less crowded than the main park. Allow 60–75 minutes total.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Cannot miss:</strong> The castle tower interior has excellent exhibits on Toyotomi Hideyoshi and Osaka's history. The view from the top floor over the sakura park is spectacular. Budget 20 minutes inside.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Castle Moat Reflection + Sakura</strong> — Stand on the outer moat bank and shoot the castle tower reflected in the still water with sakura arching overhead. Morning light hits the castle from the east — golden and clean.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Castle Framed by Cherry Blossoms — Inner Bailey</strong> — Walk into the second moat area where the sakura is densest. Position cherry blossoms as a foreground frame with the white castle towers rising above the pink canopy. This is the postcard Osaka shot.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Otemon Approach Wide Shot</strong> — From the stone bridge looking straight up the approach to the main gate. Cherry trees line both sides. A wide shot with the gate centred at the end of the path.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Nishinomaru Garden is worth the ¥200 — far fewer people than the main park and the sakura density is higher. Go here first before the main moat walk.</div></div>
+            </div>
+          </div>
+        </div>
+
         <div class="t-item">
           <div class="t-time">12:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
             <div class="t-activity">Lunch — Paprika Shokudo Vegan</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🌱</span><div><strong>Paprika Shokudo Vegan</strong> — Fully vegan, generous portions, great daily specials. Near Namba. Their curries and stir-fries are excellent. Your safe, reliable, fully guaranteed vegetarian lunch before the afternoon.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🌱</span><div><strong>Paprika Shokudo Vegan</strong> — Fully vegan, generous portions, great daily specials. Near Namba. Their curries and stir-fries are excellent. This is your safe, reliable, fully guaranteed vegetarian lunch before the afternoon street walking.</div></div>
               <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌿</span><div><strong>Alternative: Shojin Sushi Minamo</strong> — Sister restaurant of Paprika, serving fully vegan sushi using plant-based ingredients. Allium-free. One of the most unique dining experiences in Osaka — chef brings out the maximum flavour of vegetables instead of fish. Slightly more special if you want an elevated lunch.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥟</span><div><strong>Alternative: Gyozaoh! Dotonbori</strong> — Ranked #1 of 233 restaurants near Dotonbori. Excellent vegetable gyoza — pan-fried or deep-fried. The yuzu tofu and burdock fries are exceptional. Note: opens at 5pm only — save for dinner instead.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥟</span><div><strong>Alternative: Gyozaoh! Dotonbori</strong> — Ranked #1 of 233 restaurants in central Dotonbori. Excellent vegetable gyoza — pan-fried or deep-fried, both outstanding. The yuzu tofu and burdock fries are exceptional. English menu, English-speaking staff. Note: opens at 5pm only — save for dinner instead.</div></div>
             </div>
           </div>
         </div>
+
         <div class="t-item">
-          <div class="t-time">1:00 PM</div>
+          <div class="t-time">1:15 PM</div>
           <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
           <div class="t-body">
             <div class="t-activity">Shinsaibashi Shopping Arcade + Amerika-Mura</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Shinsaibashi-Suji</strong> — Walk the full 600m covered arcade south to north. Mix of luxury brands, fashion, cosmetics, and Osaka souvenir shops. Don't rush — the side alleys off the main arcade have great independent boutiques.</div></div>
-              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Amerika-Mura (American Village)</strong> — Osaka's street fashion and vintage district, just west of Shinsaibashi. Independent streetwear boutiques, vintage shops, and record stores. Very different energy from Harajuku — rawer, more local, prices noticeably lower. Triangle Park in the middle is a good people-watching spot. Worth 30 minutes.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Shinsaibashi-Suji</strong> — Walk the full 600m covered arcade south to north. Mix of luxury brands, fashion, cosmetics, and Osaka souvenir shops. Don't rush this — the side alleys off the main arcade have great independent boutiques.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Amerika-Mura (American Village)</strong> — Osaka's street fashion and vintage district, just west of Shinsaibashi. A few blocks of independent streetwear boutiques, vintage shops, and record stores. Very different energy from Harajuku — rawer, more local, prices noticeably lower. Triangle Park in the middle is a good people-watching spot. Worth 30 minutes.</div></div>
               <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Shinsaibashi Arcade</strong> — Shoot looking down the full length of the covered arcade with the arched glass roof overhead and colorful shopfronts receding into the distance. Best with the afternoon crowd.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Amerika-Mura Street Shots</strong> — The narrow backstreets have great street art and independent shop fronts. Candid street photography here is very rewarding — the neighbourhood has a distinctive visual identity unlike anywhere else in Japan.</div></div>
             </div>
           </div>
         </div>
+
         <div class="t-item">
           <div class="t-time">2:30 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
             <div class="t-activity">Kuromon Ichiba Market — Osaka's Kitchen</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>A 190-year-old covered market with 170+ stalls — Osaka's most famous kitchen market. Walk through slowly and graze. Very different energy from Nishiki in Kyoto — louder, rawer, more local. About a 10-minute walk from Shinsaibashi or 2-min subway ride.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>A 190-year-old covered market with 170+ stalls — Osaka's most famous kitchen market, known as "Osaka's Kitchen." Walk through slowly and graze. Very different energy from Nishiki in Kyoto — louder, rawer, more local. About a 10-minute walk from Shinsaibashi or 2-min subway ride.</div></div>
               <div class="chip chip-food" style="margin-top:6px"><span class="chip-icon">🍊</span><div><strong>For vegetarians:</strong> Fresh fruit stalls with beautifully cut seasonal fruit, tamagoyaki (egg) skewers, fresh tofu and soy milk drinks, tsukemono pickles, fresh juice stalls, and roasted sweet potato. Graze as you walk — this is an eating experience not a sit-down meal.</div></div>
-              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Market Stall Close-Ups</strong> — The colourful produce and vendor faces make excellent close-up photography. Shoot the textures of the food and the vendors at work. Ask permission with a smile — most vendors love it.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Market Stall Close-Ups</strong> — The colourful produce, fresh seafood displays, and vendor faces make excellent close-up photography. Shoot the textures of the food and the vendors at work. Ask permission with a smile — most vendors love it.</div></div>
             </div>
           </div>
         </div>
+
         <div class="t-item">
           <div class="t-time">3:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
             <div class="t-activity">🏮 Hozenji Yokocho — Hidden Alley Temple</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>Just steps from Dotonbori's neon chaos, Hozenji Yokocho is an 80-metre stone-paved alley lined with traditional lanterns and old Osaka buildings. At the end sits Hozen-ji Temple — a tiny shrine with a famous moss-covered Fudo Myo-o statue that worshippers continuously pour water over, turning it completely green. A genuinely magical hidden spot that most tourists miss entirely.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Just steps from Dotonbori's neon chaos, Hozenji Yokocho is an 80-metre stone-paved alley lined with traditional lanterns and old Osaka buildings that survived post-war reconstruction. At the end sits Hozen-ji Temple — a tiny shrine with a famous moss-covered Fudo Myo-o statue that worshippers continuously pour water over, turning it completely green. A genuinely magical hidden spot that most tourists miss entirely.</div></div>
               <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓</strong> — Hozenji Temple offers a small but beautiful goshuin stamp — one of the most unique in Osaka given the temple's intimate scale. Ask at the small offering table inside the alley. Cost ¥300. The stamp features the moss-covered Fudo Myo-o motif. A very special and rare stamp that few tourists collect.</div></div>
               <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Lantern-Lit Alley</strong> — The stone-paved alley lined with traditional lanterns is one of Osaka's most atmospheric photography spots. Shoot looking down the alley from the entrance — the lanterns receding into the soft light of the temple at the end. As good as anything in Kyoto.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Moss-Covered Fudo Myo-o Statue</strong> — The continuously water-soaked stone statue is entirely covered in vivid green moss. A close-up of the texture and the hands of worshippers pouring water is a powerful image.</div></div>
@@ -2269,6 +2563,7 @@ body {
             </div>
           </div>
         </div>
+
         <div class="t-item">
           <div class="t-time">4:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
@@ -2276,76 +2571,116 @@ body {
             <div class="t-activity">🦁 Namba Yasaka Shrine — Giant Lion Head</div>
             <div class="detail-box">
               <div class="chip chip-do"><span class="chip-icon">•</span><div>A completely unique shrine tucked into the middle of the city — famous for its enormous lion head stage structure that towers over the shrine grounds. The lion's open mouth is said to devour evil spirits and bring good luck. Completely different from any shrine in Tokyo or Kyoto. About a 10-minute walk from Dotonbori.</div></div>
-              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Giant Lion Head</strong> — Shoot from directly in front of the lion head looking up — the scale is extraordinary and the visual is unlike anything else in Japan. Wide angle from ground level makes the head loom dramatically.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Giant Lion Head</strong> — Shoot from directly in front of the lion head looking up — the scale is extraordinary and the visual is unlike anything else in Japan. Wide angle from ground level makes the head loom dramatically. Also shoot from the side to show the full structure in context with the surrounding shrine buildings.</div></div>
               <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓</strong> — Namba Yasaka Shrine offers a goshuin stamp featuring the famous lion head design — the most visually distinctive shrine stamp in Osaka. The stamp office is just inside the shrine entrance. Cost ¥300. Open 9am–5pm. A very Osaka stamp that stands out completely from your Kyoto and Tokyo collection.</div></div>
               <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>This is one of Osaka's best photo spots and most people don't even know it exists. Free entry. 5 minutes from Namba Station. Completely worth the slight detour before Dotonbori.</div></div>
             </div>
           </div>
         </div>
+
         <div class="t-item">
           <div class="t-time">4:45 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">🥞 OKO Fun Okonomiyaki Bar — Vegan Osaka Specialty</div>
+            <div class="t-activity">OKO Fun Okonomiyaki Bar — Vegan Osaka Specialty</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🥞</span><div><strong>OKO Fun Okonomiyaki Bar</strong> — Right on Dotonbori (2 Chome-4-13). Fully vegan okonomiyaki — the batter is made with okara (soy bean pulp) instead of wheat flour. Choose your 5 vegetables. Ask for vegan cheese topping. Run by one woman, four floors of neon chaos and graffiti-covered walls. A completely unique Osaka experience. Very affordable.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥟</span><div><strong>Alternative: Gyozaoh! Dotonbori</strong> — Ranked #1 near Dotonbori. Excellent vegetable gyoza — pan-fried or deep-fried. The yuzu tofu and burdock fries are exceptional. English menu, English-speaking staff.</div></div>
-              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>OKO may have a queue — arrive just before opening (usually around 5–5:30pm) to get in early. The experience of watching one woman run the entire operation is worth it.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🥞</span><div><strong>OKO Fun Okonomiyaki Bar</strong> — Right on Dotonbori (2 Chome-4-13). This place is famous on social media specifically for vegetarians and vegans visiting Osaka. Fully vegan okonomiyaki — the batter is made with okara (soy bean pulp) instead of wheat flour. Choose your 5 vegetables. Ask for vegan cheese topping. Run by one woman, four floors of neon chaos and graffiti-covered walls with Nirvana playing. A completely unique Osaka experience. Very affordable.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥟</span><div><strong>Alternative: Vegan Ramen by Playpen Friends</strong> — Near Shinsaibashi Station. Three broths: miso, soy sauce, and tomato. Warm, cozy vibe. Great if you want something more relaxed than the OKO chaos before the Dotonbori evening.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>OKO may have a queue — arrive just before opening (usually around 5–5:30pm) to get in early. The experience of watching one woman run the entire operation is worth coming for even if the food weren't excellent.</div></div>
             </div>
           </div>
         </div>
-        <div class="t-item">
-          <div class="t-time">~3:00 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot food photo"></div></div>
-          <div class="t-body">
-            <div class="t-activity">Shinsekai Retro Street (Optional — if skipping new activities above)</div>
-            <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🍢</span><div><strong>Vegetarian Kushikatsu</strong> — Breaded and deep-fried skewers of pumpkin, lotus root, eggplant, mushroom, asparagus, and cheese. Osaka's most famous street food. Dip only once — the Shinsekai rule is never double-dip into the communal sauce.</div></div>
-              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Tsutenkaku Tower + Retro Neon</strong> — The neighborhood's retro tower surrounded by vintage neon signs and old-school food stalls. Feels like 1960s Japan. Shoot the street with the tower in the background.</div></div>
-            </div>
-          </div>
-        </div>
+
         <div class="t-item">
           <div class="t-time">5:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
-            <div class="t-activity">📷 Dotonbori Canal — Sunset & Blue Hour</div>
+            <div class="t-activity">📷 Dotonbori Canal — Sunset & Full Blue Hour</div>
             <div class="detail-box">
               <div class="chip chip-do"><span class="chip-icon">•</span><div>Arrive at 5:30pm as the sky is still orange and the neon signs are just flickering on. Walk the full canal length both directions over the next 90 minutes. The Tombori River Walk (the lower canal-level walkway) gives a completely different perspective — walk down the steps from Ebisubashi to the water level path for neon reflections from ground level.</div></div>
               <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Blue hour sweet spot: 6:00–6:30pm. Sky still has deep blue colour, neon fully lit, reflections in the water strongest. After 7pm it's full dark — still beautiful but the sky gradient is gone. Don't arrive too late.</div></div>
               <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Glico Running Man at Blue Hour</strong> — Stand on Ebisubashi Bridge at 6pm. The Glico man fully lit against a deep blue sky with the canal and bridge below. Use a slightly longer shutter (1/15–1/30s) to smooth the water reflections. This is the defining Osaka shot.</div></div>
-              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Secret Glico Running Pose Shot</strong> — Find the cosmetics store Nano Hana on the Dotonbori strip, walk up the stairs and immediately turn right. This is the hidden Instagram spot where you can pose running alongside the Glico Man sign as if you're in the sign yourself. Almost nobody knows about this angle.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Secret Glico Running Pose Shot</strong> — Find the cosmetics store Nano Hana on the Dotonbori strip, walk up the stairs and immediately turn right. This is the hidden Instagram spot where you can pose running alongside the Glico Man sign as if you're in the sign yourself. Almost nobody knows about this angle — it makes for a completely unique photo.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Neon Canal Reflections from Water Level</strong> — Walk down to the Tombori River Walk at canal level. From here the neon signs above you reflect in the rippling water — reds, yellows, greens blurring in the canal. Shoot along the water looking toward the lit-up bridge.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Tombori River Cruise (Optional — 20 min)</strong> — A 20-minute canal boat ride looking up at the neon signs and giant restaurant decorations from the water. Even better at blue hour as the lights come on around you. Departs near Dotonbori regularly.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Giant Kani Doraku Crab Sign</strong> — The enormous moving mechanical crab on the Kani Doraku restaurant is one of Dotonbori's most iconic signs. Shoot looking up from below with the canal and bridge in the background.</div></div>
-              <div class="chip chip-food" style="margin-top:8px"><span class="chip-icon">🍞</span><div><strong>Melon Bread Ice Cream Sandwich</strong> — The Melon Bread shop on Dotonbori stuffs a scoop of ice cream inside their melon pan — a hot/cold ice cream sandwich. Very Instagrammable, very Osaka. Walk and eat while doing your canal photography.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥚</span><div><strong>Andrew's Eggtart Dotonbori</strong> — Located directly across from the Shochikuza Kabuki Theater. Bite-sized flaky pastry cups filled with soft oozing egg custard — matcha (with red bean and kuromitsu), chestnut, strawberry. The matcha version is exceptional. Perfect walking dessert during blue hour photography.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Don Quijote Ferris Wheel</strong> — The Dotonbori Don Quijote has a small Ferris wheel attached to the building. Shoot from the canal looking up at the wheel lit up against the neon signs — a uniquely Osaka composition.</div></div>
+              <div class="chip chip-food" style="margin-top:8px"><span class="chip-icon">🍞</span><div><strong>Melon Bread Ice Cream Sandwich</strong> — The Melon Bread shop on Dotonbori is famous for stuffing a scoop of ice cream inside their melon pan — effectively creating a hot/cold ice cream sandwich. Very Instagrammable, very Osaka. Walk and eat while doing your canal photography.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥚</span><div><strong>Andrew's Eggtart Dotonbori</strong> — Located directly across from the Shochikuza Kabuki Theater on Dotonbori. Bite-sized flaky pastry cups filled with soft oozing egg custard. Available in matcha (with red bean and kuromitsu), chestnut, strawberry, and more. The matcha version is exceptional. Perfect walking dessert during your blue hour photography.</div></div>
             </div>
           </div>
         </div>
+
         <div class="t-item">
           <div class="t-time">7:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">Dinner — Gyozaoh! Dotonbori</div>
+            <div class="t-activity">Dinner — Gyozaoh! / Shin Gi Tai / Kiou Ramen options</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🥟</span><div><strong>Gyozaoh! Dotonbori</strong> — Ranked #1 of 233 restaurants in central Dotonbori. Their vegetable gyoza (pan-fried or deep-fried) are outstanding. The yuzu tofu is exceptional. English menu, English-speaking staff. Counter seating where you can watch the chefs. There may be a 20–30 min wait — join the queue, it moves fast and is worth it.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌿</span><div><strong>Alternative: Green Earth</strong> — Osaka's oldest vegetarian restaurant (est. 1991), now fully vegan. Rotating daily lunch/dinner set with brown rice, main dish, salad, soup. Very affordable, very good. A bit further from Dotonbori but excellent if Gyozaoh has too long a wait.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🍺</span><div><strong>Shin Gi Tai (新技体)</strong> — An Osaka institution: draft beer and tofu skewers. Very local, very inexpensive, very delicious. The tofu skewers (agedashi-style or dengaku miso-glazed) are the vegetarian highlight. A genuine Osaka izakaya experience that doesn't revolve around meat. Great for soaking up the atmosphere of a real neighbourhood pub in Japan.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍜</span><div><strong>Kiou Ramen</strong> — Osaka vegetarian ramen spot serving a tomato-based veg ramen bowl — bright, acidic, deeply satisfying. The tomato ramen is actually a surprise — it sounds Western but tastes completely Japanese. A great dinner option if you want ramen after the Dotonbori walk.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🥟</span><div><strong>Gyozaoh! Dotonbori</strong> — Ranked #1 of 233 restaurants in central Dotonbori. Their vegetable gyoza (pan-fried or deep-fried) are outstanding. The yuzu tofu is exceptional. English menu, English-speaking staff. Counter seating where you can watch the chefs. There may be a 20–30 min wait — join the queue, it moves fast and is worth it.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌿</span><div><strong>Alternative: Green Earth</strong> — Osaka's oldest vegetarian restaurant (est. 1991), now fully vegan. Rotating daily lunch/dinner set with brown rice, main dish, salad, soup. Their pumpkin cake won a TV award. Very affordable, very good. A bit further from Dotonbori but excellent if Gyozaoh has too long a wait.</div></div>
               <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Tell Gyozaoh you're vegetarian when ordering — some dipping sauces contain dashi. They'll bring you soy sauce instead. The staff are very accommodating and speak good English.</div></div>
             </div>
           </div>
         </div>
+
         <div class="t-item">
-          <div class="t-time">8:15 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot booked"></div></div>
+          <div class="t-time">8:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body">
             <div class="t-activity">Train back to Kyoto → Check-in Toshiharu Ryokan</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">🚆</span><div>Train back from Namba/Umeda to Kyoto (~35 min Hankyu Line). You'll arrive around 8:15–8:30pm. The ryokan is 3–5 minutes walk from Fushimi Inari — perfect for tomorrow's 5:45am sunrise walk. Wind down with a bath and sleep early.</div></div>
-              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Tell the ryokan staff your plan to photograph Fushimi Inari at dawn. They can tell you the exact walking time from the ryokan to the first torii gate. Set multiple alarms.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">🚆</span><div>Namba Station → Kyoto on the Hankyu Line (~40 min). Arrive Kyoto ~8:45–9pm. Toshiharu Ryokan is 3–5 minutes walk from Fushimi Inari — check in, use the onsen, sleep early. You need to be up at 5:15am tomorrow for Fushimi Inari sunrise.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Tell the ryokan staff tonight that you plan to photograph Fushimi Inari at dawn. Ask for the exact walking time from the front door to the first torii gate. Set multiple alarms. Tonight's sleep is one of the most important of the trip.</div></div>
             </div>
           </div>
         </div>
+
       </div>
+
+      <!-- OSAKA FOOD & PHOTO PANELS -->
+      <div class="panels">
+        <div class="panel panel-food">
+          <div class="panel-head">🍽 All Vegetarian Food Options — April 7 Osaka</div>
+          <div class="pitem"><div class="pitem-name">Paprika Shokudo Vegan</div><div class="pitem-desc">Fully vegan, generous portions, reliable daily specials. Near Namba. Your safe lunch anchor.</div></div>
+          <div class="pitem"><div class="pitem-name">Shojin Sushi Minamo</div><div class="pitem-desc">Fully vegan sushi using plant-based ingredients. Sister restaurant of Paprika. Allium-free. Elevated lunch option.</div></div>
+          <div class="pitem"><div class="pitem-name">OKO Fun Okonomiyaki Bar</div><div class="pitem-desc">Vegan okonomiyaki on Dotonbori. Viral spot for vegetarians. Okara batter, choose 5 veg. One-woman show. Very affordable.</div></div>
+          <div class="pitem"><div class="pitem-name">Vegan Ramen by Playpen Friends</div><div class="pitem-desc">Near Shinsaibashi. Three broths: miso, soy sauce, tomato. Warm and cosy. Good pre-Dotonbori option.</div></div>
+          <div class="pitem"><div class="pitem-name">Gyozaoh! Dotonbori</div><div class="pitem-desc">Ranked #1 in Dotonbori. Exceptional vegetable gyoza. Yuzu tofu is outstanding. English menu. Opens 5pm.</div></div>
+          <div class="pitem"><div class="pitem-name">Green Earth</div><div class="pitem-desc">Osaka's oldest veg restaurant, now fully vegan. Daily set meal. Award-winning pumpkin cake. Very affordable.</div></div>
+          <div class="pitem"><div class="pitem-name">Kuromon Ichiba Market grazing</div><div class="pitem-desc">Fresh fruit, tamagoyaki, tofu, pickles, fresh juice. Walk and eat. The vegetarian version of the market experience.</div></div>
+        </div>
+        <div class="panel panel-photo">
+          <div class="panel-head">📸 All Photo Spots — April 7 Osaka</div>
+          <div class="pitem">
+            <div class="pitem-name">Osaka Castle — Nishinomaru Garden</div>
+            <div class="pitem-shots">Castle moat reflection · sakura framing the white towers · Otemon approach wide shot · inside tower views over the park</div>
+          </div>
+          <div class="pitem">
+            <div class="pitem-name">Hozenji Yokocho Alley</div>
+            <div class="pitem-shots">Lantern-lit stone alley looking toward temple · moss-covered Fudo Myo-o statue · contrast of old Osaka vs Dotonbori neon</div>
+          </div>
+          <div class="pitem">
+            <div class="pitem-name">Namba Yasaka Shrine — Giant Lion Head</div>
+            <div class="pitem-shots">Wide angle from ground looking up · side profile showing full structure · shrine buildings in background for context</div>
+          </div>
+          <div class="pitem">
+            <div class="pitem-name">Dotonbori — Blue Hour</div>
+            <div class="pitem-shots">Glico Running Man at 6pm · canal-level neon reflections · Kani Doraku crab sign · Don Quijote Ferris Wheel · Tombori River Cruise</div>
+          </div>
+          <div class="pitem">
+            <div class="pitem-name">Amerika-Mura Streets</div>
+            <div class="pitem-shots">Street art · independent boutique fronts · Triangle Park people-watching · candid street shots</div>
+          </div>
+          <div class="pitem">
+            <div class="pitem-name">Shinsaibashi Arcade</div>
+            <div class="pitem-shots">Full arcade length with glass roof · colourful shopfronts receding into distance · afternoon crowd street photography</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -2368,12 +2703,24 @@ body {
             <span class="day-badge badge-kyoto">Kyoto → Tokyo</span>
             <span>Fushimi Inari · Tofuku-ji · Kyoto Station → Tokyo</span>
             <span class="hotel-tag">🏨 Tokyo (TBD)</span>
-            <span class="strain-badge strain-full">🟡 Full</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~10,000–13,000 steps · 🟡 Moderate (mostly transit)</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 JR → Fushimi Inari · JR → Kyoto Station · Shinkansen → Tokyo (2hr15 · sit D/E)</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: JR to Fushimi Inari → Kyoto Station → Shinkansen Tokyo (2hr 15min, sit D/E)</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Walk to Fushimi Inari (Inari Station, JR Nara Line from Kyoto). Then JR/subway to Kyoto Station. Shinkansen Kyoto → Tokyo (2hr 15min). Sit D/E right side.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
           <div class="t-time">5:45 AM</div>
           <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
@@ -2455,10 +2802,34 @@ body {
             </div>
           </div>
         </div>
-        <div class="t-item">
+                <div class="t-item">
+          <div class="t-time">7:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">☕ Quick Breakfast Before Train</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🏪</span><div>Grab breakfast from the convenience store near your Shinjuku hotel before the 7:30am train to Kamakura. Onigiri, egg sandwich, and a canned coffee or matcha latte. Keep it quick — the JR Yokosuka Line from Shinjuku departs on a fixed schedule and the best Kamakura spots need an early arrival.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
           <div class="t-time">8:45 PM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body"><div class="t-activity">Arrive Tokyo Station — Welcome back to Tokyo 🗼</div></div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">9:00 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍜 Late Dinner — Tokyo Station area</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>T's Tantan Tokyo Station (Keiyo Street)</strong> — Inside Tokyo Station's underground Keiyo Street food corridor. Vegan ramen, sesame broth, 100% plant-based. Open until late. Perfectly placed since you're arriving at Tokyo Station at 8:45pm. This is the most convenient and satisfying post-shinkansen dinner possible.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍱</span><div><strong>Alternative: Tokyo Station Gransta</strong> — The station's underground food complex has multiple options open until 10pm — grab a bento, sushi set, or Japanese convenience meal from any of the depachika-style stalls. Good for a lighter eat if you snacked on the shinkansen.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>You arrive back in Tokyo after 6 days of temples and ryokans — this is a good night to keep it simple and go to bed early. Big Tokyo shopping days start tomorrow.</div></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2478,102 +2849,123 @@ body {
     <!-- APRIL 9 — SHINJUKU DAY -->
     <div class="day-card">
       <div class="day-card-head">
-        <div class="day-num-block" style="background:#2a6cb5"><span class="dd">9</span><span class="mm">APR</span></div>
+        <div class="day-num-block" style="background:#2a5c8a"><span class="dd">9</span><span class="mm">APR</span></div>
         <div class="day-head-body">
-          <div class="day-title">Shinjuku — Vintage Luxury, Watches & Gyoen Sakura</div>
+          <div class="day-title">🏖 Kamakura Day Trip — Great Buddha, Bamboo Temple & Coastal Town</div>
           <div class="day-sub">
-            <span class="day-badge badge-tokyo">Tokyo II</span>
-            <span>Shinjuku Gyoen · Komehyo · Kitamura Watches · Kuoe · Isetan · Don Quijote</span>
-            <span class="strain-badge strain-good">💚 Easy</span>
+            <span class="day-badge badge-tokyo">Tokyo II · Day Trip</span>
+            <span>Tsurugaoka Hachimangu · Hokokuji Bamboo · Great Buddha · Komachi Street · Enoden Train</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~16,000–19,000 steps · 🟡 Moderate–Heavy</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 JR Yokosuka Line → Kamakura (1hr, ¥945) · Enoden within Kamakura · JR back</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
-          <div class="t-time">9:00 AM</div>
-          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+                        <div class="t-item">
+          <div class="t-time">7:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">🌸 Shinjuku Gyoen — Morning Sakura Walk</div>
+            <div class="t-activity">☕ Quick Breakfast — Conbini before Kamakura train</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>Japan's most beautiful national garden — 58 acres with over 1,000 cherry trees in multiple varieties. By April 9 the early Somei Yoshino may be fading but the later-blooming varieties (Ichiyo, Kanzan, Shirotae) should still be excellent. Open 9am. ¥500 entry. Allow 60–75 minutes.</div></div>
-              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>French Garden Lawn + Sakura Canopy</strong> — Wide manicured lawn with sakura overhead. Shoot from the lawn looking up at the canopy — people sitting under the trees, blossoms filling the frame above.</div></div>
-              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Victorian Greenhouse + Sakura</strong> — The greenhouse with pink sakura canopy behind — a unique composition you won't find elsewhere in Tokyo.</div></div>
-              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Shinjuku Gyoen bans alcohol — much calmer and more beautiful than Ueno or Yoyogi. No crowds of picnickers. Just the garden at its best.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🏪</span><div>Grab breakfast from the convenience store near your hotel before the 7:30am JR Yokosuka Line train. Onigiri, tamagoyaki, and a canned coffee or matcha latte. Keep it fast — early arrival in Kamakura means the bamboo temple is nearly empty.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: JR Yokosuka Line → Kamakura (1hr) · Enoden within Kamakura</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>JR Yokosuka Line from Shinjuku or Tokyo → Kamakura (~1hr, ¥945). Buy Kamakura Free Env. Ticket at station (~¥700). Bus 30 for Hokokuji. Enoden for Great Buddha.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
+          <div class="t-time">7:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🚆 Train to Kamakura — No Booking Needed</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Take the JR Yokosuka Line from Shinjuku or Tokyo Station direct to Kamakura — about 1 hour, ¥945 one way. Trains run every 15–30 minutes, no reservation needed. Sit on the left side for occasional sea views approaching Kamakura. Arrive by 8:30–9am to beat the crowds at the popular spots.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Buy the Kamakura Free Environment Ticket (~¥700) at the station — it covers unlimited train and bus rides within Kamakura for the day. Excellent value. Also covered by JR Pass if you have one.</div></div>
             </div>
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">10:30 AM</div>
-          <div class="t-dot-wrap"><div class="t-dot important"></div></div>
+          <div class="t-time">9:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
-            <div class="t-activity">🏪 Komehyo Shinjuku — Luxury Resale ★★★★★</div>
+            <div class="t-activity">⛩️ Tsurugaoka Hachimangu Shrine — Morning</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>Japan's #1 luxury resale destination. Multiple floors of Chanel, Hermès, LV, Gucci at genuinely below-market prices. Go here first. Bring cash for best deals. For bags: ask staff for your specific target — they often have pieces in the back not on display. Bring passport for tax-free.</div></div>
-              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Take your time — the floor staff are knowledgeable and not pushy. Budget 45–60 minutes here.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Kamakura's most important Shinto shrine — at the end of the main Wakamiya-oji boulevard lined with cherry trees. In early April the sakura along the approach and inside the shrine grounds should still be beautiful. Walk the full approach from the coastal end and arrive at the main shrine from below — the grand staircase framing the shrine against the sky is the defining shot.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Grand Staircase + Shrine</strong> — Stand at the base of the main staircase looking up at the shrine. Wide angle from ground level shows the full steps and the shrine towering above. If sakura trees are still in bloom alongside the stairs, this is one of the best compositions in Kamakura.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Wakamiya-oji Boulevard</strong> — The long tree-lined approach to the shrine with the mountains behind. Shoot looking back toward the sea from inside the grounds for an unexpected perspective.</div></div>
+              <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓</strong> — Tsurugaoka Hachimangu offers a beautiful goshuin stamp at the stamp office inside the shrine. One of the most prestigious stamps in the Kanto region. Open from 8:30am. Cost ¥500.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🎋 Hokokuji Temple — The Bamboo Temple</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Take bus number 23, 24, or 36 from Kamakura Station East Exit to Jomyoji bus stop (~10 minutes, ¥220). Walk 5 minutes to the temple. Hokokuji is Kamakura's hidden gem — a Zen temple with a grove of 2,000 bamboo stalks behind the main hall. Far less crowded than Arashiyama even during sakura season. Open 9am–4pm. ¥400 entry (¥1,000 with matcha tea at the teahouse — get the matcha).</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Bamboo Grove — Dappled Light</strong> — Unlike Arashiyama where crowds are wall-to-wall, Hokokuji is quiet. Stand deep in the grove and shoot upward at the bamboo stalks converging above — the dappled light filtering through is extraordinary. Arrive by 10am for the emptiest paths.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Teahouse in the Bamboo</strong> — The matcha teahouse sits inside the bamboo grove. Shoot the teahouse from among the stalks — the contrast of the traditional wooden structure surrounded by green bamboo is uniquely beautiful. Then sit and drink your matcha while looking into the grove.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Cave Tombs + Moss</strong> — Behind the bamboo grove, shallow caves carved into the hillside hold the ashes of the Ashikaga lords. Moss-covered stone, quiet forest, ancient atmosphere. Very few visitors come this far — explore slowly.</div></div>
+              <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓</strong> — Hokokuji offers a beautiful goshuin stamp at the temple entrance. A much more personal and quiet stamp than the big Kyoto temples — often written with extra care since the queue is short.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Get the ¥1,000 matcha entry — sitting in the teahouse inside the bamboo grove drinking matcha is one of the most peaceful experiences of the whole trip. Don't skip it.</div></div>
             </div>
           </div>
         </div>
         <div class="t-item">
           <div class="t-time">12:00 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot"></div></div>
-          <div class="t-body">
-            <div class="t-activity">Brand Off — Second Resale Stop</div>
-            <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>Good luxury resale chain, well organized by brand. Quick second stop after Komehyo in the same Shinjuku area. If Komehyo had what you wanted, skip this and head straight to lunch.</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="t-item">
-          <div class="t-time">12:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">Lunch — Shinjuku</div>
+            <div class="t-activity">🍜 Lunch — Komachi-dori Street</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>T's Restaurant Shinjuku</strong> — 100% vegan Japanese restaurant. Ramen, gyoza, karaage, don bowls. Very affordable, very good. Perfect fuelling stop before the afternoon watch shopping.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍱</span><div><strong>Isetan Shinjuku B2 depachika</strong> — Japan's best department store food basement. Grab a beautiful bento or graze the food stalls while checking the packaged food for gifts.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Komachi-dori Shopping Street</strong> — Take the bus back to Kamakura Station and walk Komachi-dori — the main covered shopping street packed with food stalls, small boutiques, and artisan shops. For vegetarians: fresh tofu shops, matcha soft serves, vegetable tempura stalls, and Buddhist-inspired vegetarian restaurants. Grab food from multiple stalls and eat as you walk — this is a grazing street, not a sit-down experience.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍡</span><div><strong>Must try on Komachi-dori:</strong> Soft-serve matcha ice cream, fresh warabi mochi, tofu-based snacks, and the local Kamakura craft shops selling pottery and washi goods. This street has a very different artisan feel from Tokyo's commercial shopping streets.</div></div>
             </div>
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">2:00 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot important"></div></div>
+          <div class="t-time">1:30 PM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
           <div class="t-body">
-            <div class="t-activity">⌚ Kitamura Vintage Watches — Shinjuku ★★★★★</div>
+            <div class="t-activity">🗿 Great Buddha of Kamakura (Kotoku-in)</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>World-class vintage watch dealer — best destination in Japan for Seiko, Grand Seiko, Citizen, Orient. Research reference numbers before visiting. Staff are deeply knowledgeable. Prices are fair and pieces properly graded. Budget 30–45 minutes.</div></div>
-              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>If you see something you like, ask to see it under the loupe. Don't rush this visit.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Take the Enoden line from Kamakura Station to Hase Station (7 minutes, ¥200) — the Enoden is a charming narrow-gauge coastal train that squeezes through residential streets and runs right beside the ocean. From Hase Station it's a 7-minute walk to the Great Buddha. Entry ¥300 — the grounds are open air. The bronze Buddha is 13.35 metres tall and has been sitting here since 1252. You can go inside the hollow statue for ¥20 extra.</div></div>
+              <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Great Buddha Wide Shot</strong> — Stand far back to capture the full Buddha against the forested hillside behind. The contrast of the ancient bronze against the green mountains is the classic shot. Also shoot close from below looking up at the face — the detail of the casting is extraordinary up close.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Enoden Train + Ocean</strong> — On the way to Hase, shoot from the Enoden window as the train runs alongside the ocean. The narrow retro train with the Pacific spread out beside it is one of Japan's most iconic train photography spots.</div></div>
+              <div class="chip chip-stamp" style="margin-top:5px"><span class="chip-icon">🔖</span><div><strong>Goshuin Stamp ✓</strong> — Kotoku-in (Great Buddha temple) offers a goshuin stamp at the stamp office near the entrance gate. Cost ¥300. One of the most unique stamps in Japan — features the Great Buddha design.</div></div>
             </div>
           </div>
         </div>
         <div class="t-item">
           <div class="t-time">3:00 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot"></div></div>
+          <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
           <div class="t-body">
-            <div class="t-activity">⌚ Kuoe Custom Watch — Visit & Decide</div>
+            <div class="t-activity">🌊 Hasedera Temple + Kamakura Coastline</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div>Tokyo custom watch brand — design your own from case, dial, and strap. Visit the Omotesando or Shinjuku showroom, see the options, decide with no pressure. Budget ¥30,000–80,000+ depending on customisation.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>A 7-minute walk from the Great Buddha. Hasedera is built into the hillside above Kamakura — the upper garden terrace has sweeping views over the town and out to the Pacific Ocean. One of Kamakura's most beautiful temples. ¥400 entry.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Ocean View from Temple Garden</strong> — From the upper terrace, shoot looking over the traditional temple rooflines toward the Pacific. On a clear April day, the combination of ocean, temple, and possible cherry blossoms is extraordinary.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div>After Hasedera, walk down to Yuigahama Beach — just 10 minutes on foot. The beach is beautiful and quiet in April (too early for summer crowds). Sit at a beachside café for coffee with an ocean view. Very different energy from anything else on this trip.</div></div>
             </div>
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">4:30 PM</div>
+          <div class="t-time">5:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body">
-            <div class="t-activity">🛍 Isetan Shinjuku + Snidel + Don Quijote</div>
+            <div class="t-activity">🚆 Return to Tokyo</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Isetan Shinjuku</strong> — Japan's most prestigious department store. B1/B2 depachika extraordinary for packaged food gifts. Upper floors have best Japanese fashion. Snidel in Lumine Est Shinjuku next door.</div></div>
-              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Don Quijote</strong> — Main snack, beauty, and pharmacy haul if not done already. Open 24 hours. Budget ¥5,000–15,000. Last chance for anything missed.</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="t-item">
-          <div class="t-time">7:30 PM</div>
-          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
-          <div class="t-body">
-            <div class="t-activity">Dinner + Ruru Shibuya Rooftop Bar</div>
-            <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>Nagi Shokudo</strong> — Cozy Japanese vegetarian plates. Very Shinjuku-core. Their daily set meals are excellent and affordable.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍸</span><div><strong>Ruru Shibuya Rooftop Bar</strong> — After dinner head to Ruru Shibuya for rooftop drinks with Tokyo city views. Beautifully designed, great cocktails, skyline spread out below. One of Shibuya's best rooftop experiences — the perfect relaxed start to Tokyo II evenings.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Take the JR Yokosuka Line from Kamakura Station back to Shinjuku or Tokyo (~1 hour). Arrive back in Tokyo by 6pm — plenty of time for dinner. Don Quijote in Shibuya is open until midnight if you want to do a quick haul on the way home.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍸</span><div><strong>Ruru Shibuya Rooftop Bar</strong> — The perfect evening after a coastal day. Head to Ruru Shibuya for rooftop drinks — you'll be buzzing from a beautiful day out of the city. Great cocktails, great views, relaxed atmosphere.</div></div>
             </div>
           </div>
         </div>
@@ -2585,15 +2977,60 @@ body {
       <div class="day-card-head">
         <div class="day-num-block" style="background:#9b3060"><span class="dd">10</span><span class="mm">APR</span></div>
         <div class="day-head-body">
-          <div class="day-title">Harajuku + Aoyama — Onitsuka Tiger, Vintage & Meguro River</div>
+          <div class="day-title">Shinjuku → Harajuku + Aoyama — Komehyo, Onitsuka Tiger, Vintage & Meguro River</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo II</span>
-            <span>Onitsuka Tiger · Rodeo Drive · Amore · CDG · Sacai · Issey · Meguro River evening</span>
-            <span class="strain-badge strain-full">🟡 Full</span>
+            <span>Komehyo · Watches · Onitsuka Tiger · Rodeo Drive · Amore · CDG · Sacai · Meguro River</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~18,000–22,000 steps · 🔴 Heavy</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 Shinjuku → Omotesando (subway) · Harajuku → Aoyama → Nakameguro (walkable)</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: Shinjuku → Omotesando → Harajuku → Aoyama → Nakameguro (mostly walkable)</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Short walk/subway Shinjuku → Omotesando for Onitsuka Tiger. Then walk Harajuku vintage cluster. Walk/subway to Aoyama CDG/Sacai/Issey. Walk to Nakameguro.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
+          <div class="t-time">8:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">☕ Breakfast — Shinjuku conbini or hotel café</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🏪</span><div>Quick breakfast before the 9am Komehyo opening. 7-Eleven or FamilyMart near your hotel — onigiri, tamagoyaki, and a warm canned matcha latte. Keep it light and fast. Alternatively the hotel café if it opens early enough.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">9:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🏪 Komehyo Shinjuku — Luxury Resale ★★★★★ (Morning First)</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Start the day in Shinjuku — Japan's #1 luxury resale destination. Multiple floors of Chanel, Hermès, LV at below-market prices. Bring cash and passport. Ask staff specifically for your target bag — they often have pieces in the back. Budget 45–60 minutes. Then head to Brand Off next door as a quick second stop before moving to Omotesando.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Go early — the best pieces get picked up through the day. Friday mornings are quieter than weekends.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-time">10:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">⌚ Kitamura Vintage Watches + Kuoe Custom Watch — Shinjuku</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Kitamura Watches ★★★★★</strong> — World-class vintage watch dealer. Best in Japan for Seiko, Grand Seiko, Citizen, Orient. Research reference numbers before visiting. Ask to see pieces under the loupe. 30–45 minutes.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">•</span><div><strong>Kuoe Custom Watch</strong> — Visit the showroom, see the options, decide with no pressure. Budget ¥30,000–80,000+. The Shinjuku showroom is close to Kitamura — do both on the same morning walk.</div></div>
+            </div>
+          </div>
+        </div>
         <div class="t-item">
           <div class="t-time">11:00 AM</div>
           <div class="t-dot-wrap"><div class="t-dot booked important"></div></div>
@@ -2644,10 +3081,10 @@ body {
           <div class="t-time">6:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">Dinner — Nakameguro area</div>
+            <div class="t-activity">Dinner — Nakameguro / Ramen Engine</div>
             <div class="detail-box">
-              <div class="chip chip-food"><span class="chip-icon">🍷</span><div><strong>Ahiru Store</strong> — Beloved natural wine bar with small plates. Vegetarian-friendly. Very Nakameguro — intimate, low-lit, local crowd. Walk-ins welcome early evening; get there by 6:15pm to avoid a wait.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🌿</span><div><strong>Falafel Brothers Nakameguro</strong> — Middle Eastern falafel wraps and bowls, fully vegetarian-friendly. Casual and quick. Good option if Ahiru Store is full.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🍜</span><div><strong>Ramen Engine (Kyoto Engine)</strong> — A Tokyo ramen shop serving Kyoto-style veg ramen bowls including a miso rice set. Genuinely good and much less tourist-targeted than most. Krunal's tip: go early, around 6:30pm — it gets a long wait later in the evening. A great fit after the Meguro River sakura walk since it's in the same general neighbourhood.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div>Nakameguro has excellent restaurants along the canal. Walk the river first and find somewhere that looks right — the neighbourhood is full of good options at all price points.</div></div>
             </div>
           </div>
         </div>
@@ -2661,6 +3098,7 @@ body {
               <div class="chip chip-photo" style="margin-top:6px"><span class="chip-icon">📷</span><div><strong>Lantern-Lit Canal at Night</strong> — Paper lanterns strung along the canal reflected in the water. Shoot from the small bridges looking along the canal with lanterns receding into the distance and cherry blossoms overhanging from both sides. f/1.8–2.0, ISO 800.</div></div>
               <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>Petal Fall on the Water</strong> — Shoot straight down at the canal surface — petals floating with lantern reflections below. One of Tokyo's most beautiful photography moments.</div></div>
               <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Walk away from Nakameguro Station for quieter stretches. The section near Aiobashi bridge is the most beautiful. Friday evening will be lively but manageable.</div></div>
+              <div class="chip chip-food" style="margin-top:8px; border-left:3px solid #7a2060; background:#fdf0f8"><span class="chip-icon">🍸</span><div><strong>Late drinks → Gonpachi Nishi-Azabu (The Kill Bill Restaurant)</strong> — After the Meguro River walk, taxi or walk 10 minutes to Gonpachi in Nishi-Azabu (open until 3:30am). This is the izakaya that inspired Tarantino's House of Blue Leaves fight scene in Kill Bill Vol.1 — the two-level wooden interior with bamboo, round lanterns, and a mezzanine walkway is unmistakeable. <strong>Come for drinks and the atmosphere, not as a main meal</strong> — veg options are limited to edamame, tofu, soba, and pickles. Order a few small plates and sake or cocktails and soak in the cinematic atmosphere. Reservation recommended. Open until 3:30am.</div></div>
             </div>
           </div>
         </div>
@@ -2672,15 +3110,50 @@ body {
       <div class="day-card-head">
         <div class="day-num-block" style="background:#2a8060"><span class="dd">11</span><span class="mm">APR</span></div>
         <div class="day-head-body">
-          <div class="day-title">Nakano + Daikanyama + Shibuya + Akihabara</div>
+          <div class="day-title">Shinjuku Gyoen → Nakano + Shibuya + Akihabara</div>
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo II</span>
-            <span>Nakano Broadway · Kapital · Pokemon · Mandarake · Akihabara · Allu Ginza</span>
-            <span class="strain-badge strain-brutal">🔴 Brutal</span>
+            <span>Shinjuku Gyoen sakura · Nakano Broadway · Kapital · Pokemon · Akihabara · Don Quijote</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~16,000–19,000 steps · 🔴 Heavy</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 JR Chuo → Nakano (10min, ¥170) · Subway Shibuya → Akihabara → Ginza</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: JR Chuo Shinjuku → Nakano (10min) · Subway to Shibuya → Akihabara → Ginza</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>JR Chuo Line from Shinjuku → Nakano (10min, ¥170). Then Shibuya, Akihabara, Ginza by subway.</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
+          <div class="t-time">8:15 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">☕ Breakfast — Shinjuku conbini before Gyoen</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🏪</span><div>Grab a quick breakfast from the convenience store near your hotel — onigiri, egg sandwich, and a canned coffee. Gyoen opens at 9am sharp and Saturday mornings fill up fast, so aim to be at the gate right at opening. Keep breakfast quick.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">9:00 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot photo important"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🌸 Shinjuku Gyoen — Morning Sakura Walk</div>
+            <div class="detail-box">
+              <div class="chip chip-do"><span class="chip-icon">•</span><div>Japan's most beautiful national garden — 58 acres with over 1,000 cherry trees. By April 11 the Somei Yoshino may be past peak but late-blooming varieties (Ichiyo, Kanzan, Shirotae) should still be excellent. Open 9am. ¥500 entry. Allow 45–60 minutes before heading to Nakano.</div></div>
+              <div class="chip chip-photo" style="margin-top:5px"><span class="chip-icon">📷</span><div><strong>French Garden Lawn + Sakura Canopy</strong> — Wide manicured lawn with sakura overhead. Much calmer than Ueno or Yoyogi — no alcohol allowed, just the garden at its beautiful best. Late bloom on April 11 means fuller pink canopy on the late-blooming trees.</div></div>
+              <div class="chip chip-tip" style="margin-top:5px"><span class="chip-icon">💡</span><div>Saturday morning is the best time to visit Shinjuku Gyoen — it gets crowded by 11am so arrive right at opening. Then take the JR Chuo Line directly to Nakano (10 minutes) for the Broadway opening.</div></div>
+            </div>
+          </div>
+        </div>
         <div class="t-item">
           <div class="t-time">10:00 AM</div>
           <div class="t-dot-wrap"><div class="t-dot important"></div></div>
@@ -2746,13 +3219,15 @@ body {
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">7:30 PM</div>
+          <div class="t-time">7:00 PM</div>
           <div class="t-dot-wrap"><div class="t-dot food"></div></div>
           <div class="t-body">
-            <div class="t-activity">Dinner + Allu Ginza (combine with evening)</div>
+            <div class="t-activity">Dinner — Jikasei Mensho + Allu Ginza + Don Quijote</div>
             <div class="detail-box">
-              <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Allu Ginza ★★★★☆</strong> — Premium luxury resale. More curated than Komehyo. The Ginza location is best. Only go if still hunting for a specific bag after Day 1 Komehyo. Check their website for current stock before going.</div></div>
-              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍽</span><div>Dinner in Ginza after Allu — Ginza Six basement has beautiful food options. Or grab a late dinner back in Shinjuku.</div></div>
+              <div class="chip chip-food"><span class="chip-icon">🍜</span><div><strong>Jikasei Mensho — Shibuya Parco B1F</strong> — Michelin-starred (San Francisco) ramen shop in the basement of Shibuya Parco. Their Vegan Tantanmen is made with quinoa noodles and a rich sesame/peanut broth — almost indistinguishable from the meat version. Also available: Vegan Miso Ramen and Vegan Mazemen (soupless). Order by tablet at your seat. Can have a queue — go before 6pm or after 8pm to avoid peak. About ¥1,400 per bowl.</div></div>
+              <div class="chip chip-do"><span class="chip-icon">•</span><div><strong>Allu Ginza ★★★★☆</strong> — Premium luxury resale. More curated than Komehyo. The Ginza location is best. Only go if still hunting for a specific bag after April 10 Komehyo. Check their website for current stock before going.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍽</span><div>Dinner in Ginza or Shinjuku — Ginza Six basement has beautiful food options for a relaxed Saturday evening meal.</div></div>
+              <div class="chip chip-do" style="margin-top:5px"><span class="chip-icon">🏪</span><div><strong>Don Quijote</strong> — Open 24 hours. If you haven't done your main snack and beauty haul yet, this is the night. Budget ¥5,000–15,000. Hit the beauty floor first (Fino mask, Biore UV, Lululun), then the food floor (KitKat grades, Hi-Chew, Calbee chips). Finish at the pharmacy floor (any remaining leg patches, eye drops).</div></div>
             </div>
           </div>
         </div>
@@ -2768,12 +3243,24 @@ body {
           <div class="day-sub">
             <span class="day-badge badge-tokyo">Tokyo II · Last Day 🌸</span>
             <span>Ueno Park · Yanaka Ginza (consider) · Final pharmacy run · Airport · Duty free whisky</span>
-            <span class="strain-badge strain-good">💚 Easy</span>
+          
+            <span class="day-steps-tag" style="display:inline-flex;align-items:center;gap:5px;background:#f0f7ff;border:1px solid #b8d4f0;border-radius:100px;padding:2px 10px;font-size:11px;color:#1a5c9a;font-weight:500;margin-top:4px">👟 ~8,000–10,000 steps · 🟢 Easy (airport day)</span><span class="day-train-tag" style="display:inline-flex;align-items:center;gap:5px;background:#fff8e8;border:1px solid #e8d080;border-radius:100px;padding:2px 10px;font-size:11px;color:#7a5000;font-weight:500;margin-top:4px">🚆 To Narita: N'EX from Shinjuku (90min, ¥3,070) · To Haneda: Keikyu (30min, ¥650)</span>
           </div>
         </div>
       </div>
       <div class="timeline-wrap">
-        <div class="t-item">
+                <div class="t-item">
+          <div class="t-time">🚆</div>
+          <div class="t-dot-wrap"><div class="t-dot" style="background:#1a6bb5;border-color:#1a6bb5"></div></div>
+          <div class="t-body">
+            <div class="t-activity" style="color:#1a6bb5">🚆 Train: To Narita: N'EX from Shinjuku (90min) · To Haneda: Keikyu/Monorail (30min)</div>
+            <div class="detail-box">
+              <div class="chip chip-tip" style="background:#e8f2fc;border-color:#b8d4f0"><span class="chip-icon">🚆</span><div>Airport: Narita — Narita Express from Shinjuku (~90min, ¥3,070) or Limousine Bus. Haneda — Keikyu or Tokyo Monorail (~30min, ¥650).</div></div>
+            </div>
+          </div>
+        </div>
+
+<div class="t-item">
           <div class="t-time">9:00 AM</div>
           <div class="t-dot-wrap"><div class="t-dot photo"></div></div>
           <div class="t-body">
@@ -2795,7 +3282,19 @@ body {
           </div>
         </div>
         <div class="t-item">
-          <div class="t-time">12:00 PM</div>
+          <div class="t-time">11:30 AM</div>
+          <div class="t-dot-wrap"><div class="t-dot food"></div></div>
+          <div class="t-body">
+            <div class="t-activity">🍜 Final Tokyo Lunch</div>
+            <div class="detail-box">
+              <div class="chip chip-food"><span class="chip-icon">🌿</span><div><strong>T's Tantan Ueno or nearby</strong> — Last proper Tokyo meal. Vegan ramen or a rice bowl at a place you loved during the trip. This is the meal you'll think about on the plane. Don't rush it.</div></div>
+              <div class="chip chip-food" style="margin-top:5px"><span class="chip-icon">🍡</span><div><strong>Alternative: Ameyoko Market (Ueno)</strong> — The famous outdoor market under the train tracks near Ueno Station. Street food stalls, fruit vendors, cheap snacks. Great final Tokyo wander and casual lunch — grab food from multiple stalls.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">12:30 PM</div>
           <div class="t-dot-wrap"><div class="t-dot"></div></div>
           <div class="t-body">
             <div class="t-activity">💊 Final Pharmacy + Beauty Run</div>
@@ -2851,6 +3350,43 @@ function navTo(id, btn) {
   }
 }
 
+// Auto-add stamp dot to any t-item that contains a chip-stamp
+document.querySelectorAll('.t-item').forEach(item => {
+  if (item.querySelector('.chip-stamp')) {
+    const dot = item.querySelector('.t-dot');
+    if (dot) dot.classList.add('stamp-item');
+    item.setAttribute('data-has-stamp', '1');
+  }
+});
+
+function filterItems(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const items = document.querySelectorAll('.t-item');
+  items.forEach(item => {
+    if (type === 'all') {
+      item.classList.remove('hidden');
+      return;
+    }
+    const dot = item.querySelector('.t-dot');
+    const hasStamp = item.getAttribute('data-has-stamp') === '1';
+    let show = false;
+    if (type === 'stamp') {
+      show = hasStamp;
+    } else if (type === 'critical') {
+      show = dot && dot.classList.contains('important');
+    } else if (type === 'booked') {
+      show = dot && dot.classList.contains('booked');
+    } else if (type === 'food') {
+      show = dot && dot.classList.contains('food');
+    } else if (type === 'photo') {
+      show = dot && dot.classList.contains('photo');
+    }
+    item.classList.toggle('hidden', !show);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // Create animated sakura petals in hero
 const bg = document.getElementById('sakuraBg');
 for (let i = 0; i < 30; i++) {
@@ -2903,7 +3439,6 @@ window.addEventListener('scroll', () => {
   }
 }, { passive: true });
 </script>
-
 <!-- ══ POWER-UP: Checklist · Navigate · Today · Sync ══ -->
 <style>
 /* ── Mobile layout fixes ── */
@@ -3465,6 +4000,339 @@ body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
     setTimeout(function() {
       todayCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 900);
+  }
+
+})();
+</script>
+
+<!-- ══ NAV UPGRADES: Mini-hero · Sticky day · Search · Smart collapse ══ -->
+<style>
+/* ── Mini-hero strip ── */
+#j-mini-hero {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  background: linear-gradient(90deg, #2a0d18 0%, #7a2840 100%);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+body.j-hero-gone #j-mini-hero { display: flex; }
+
+/* ── Search row inside nav-wrap ── */
+#j-search-row {
+  display: none;
+  padding: 8px 16px 10px;
+  border-top: 1px solid var(--line);
+}
+#j-search-row.j-open { display: block; }
+.j-search-icon-wrap { position: relative; }
+.j-search-icon-inner {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  pointer-events: none;
+  line-height: 1;
+}
+#j-search-input {
+  width: 100%;
+  padding: 9px 14px 9px 36px;
+  border: 1.5px solid var(--line);
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 13px;
+  background: var(--bg);
+  color: var(--ink);
+  outline: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}
+#j-search-input:focus { border-color: var(--s3); }
+#j-no-results {
+  display: none;
+  text-align: center;
+  padding: 12px 0 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+#j-no-results.j-show { display: block; }
+.j-day-hidden { display: none !important; }
+
+/* ── Search button ── */
+.j-search-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 14px 10px 8px;
+  color: var(--muted);
+  margin-left: auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  font-family: inherit;
+}
+.j-search-btn.j-active { color: var(--s4); }
+
+/* ── Collapse/Expand all ── */
+.j-filter-sep {
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background: var(--line);
+  margin: 0 4px;
+  flex-shrink: 0;
+  align-self: center;
+}
+.j-ctrl-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink2);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  flex-shrink: 0;
+}
+.j-ctrl-btn:active { background: var(--s1); }
+
+/* ── Sticky day label ── */
+#j-day-label {
+  position: sticky;
+  top: 0; /* set by JS */
+  z-index: 94;
+  width: 100%;
+  left: 0;
+  box-sizing: border-box;
+  background: rgba(255,248,249,0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  overflow: hidden;
+}
+#j-day-label.j-dl-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+#j-dl-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--s4);
+  color: white;
+  border-radius: 4px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+}
+#j-dl-date {
+  font-weight: 600;
+  color: var(--s4);
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+#j-dl-sep { color: var(--line); flex-shrink: 0; }
+#j-dl-title {
+  color: var(--ink2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+/* Make filter-wrap sticky too */
+.filter-wrap {
+  position: sticky;
+  top: 0; /* set by JS */
+  z-index: 95;
+  width: 100%;
+  left: 0;
+  box-sizing: border-box;
+}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  var MON = {JAN:1,FEB:2,MAR:3,APR:4,MAY:5,JUN:6,JUL:7,AUG:8,SEP:9,OCT:10,NOV:11,DEC:12};
+  var now2 = new Date();
+  var todayD = now2.getDate(), todayM = now2.getMonth() + 1;
+
+  var hero       = document.querySelector('.hero');
+  var navWrap    = document.querySelector('.nav-wrap');
+  var filterWrap = document.querySelector('.filter-wrap');
+  var dayLabel   = document.getElementById('j-day-label');
+  var allCards   = Array.from(document.querySelectorAll('.day-card'));
+
+  /* ── Assign day numbers ── */
+  allCards.forEach(function(card, i) { card.dataset.jDayNum = i + 1; });
+
+  /* ── Update sticky top offsets ── */
+  function setStickyTops() {
+    var navH = navWrap ? navWrap.offsetHeight : 0;
+    var filterH = filterWrap ? filterWrap.offsetHeight : 0;
+    if (filterWrap) filterWrap.style.top = navH + 'px';
+    if (dayLabel)   dayLabel.style.top   = (navH + filterH) + 'px';
+  }
+  setStickyTops();
+  window.addEventListener('resize', setStickyTops);
+
+  /* ── 3. Hero → mini-hero strip ── */
+  function checkHero() {
+    if (!hero) return;
+    document.body.classList.toggle('j-hero-gone', hero.getBoundingClientRect().bottom <= 0);
+    setStickyTops(); // nav height may change when mini-hero appears
+  }
+  window.addEventListener('scroll', checkHero, { passive: true });
+
+  /* ── 2. Sticky day label ── */
+  var lastActiveCard = null;
+  function updateDayLabel() {
+    var navH    = navWrap    ? navWrap.offsetHeight    : 0;
+    var filterH = filterWrap ? filterWrap.offsetHeight : 0;
+    var threshold = navH + filterH + 4;
+
+    var active = null;
+    for (var i = 0; i < allCards.length; i++) {
+      var r = allCards[i].getBoundingClientRect();
+      if (r.top <= threshold) active = allCards[i];
+      else break;
+    }
+
+    /* Hide if no card past threshold, or if the first card head is still fully visible */
+    if (!active) { dayLabel.classList.remove('j-dl-visible'); lastActiveCard = null; return; }
+    var headRect = active.querySelector('.day-card-head') ? active.querySelector('.day-card-head').getBoundingClientRect() : null;
+    if (headRect && headRect.bottom > threshold + 10) {
+      dayLabel.classList.remove('j-dl-visible'); lastActiveCard = null; return;
+    }
+
+    if (active === lastActiveCard) return;
+    lastActiveCard = active;
+
+    var ddEl    = active.querySelector('.dd');
+    var mmEl    = active.querySelector('.mm');
+    var titleEl = active.querySelector('.day-title');
+    if (!ddEl || !mmEl || !titleEl) { dayLabel.classList.remove('j-dl-visible'); return; }
+
+    document.getElementById('j-dl-badge').textContent  = 'Day ' + active.dataset.jDayNum;
+    document.getElementById('j-dl-date').textContent   = mmEl.textContent + ' ' + ddEl.textContent;
+    document.getElementById('j-dl-title').textContent  = titleEl.textContent.replace(/^\s*Today\s*/,'').trim();
+    dayLabel.classList.add('j-dl-visible');
+  }
+  window.addEventListener('scroll', updateDayLabel, { passive: true });
+
+  /* ── 5. Smart collapse — past days ── */
+  allCards.forEach(function(card) {
+    var ddEl = card.querySelector('.dd');
+    var mmEl = card.querySelector('.mm');
+    if (!ddEl || !mmEl) return;
+    var ddTxt = ddEl.textContent.trim();
+    if (ddTxt.indexOf('–') >= 0 || ddTxt.indexOf('-') >= 0) return;
+    var d = parseInt(ddTxt);
+    var m = MON[mmEl.textContent.trim()];
+    if (!m) return;
+    var isPast = (m < todayM) || (m === todayM && d < todayD);
+    if (isPast) card.classList.add('j-collapsed');
+  });
+
+  document.getElementById('j-collapse-all').addEventListener('click', function() {
+    allCards.forEach(function(c) { c.classList.add('j-collapsed'); });
+  });
+  document.getElementById('j-expand-all').addEventListener('click', function() {
+    allCards.forEach(function(c) { c.classList.remove('j-collapsed'); });
+  });
+
+  /* ── 6. Search ── */
+  var searchBtn   = document.getElementById('j-search-btn');
+  var searchRow   = document.getElementById('j-search-row');
+  var searchInput = document.getElementById('j-search-input');
+  var noResults   = document.getElementById('j-no-results');
+
+  searchBtn.addEventListener('click', function() {
+    var open = searchRow.classList.toggle('j-open');
+    searchBtn.classList.toggle('j-active', open);
+    setStickyTops();
+    if (open) { setTimeout(function(){ searchInput.focus(); }, 50); }
+    else { clearSearch(); }
+  });
+
+  searchInput.addEventListener('input', function() {
+    doSearch(searchInput.value.trim().toLowerCase());
+    setStickyTops();
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchRow.classList.remove('j-open');
+      searchBtn.classList.remove('j-active');
+      clearSearch();
+      setStickyTops();
+    }
+  });
+
+  function clearSearch() {
+    searchInput.value = '';
+    doSearch('');
+  }
+
+  function doSearch(q) {
+    var visibleCards = 0;
+    allCards.forEach(function(card) {
+      var items = Array.from(card.querySelectorAll('.t-item'));
+      if (!q) {
+        card.classList.remove('j-day-hidden');
+        items.forEach(function(it) { it.classList.remove('hidden'); });
+        noResults.classList.remove('j-show');
+        return;
+      }
+      var header   = card.querySelector('.day-title');
+      var titleHit = header && header.textContent.toLowerCase().indexOf(q) >= 0;
+      var cardHit  = false;
+
+      items.forEach(function(item) {
+        var txt = item.textContent.toLowerCase();
+        if (txt.indexOf(q) >= 0 || titleHit) {
+          item.classList.remove('hidden');
+          cardHit = true;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      if (cardHit) {
+        card.classList.remove('j-day-hidden', 'j-collapsed');
+        visibleCards++;
+      } else {
+        card.classList.add('j-day-hidden');
+      }
+    });
+    noResults.classList.toggle('j-show', q.length > 0 && visibleCards === 0);
   }
 
 })();
