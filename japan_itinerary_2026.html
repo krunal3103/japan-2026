@@ -3776,6 +3776,28 @@ body { padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
     }
   });
 
+  /* ── Feature 1: Auto-scroll to NOW on open ── */
+  if (todayCard) {
+    setTimeout(function() {
+      // Ensure today's card is expanded before scrolling
+      todayCard.classList.remove('j-collapsed');
+      var nowEl = todayCard.querySelector('.j-now');
+      var target = nowEl || todayCard;
+      var y = target.getBoundingClientRect().top + window.scrollY - 130;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }, 600);
+  }
+
+  /* ── Feature 2: Live NOW indicator — repositions every 60s ── */
+  if (todayCard) {
+    setInterval(function() {
+      var old = todayCard.querySelector('.j-now');
+      if (old) old.remove();
+      now = new Date();
+      injectNow(todayCard);
+    }, 60000);
+  }
+
   function parseTime(str) {
     var m = str.trim().match(/^(\d+):(\d+)\s*(AM|PM)$/i);
     if (!m) return null;
